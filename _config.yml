@@ -3,8 +3,8 @@ title: Reporting Center
 description: >-
   Documentación técnica completa del Reporting Center. 
   Guías de arquitectura, backend, frontend, CI/CD y procedimientos de despliegue.
-baseurl: ""
-url: "https://yourusername.github.io/reporting-center"
+baseurl: "/reporting-center-documentation"
+url: "https://bastian-medina.github.io/reporting-center-documentation"
 
 # Build settings
 markdown: kramdown
