@@ -223,23 +223,23 @@ aws ecr describe-images --repository-name athm-dev-anl-subpoenas-repository --re
 
 ### 📋 Documentación QSR - Pases a Producción
 
-- [📋 Índice QSR](./qsr/01-README.md) - Documentación completa de pases a producción
-- [🏗️ Pipelines Docker](./qsr/02-pipelines-produccion.md) - General Reports y Subpoenas Docker deployment
-- [🚀 Proceso de Deploy](./qsr/03-proceso-deploy.md) - Despliegue automatizado vs manual
-- [🚨 Troubleshooting Docker](./qsr/05-troubleshooting-produccion.md#general-reports-pipeline-issues) - ECR y ECS issues
+- [📋 Índice QSR]({{ '/docs/qsr/' | relative_url }}) - Documentación completa de pases a producción
+- [🏗️ Pipelines Docker]({{ '/docs/qsr/pipelines-produccion/' | relative_url }}) - General Reports y Subpoenas Docker deployment
+- [🚀 Proceso de Deploy]({{ '/docs/qsr/proceso-deploy/' | relative_url }}) - Despliegue automatizado vs manual
+- [🚨 Troubleshooting Docker]({{ '/docs/qsr/troubleshooting-produccion/' | relative_url }}) - ECR y ECS issues
 
 ### 🛠️ Documentación Técnica
 
-- [CI/CD](./04-cicd.md) - Pipelines automatizados vs despliegue manual
-- [Backend](./02-backend.md) - Aplicaciones a desplegar
-- [Arquitectura](./01-arquitectura-backend.md) - Infraestructura y contenedores
-- [New Relic](./06-newrelic.md) - Monitoreo post-deploy
+- [CI/CD]({{ '/docs/cicd/' | relative_url }}) - Pipelines automatizados vs despliegue manual
+- [Backend]({{ '/docs/backend/' | relative_url }}) - Aplicaciones a desplegar
+- [Arquitectura]({{ '/docs/arquitectura/' | relative_url }}) - Infraestructura y contenedores
+- [New Relic]({{ '/docs/cicd/newrelic/' | relative_url }}) - Monitoreo post-deploy
 
 ### ⚙️ Configuración
 
-- [Variables de Entorno](./general/variables_entorno.md) - Configuraciones por ambiente
-- [README Principal](../README.md) - Visión general del proyecto
+- [Variables de Entorno]({{ '/docs/general/variables_entorno/' | relative_url }}) - Configuraciones por ambiente
+- [README Principal]({{ '/' | relative_url }}) - Visión general del proyecto
 
 ---
 
-**Nota**: Para despliegues a producción, usar siempre los [pipelines QSR documentados](./qsr/01-README.md). Este documento es solo para casos de emergencia o troubleshooting.
+**Nota**: Para despliegues a producción, usar siempre los [pipelines QSR documentados]({{ '/docs/qsr/' | relative_url }}). Este documento es solo para casos de emergencia o troubleshooting.

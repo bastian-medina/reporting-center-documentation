@@ -108,9 +108,9 @@ Para despliegues a **certificación y producción**:
 4. Solicitar aprobación del [pipeline de certificación](http://192.168.223.10:8080/jenkins/view/Evertec-Certificacion/job/athm-ms-certification/job/athmrc-reporting-services-cert-pipeline/)
 
 ### Enlaces Útiles
-- [Documentación Docker/AWS](./05-docker-aws.md)
-- [Monitoreo New Relic](./06-newrelic.md)
-- [Arquitectura del Sistema](./01-arquitectura-backend.md)
+- [Documentación Docker/AWS]({{ '/docs/cicd/docker-aws/' | relative_url }})
+- [Monitoreo New Relic]({{ '/docs/cicd/newrelic/' | relative_url }})
+- [Arquitectura del Sistema]({{ '/docs/arquitectura/' | relative_url }})
 
 ---
 
@@ -118,26 +118,26 @@ Para despliegues a **certificación y producción**:
 
 ### 🎯 Documentación QSR - Pases a Producción
 
-- [📋 Índice QSR](./qsr/01-README.md) - Documentación completa de pases a producción
-- [🏗️ Pipelines de Producción](./qsr/02-pipelines-produccion.md) - Todos los pipelines documentados
-- [🚀 Proceso de Deploy](./qsr/03-proceso-deploy.md) - Guía paso a paso
-- [✅ Checklist QSR](./qsr/04-checklist-qsr.md) - Lista de verificación completa
-- [🚨 Troubleshooting](./qsr/05-troubleshooting-produccion.md) - Resolución de problemas
-- [📄 QSR-2666059](./qsr/06-qsr-2666059-reference.md) - Referencia específica
+- [📋 Índice QSR]({{ '/docs/qsr/' | relative_url }}) - Documentación completa de pases a producción
+- [🏗️ Pipelines de Producción]({{ '/docs/qsr/pipelines-produccion/' | relative_url }}) - Todos los pipelines documentados
+- [🚀 Proceso de Deploy]({{ '/docs/qsr/proceso-deploy/' | relative_url }}) - Guía paso a paso
+- [✅ Checklist QSR]({{ '/docs/qsr/checklist-qsr/' | relative_url }}) - Lista de verificación completa
+- [🚨 Troubleshooting]({{ '/docs/qsr/troubleshooting-produccion/' | relative_url }}) - Resolución de problemas
+- [📄 QSR-2666059]({{ '/docs/qsr/qsr-2666059-reference/' | relative_url }}) - Referencia específica
 
 ### 📖 Documentación General
 
-- [README Principal](../README.md)
-- [Documentación de Backend](./02-backend.md)
-- [Arquitectura del Sistema](./01-arquitectura-backend.md)
-- [Docker y AWS](./05-docker-aws.md)
-- [Monitoreo New Relic](./06-newrelic.md)
-- [Frontend](./03-frontend.md)
+- [README Principal](/)
+- [Documentación de Backend]({{ '/docs/backend/' | relative_url }})
+- [Arquitectura del Sistema]({{ '/docs/arquitectura/' | relative_url }})
+- [Docker y AWS]({{ '/docs/cicd/docker-aws/' | relative_url }})
+- [Monitoreo New Relic]({{ '/docs/cicd/newrelic/' | relative_url }})
+- [Frontend]({{ '/docs/frontend/' | relative_url }})
 
 ### 🔧 Configuraciones y Casos de Uso
-- [Variables de Entorno](./general/variables_entorno.md)
-- [Casos de Uso](./general/casos-uso.md)
-- [Enums del Sistema](./general/enums.md)
+- [Variables de Entorno]({{ '/docs/general/variables_entorno/' | relative_url }})
+- [Casos de Uso]({{ '/docs/general/casos-uso/' | relative_url }})
+- [Enums del Sistema]({{ '/docs/general/enums/' | relative_url }})
 
 ---
 

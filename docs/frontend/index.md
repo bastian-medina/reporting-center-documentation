@@ -312,20 +312,20 @@ Este documento contiene los requerimientos funcionales del frontend. Se requiere
 
 ### 📋 Documentación QSR - Pases a Producción
 
-- [📋 Índice QSR](./qsr/01-README.md) - Documentación completa de pases a producción
-- [🏗️ Pipeline WebPortal](./qsr/02-pipelines-produccion.md#webportal-pipeline-frontend) - Deploy del frontend
-- [🚀 Proceso de Deploy](./qsr/03-proceso-deploy.md) - Despliegue de aplicaciones web
-- [🚨 Troubleshooting Frontend](./qsr/05-troubleshooting-produccion.md#webportal-pipeline-issues) - Problemas comunes
+- [📋 Índice QSR]({{ '/docs/qsr/' | relative_url }}) - Documentación completa de pases a producción
+- [🏗️ Pipeline WebPortal]({{ '/docs/qsr/pipelines-produccion/' | relative_url }}) - Deploy del frontend
+- [🚀 Proceso de Deploy]({{ '/docs/qsr/proceso-deploy/' | relative_url }}) - Despliegue de aplicaciones web
+- [🚨 Troubleshooting Frontend]({{ '/docs/qsr/troubleshooting-produccion/' | relative_url }}) - Problemas comunes
 
 ### 🛠️ Infraestructura y Deploy
 
-- [CI/CD](./04-cicd.md) - Jenkins y pipelines
-- [Docker/AWS](./05-docker-aws.md) - CloudFront y S3
-- [New Relic](./06-newrelic.md) - Monitoreo de performance
+- [CI/CD]({{ '/docs/cicd/' | relative_url }}) - Jenkins y pipelines
+- [Docker/AWS]({{ '/docs/cicd/docker-aws/' | relative_url }}) - CloudFront y S3
+- [New Relic]({{ '/docs/cicd/newrelic/' | relative_url }}) - Monitoreo de performance
 
 ### ⚙️ Backend y APIs
 
-- [Backend](./02-backend.md) - APIs y microservicios
-- [Variables de Entorno](./general/variables_entorno.md) - Configuraciones
-- [Casos de Uso](./general/casos-uso.md) - Flujos de negocio
-- [Arquitectura](./01-arquitectura-backend.md) - Integración con APIs
+- [Backend]({{ '/docs/backend/' | relative_url }}) - APIs y microservicios
+- [Variables de Entorno]({{ '/docs/general/variables_entorno/' | relative_url }}) - Configuraciones
+- [Casos de Uso]({{ '/docs/general/casos-uso/' | relative_url }}) - Flujos de negocio
+- [Arquitectura]({{ '/docs/arquitectura/' | relative_url }}) - Integración con APIs

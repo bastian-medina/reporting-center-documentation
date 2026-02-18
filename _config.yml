@@ -27,32 +27,33 @@ exclude:
   - "*.pyc"
   - node_modules/
 
+# Permalink settings
+permalink: /:categories/:basename/
+
 # Include
 include:
   - _pages
 
-# Collections
-collections:
-  pages:
-    output: true
-    permalink: /:name/
-
 # Defaults
 defaults:
+  - scope:
+      path: ""
+    values:
+      layout: "page"
   - scope:
       path: ""
       type: "pages"
     values:
       layout: "page"
   - scope:
-      path: ""
-      type: "posts"
-    values:
-      layout: "post"
-  - scope:
       path: "index.md"
     values:
       layout: "home"
+  - scope:
+      path: "docs/**/index.md"
+    values:
+      layout: "page"
+      permalink: /:path/
 
 # Styles
 sass:

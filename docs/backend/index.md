@@ -113,19 +113,19 @@ El microservicio de Subpoenas está diseñado siguiendo los principios de arquit
 
 ### 📋 Documentación QSR - Pases a Producción
 
-- [📋 Índice QSR](./qsr/01-README.md) - Documentación completa de pases a producción
-- [🏗️ Pipelines Backend](./qsr/02-pipelines-produccion.md) - Subpoenas, API Reports, General Reports
-- [🚀 Proceso de Deploy](./qsr/03-proceso-deploy.md) - Despliegue de microservicios
-- [🚨 Troubleshooting Backend](./qsr/05-troubleshooting-produccion.md) - Resolución de problemas
+- [📋 Índice QSR]({{ '/docs/qsr/' | relative_url }}) - Documentación completa de pases a producción
+- [🏗️ Pipelines Backend]({{ '/docs/qsr/pipelines-produccion/' | relative_url }}) - Subpoenas, API Reports, General Reports
+- [🚀 Proceso de Deploy]({{ '/docs/qsr/proceso-deploy/' | relative_url }}) - Despliegue de microservicios
+- [🚨 Troubleshooting Backend]({{ '/docs/qsr/troubleshooting-produccion/' | relative_url }}) - Resolución de problemas
 
 ### 🛠️ Infraestructura y Deploy
 
-- [CI/CD](./04-cicd.md) - Jenkins y pipelines de desarrollo
-- [Docker/AWS](./05-docker-aws.md) - Configuración de contenedores
-- [New Relic](./06-newrelic.md) - Monitoreo de microservicios
+- [CI/CD]({{ '/docs/cicd/' | relative_url }}) - Jenkins y pipelines de desarrollo
+- [Docker/AWS]({{ '/docs/cicd/docker-aws/' | relative_url }}) - Configuración de contenedores
+- [New Relic]({{ '/docs/cicd/newrelic/' | relative_url }}) - Monitoreo de microservicios
 
 ### ⚙️ Configuración
 
-- [Variables de Entorno](./general/variables_entorno.md) - Configuraciones del sistema
-- [Casos de Uso](./general/casos-uso.md) - Flujos de negocio
-- [Arquitectura](./01-arquitectura-backend.md) - Diseño del sistema
+- [Variables de Entorno]({{ '/docs/general/variables_entorno/' | relative_url }}) - Configuraciones del sistema
+- [Casos de Uso]({{ '/docs/general/casos-uso/' | relative_url }}) - Flujos de negocio
+- [Arquitectura]({{ '/docs/arquitectura/' | relative_url }}) - Diseño del sistema

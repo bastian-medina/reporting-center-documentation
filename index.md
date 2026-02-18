@@ -15,23 +15,23 @@ Una plataforma especializada en la gestión y generación de reportes, con enfoq
 
 Sigue la sección **QSR** completa que contiene toda la información que necesitas:
 
-1. [Índice QSR](docs/qsr/) - Punto de entrada
-2. [Pipelines de Producción](docs/qsr/pipelines-produccion.md)
-3. [Proceso de Deploy](docs/qsr/proceso-deploy.md)
-4. [Checklist QSR](docs/qsr/checklist-qsr.md)
-5. [Troubleshooting](docs/qsr/troubleshooting-produccion.md)
+1. [Índice QSR]({{ '/docs/qsr/' | relative_url }}) - Punto de entrada
+2. [Pipelines de Producción]({{ '/docs/qsr/pipelines-produccion/' | relative_url }})
+3. [Proceso de Deploy]({{ '/docs/qsr/proceso-deploy/' | relative_url }})
+4. [Checklist QSR]({{ '/docs/qsr/checklist-qsr/' | relative_url }})
+5. [Troubleshooting]({{ '/docs/qsr/troubleshooting-produccion/' | relative_url }})
 
 ### Si necesitas entender la arquitectura
 
-- [Arquitectura Backend](docs/arquitectura/) - Diseño completo del sistema
-- [Backend](docs/backend/) - APIs y tecnologías
-- [Frontend](docs/frontend/) - Componentes y UI
+- [Arquitectura Backend]({{ '/docs/arquitectura/' | relative_url }}) - Diseño completo del sistema
+- [Backend]({{ '/docs/backend/' | relative_url }}) - APIs y tecnologías
+- [Frontend]({{ '/docs/frontend/' | relative_url }}) - Componentes y UI
 
 ### Si necesitas configurar
 
-- [Variables de Entorno](docs/general/variables_entorno.md)
-- [Enums y Constantes](docs/general/enums.md)
-- [Casos de Uso](docs/general/casos-uso/)
+- [Variables de Entorno]({{ '/docs/general/variables_entorno/' | relative_url }})
+- [Enums y Constantes]({{ '/docs/general/enums/' | relative_url }})
+- [Casos de Uso]({{ '/docs/general/casos-uso/' | relative_url }})
 
 ---
 

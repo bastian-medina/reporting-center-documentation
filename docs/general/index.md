@@ -11,7 +11,7 @@ Esta sección contiene información de configuración, constantes y casos de uso
 
 ## 📑 Contenidos
 
-### [🔧 Variables de Entorno](variables_entorno.md)
+### [🔧 Variables de Entorno]({{ 'variables_entorno/' | relative_url }})
 
 Todas las variables de configuración necesarias por ambiente (desarrollo, staging, producción).
 
@@ -21,7 +21,7 @@ Incluye:
 - Variables de Aplicación
 - Endpoints y URLs
 
-### [📝 Enums y Constantes](enums.md)
+### [📝 Enums y Constantes]({{ 'enums/' | relative_url }})
 
 Valores constantes, enumeraciones y tipos del sistema.
 
@@ -31,7 +31,7 @@ Incluye:
 - Transaction Types
 - Error Codes
 
-### [📋 Casos de Uso](casos-uso/)
+### [📋 Casos de Uso]({{ 'casos-uso/' | relative_url }})
 
 Documentación detallada de todos los casos de uso del sistema Reporting Center.
 
@@ -45,9 +45,9 @@ Documentación detallada de todos los casos de uso del sistema Reporting Center.
 
 ## 🚀 Quick Links
 
-- [Ver Variables de Entorno →](variables_entorno.md)
-- [Ver Enums →](enums.md)
-- [Explorar Casos de Uso →](casos-uso/)
+- [Ver Variables de Entorno →]({{ 'variables_entorno/' | relative_url }})
+- [Ver Enums →]({{ 'enums/' | relative_url }})
+- [Explorar Casos de Uso →]({{ 'casos-uso/' | relative_url }})
 
 ---
 
@@ -85,16 +85,16 @@ Documentación detallada de todos los casos de uso del sistema Reporting Center.
 
 ### Documentación Técnica
 
-- [🏛️ Arquitectura del Sistema](/docs/arquitectura/)
-- [⚙️ Backend](/docs/backend/)
-- [🖥️ Frontend](/docs/frontend/)
-- [🔄 CI/CD](/docs/cicd/)
+- [🏛️ Arquitectura del Sistema]({{ '/docs/arquitectura/' | relative_url }})
+- [⚙️ Backend]({{ '/docs/backend/' | relative_url }})
+- [🖥️ Frontend]({{ '/docs/frontend/' | relative_url }})
+- [🔄 CI/CD]({{ '/docs/cicd/' | relative_url }})
 
 ### Procedimientos
 
-- [⭐ QSR - Pases a Producción](/docs/qsr/)
-- [🚀 Lambdas](/docs/lambdas/)
-- [📊 Subpoenas](/docs/subpoenas/)
+- [⭐ QSR - Pases a Producción]({{ '/docs/qsr/' | relative_url }})
+- [🚀 Lambdas]({{ '/docs/lambdas/' | relative_url }})
+- [📊 Subpoenas]({{ '/docs/subpoenas/' | relative_url }})
 
 ---
 

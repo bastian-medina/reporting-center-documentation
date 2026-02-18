@@ -159,21 +159,21 @@ Explica el sistema de notificaciones:
 
 ### 📋 Documentación QSR - Pases a Producción
 
-- [📋 Índice QSR](./qsr/01-README.md) - Documentación completa de pases a producción
-- [🏗️ Pipelines de Producción](./qsr/02-pipelines-produccion.md) - Despliegue de microservicios
-- [🚀 Proceso de Deploy](./qsr/03-proceso-deploy.md) - Implementación de arquitectura
-- [🚨 Troubleshooting](./qsr/05-troubleshooting-produccion.md) - Problemas de infraestructura
+- [📋 Índice QSR]({{ '/docs/qsr/' | relative_url }}) - Documentación completa de pases a producción
+- [🏗️ Pipelines de Producción]({{ '/docs/qsr/pipelines-produccion/' | relative_url }}) - Despliegue de microservicios
+- [🚀 Proceso de Deploy]({{ '/docs/qsr/proceso-deploy/' | relative_url }}) - Implementación de arquitectura
+- [🚨 Troubleshooting]({{ '/docs/qsr/troubleshooting-produccion/' | relative_url }}) - Problemas de infraestructura
 
 ### 🛠️ Implementación y Deploy
 
-- [Backend](./02-backend.md) - Detalles técnicos de implementación
-- [CI/CD](./04-cicd.md) - Pipelines de desarrollo y producción
-- [Docker/AWS](./05-docker-aws.md) - Infraestructura y contenedores
-- [New Relic](./06-newrelic.md) - Monitoreo de microservicios
+- [Backend]({{ '/docs/backend/' | relative_url }}) - Detalles técnicos de implementación
+- [CI/CD]({{ '/docs/cicd/' | relative_url }}) - Pipelines de desarrollo y producción
+- [Docker/AWS]({{ '/docs/cicd/docker-aws/' | relative_url }}) - Infraestructura y contenedores
+- [New Relic]({{ '/docs/cicd/newrelic/' | relative_url }}) - Monitoreo de microservicios
 
 ### ⚙️ Configuración del Sistema
 
-- [Variables de Entorno](./general/variables_entorno.md) - Configuraciones por ambiente
-- [Casos de Uso](./general/casos-uso.md) - Flujos de negocio implementados
-- [Frontend](./03-frontend.md) - Integración con APIs
-- [Lambdas](./lambdas/) - Funciones serverless
+- [Variables de Entorno]({{ '/docs/general/variables_entorno/' | relative_url }}) - Configuraciones por ambiente
+- [Casos de Uso]({{ '/docs/general/casos-uso/' | relative_url }}) - Flujos de negocio implementados
+- [Frontend]({{ '/docs/frontend/' | relative_url }}) - Integración con APIs
+- [Lambdas]({{ '/docs/lambdas/' | relative_url }}) - Funciones serverless

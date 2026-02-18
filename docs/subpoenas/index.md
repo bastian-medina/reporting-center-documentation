@@ -13,35 +13,35 @@ Documentación completa del módulo de Subpoenas para el procesamiento y generac
 
 ### Configuración
 
-**[Variables de Entorno](variables_entorno.md)**
+**[Variables de Entorno]({{ 'variables_entorno/' | relative_url }})**
 - Configuración específica del módulo Subpoenas
 - Endpoints y credenciales
 - Parámetros de procesamiento
 
-**[Enums y Constantes](enums.md)**
+**[Enums y Constantes]({{ 'enums/' | relative_url }})**
 - Tipos de citaciones
 - Estados de procesamiento
 - Códigos de error
 
 ### Casos de Uso
 
-**[Casos de Uso de Subpoenas](casos-uso/)**
+**[Casos de Uso de Subpoenas]({{ 'casos-uso/' | relative_url }})**
 
 #### Búsqueda y Descarga
-- [Búsqueda de Subpoenas](casos-uso/subpoenas-search.md)
-- [Descargar Archivos](casos-uso/download-file.md)
+- [Búsqueda de Subpoenas]({{ 'casos-uso/subpoenas-search/' | relative_url }})
+- [Descargar Archivos]({{ 'casos-uso/download-file/' | relative_url }})
 
 #### Reportes por Tipo de Cuenta
-- [Reportes Negativos - Customer Business](casos-uso/subpoenas-customer-business-report.md)
-- [Reportes Personales - Customer Personal](casos-uso/subpoenas-customer-personal-report.md)
-- [Reportes DOB - Customer DOB](casos-uso/subpoenas-customer-dob-report.md)
+- [Reportes Negativos - Customer Business]({{ 'casos-uso/subpoenas-customer-business-report/' | relative_url }})
+- [Reportes Personales - Customer Personal]({{ 'casos-uso/subpoenas-customer-personal-report/' | relative_url }})
+- [Reportes DOB - Customer DOB]({{ 'casos-uso/subpoenas-customer-dob-report/' | relative_url }})
 
 #### Reportes Transaccionales
-- [Reportes de Transacciones - Business](casos-uso/subpoenas-transaction-business-report.md)
-- [Reportes de Transacciones - Personal](casos-uso/subpoenas-transaction-personal-report.md)
+- [Reportes de Transacciones - Business]({{ 'casos-uso/subpoenas-transaction-business-report/' | relative_url }})
+- [Reportes de Transacciones - Personal]({{ 'casos-uso/subpoenas-transaction-personal-report/' | relative_url }})
 
 #### Últimos Reportes
-- [Último Reporte](casos-uso/subpoenas-last-report.md)
+- [Último Reporte]({{ 'casos-uso/subpoenas-last-report/' | relative_url }})
 
 ---
 

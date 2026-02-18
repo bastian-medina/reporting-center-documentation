@@ -13,39 +13,39 @@ Documentación de todas las funciones AWS Lambda utilizadas en el sistema Report
 
 ### Gestión de Usuarios
 
-**[Admin Users](admin-users.md)**
+**[Admin Users]({{ 'admin-users/' | relative_url }})**
 - Crear, actualizar y eliminar usuarios administrativos
 - Gestión de roles y permisos
 
-**[List Cognito Users](list-cognito-users.md)**
+**[List Cognito Users]({{ 'list-cognito-users/' | relative_url }})**
 - Listar usuarios de AWS Cognito
 - Filtros y búsqueda
 
 ### Datos de Referencia
 
-**[Business Categories](business-categories.md)**
+**[Business Categories]({{ 'business-categories/' | relative_url }})**
 - Gestión de categorías de negocio
 - Sincronización de datos
 
-**[Financial Institutions](financial-institutions.md)**
+**[Financial Institutions]({{ 'financial-institutions/' | relative_url }})**
 - Información de instituciones financieras
 - Actualización de catálogos
 
-**[Status List](status-list.md)**
+**[Status List]({{ 'status-list/' | relative_url }})**
 - Listados de estados del sistema
 - Valores permitidos
 
 ### Auditoría y Notificaciones
 
-**[Create Audit Logs](create-audit-logs.md)**
+**[Create Audit Logs]({{ 'create-audit-logs/' | relative_url }})**
 - Registrar eventos de auditoría
 - Trazabilidad de operaciones
 
-**[Search Audit Logs](search-audit-logs.md)**
+**[Search Audit Logs]({{ 'search-audit-logs/' | relative_url }})**
 - Búsqueda en logs de auditoría
 - Filtrado por fecha, usuario, acción
 
-**[Send Mail](send-mail.md)**
+**[Send Mail]({{ 'send-mail/' | relative_url }})**
 - Envío de notificaciones por email
 - Integración con SendGrid
 

@@ -7,8 +7,8 @@ layout: default
     <h1>{{ site.title }}</h1>
     <p class="subtitle">{{ site.description }}</p>
     <div class="cta-buttons">
-      <a href="/docs/qsr/" class="btn btn-primary">QSR - Pases a Prod</a>
-      <a href="/docs/arquitectura/" class="btn btn-secondary">Arquitectura</a>
+      <a href="{{ '/docs/qsr/' | relative_url }}" class="btn btn-primary">QSR - Pases a Prod</a>
+      <a href="{{ '/docs/arquitectura/' | relative_url }}" class="btn btn-secondary">Arquitectura</a>
     </div>
   </div>
 </div>
@@ -20,37 +20,37 @@ layout: default
     <div class="doc-card">
       <h3>🏗️ Arquitectura</h3>
       <p>Diseño del sistema y componentes principales</p>
-      <a href="/docs/arquitectura/" class="card-link">Ir →</a>
+      <a href="{{ '/docs/arquitectura/' | relative_url }}" class="card-link">Ir →</a>
     </div>
     
     <div class="doc-card">
       <h3>⚙️ Backend</h3>
       <p>APIs, microservicios y tecnologías</p>
-      <a href="/docs/backend/" class="card-link">Ir →</a>
+      <a href="{{ '/docs/backend/' | relative_url }}" class="card-link">Ir →</a>
     </div>
     
     <div class="doc-card">
       <h3>🖥️ Frontend</h3>
       <p>WebPortal y componentes UI</p>
-      <a href="/docs/frontend/" class="card-link">Ir →</a>
+      <a href="{{ '/docs/frontend/' | relative_url }}" class="card-link">Ir →</a>
     </div>
     
     <div class="doc-card">
       <h3>🚀 CI/CD</h3>
       <p>Pipelines y despliegues</p>
-      <a href="/docs/cicd/" class="card-link">Ir →</a>
+      <a href="{{ '/docs/cicd/' | relative_url }}" class="card-link">Ir →</a>
     </div>
     
     <div class="doc-card">
       <h3>⭐ QSR</h3>
       <p>Guía completa de pases a producción</p>
-      <a href="/docs/qsr/" class="card-link">Ir →</a>
+      <a href="{{ '/docs/qsr/' | relative_url }}" class="card-link">Ir →</a>
     </div>
     
     <div class="doc-card">
       <h3>📖 Más</h3>
       <p>Variables, enums, casos de uso y lambdas</p>
-      <a href="/docs/general/" class="card-link">Ir →</a>
+      <a href="{{ '/docs/general/' | relative_url }}" class="card-link">Ir →</a>
     </div>
   </div>
 </section>
@@ -58,9 +58,9 @@ layout: default
 <section class="quick-links">
   <h2>Accesos Rápidos</h2>
   <ul>
-    <li><a href="/docs/general/variables_entorno.md">Variables de Entorno</a></li>
-    <li><a href="/docs/general/casos-uso/">Casos de Uso</a></li>
-    <li><a href="/docs/lambdas/">Funciones Lambda</a></li>
-    <li><a href="/docs/subpoenas/">Documentación de Subpoenas</a></li>
+    <li><a href="{{ '/docs/general/variables_entorno/' | relative_url }}">Variables de Entorno</a></li>
+    <li><a href="{{ '/docs/general/casos-uso/' | relative_url }}">Casos de Uso</a></li>
+    <li><a href="{{ '/docs/lambdas/' | relative_url }}">Funciones Lambda</a></li>
+    <li><a href="{{ '/docs/subpoenas/' | relative_url }}">Documentación de Subpoenas</a></li>
   </ul>
 </section>
