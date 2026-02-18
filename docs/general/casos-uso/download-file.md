@@ -1,3 +1,8 @@
+---
+layout: page
+title: DownloadFileUseCase
+---
+
 # DownloadFileUseCase
 
 ## 📋 Descripción

@@ -1,3 +1,8 @@
+---
+layout: page
+title: Casos de Uso - Reportes Generales
+---
+
 # Casos de Uso - Reportes Generales
 
 ## 📋 Índice de Casos de Uso

@@ -1,3 +1,8 @@
+---
+layout: page
+title: GeneralReportTransactionPOSPaymentUseCase
+---
+
 # GeneralReportTransactionPOSPaymentUseCase
 
 ## 📋 Descripción

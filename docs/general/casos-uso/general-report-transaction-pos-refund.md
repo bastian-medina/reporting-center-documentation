@@ -1,3 +1,8 @@
+---
+layout: page
+title: GeneralReportTransactionPOSRefundUseCase
+---
+
 # GeneralReportTransactionPOSRefundUseCase
 
 ## 📋 Descripción

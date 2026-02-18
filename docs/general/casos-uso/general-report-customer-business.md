@@ -1,3 +1,8 @@
+---
+layout: page
+title: GeneralReportCustomerBusinessUseCase
+---
+
 # GeneralReportCustomerBusinessUseCase
 
 ## 📋 Descripción

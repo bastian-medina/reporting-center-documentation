@@ -1,3 +1,8 @@
+---
+layout: page
+title: GeneralReportTransactionP2BTransferUseCase
+---
+
 # GeneralReportTransactionP2BTransferUseCase
 
 ## 📋 Descripción

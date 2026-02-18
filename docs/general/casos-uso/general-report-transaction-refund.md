@@ -1,3 +1,8 @@
+---
+layout: page
+title: GeneralReportTransactionRefundUseCase
+---
+
 # GeneralReportTransactionRefundUseCase
 
 ## 📋 Descripción

@@ -1,3 +1,8 @@
+---
+layout: page
+title: Casos de Uso - Subpoenas
+---
+
 # Casos de Uso - Subpoenas
 
 ## 📋 Índice de Casos de Uso

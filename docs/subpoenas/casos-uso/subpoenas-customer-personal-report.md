@@ -1,3 +1,8 @@
+---
+layout: page
+title: SubpoenasCustomerPersonalReportUseCase
+---
+
 # SubpoenasCustomerPersonalReportUseCase
 
 ## 📋 Descripción
