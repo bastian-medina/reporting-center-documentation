@@ -16,6 +16,7 @@ plugins:
   - jekyll-feed
   - jekyll-seo-tag
   - jekyll-sitemap
+  - jekyll-paginate
 
 # Exclude from processing
 exclude:
@@ -24,6 +25,7 @@ exclude:
   - .git
   - requirements.txt
   - venv/
+  - vendor/
   - "*.pyc"
   - node_modules/
 
