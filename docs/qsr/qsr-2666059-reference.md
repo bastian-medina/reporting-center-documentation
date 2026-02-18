@@ -9,7 +9,7 @@ Este documento complementa la documentación de pases a producción con informac
 
 ### QSR-2666059 - CICD QSR Pipelines Instructions to Deploy
 
-**Archivo**: `files/qsr/QSR-2666059 - CICDQSRPipelinesInstructions_toDeploy.docx`
+**Archivo**: `/files/qsr/QSR-2666059 - CICDQSRPipelinesInstructions_toDeploy.docx`
 
 **Contenido esperado**:
 
@@ -20,7 +20,7 @@ Este documento complementa la documentación de pases a producción con informac
 
 ### QSR-2666059 - Test Script Pipeline
 
-**Archivo**: `files/qsr/QSR-2666059 - Test Script-Pipeline.docx`
+**Archivo**: `/files/qsr/QSR-2666059 - Test Script-Pipeline.docx`
 
 **Contenido esperado**:
 
@@ -264,7 +264,7 @@ graph TD
 
 ### 📁 Archivos de Referencia
 
-- [📄 Archivos QSR Originales](../../files/qsr/) - Documentos Word fuente
+- [📄 Archivos QSR Originales](/files/qsr/) - Documentos Word fuente
 - [📋 CI/CD Principal](../04-cicd.md) - Jenkins y procesos
 - [🐳 Docker/AWS](../05-docker-aws.md) - Infraestructura
 - [📊 New Relic](../06-newrelic.md) - Monitoreo

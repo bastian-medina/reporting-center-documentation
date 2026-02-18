@@ -28,13 +28,21 @@ exclude:
   - vendor/
   - "*.pyc"
   - node_modules/
+  - generate-search-index.js
+  - build-search-index.sh
+  - serve.js
+  - search-data-generated.json
+  - search-data-static.json
+
+# Include static assets
+include:
+  - _site
+  - images
+  - files
+  - _pages
 
 # Permalink settings
 permalink: /:categories/:basename/
-
-# Include
-include:
-  - _pages
 
 # Defaults
 defaults:

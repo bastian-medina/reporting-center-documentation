@@ -20,11 +20,15 @@ const mimeTypes = {
   ".json": "application/json",
   ".png": "image/png",
   ".jpg": "image/jpeg",
+  ".jpeg": "image/jpeg",
   ".gif": "image/gif",
   ".svg": "image/svg+xml",
   ".ico": "image/x-icon",
   ".woff": "font/woff",
   ".woff2": "font/woff2",
+  ".docx":
+    "application/vnd.openxmlformats-officedocument.wordprocessingml.document",
+  ".pdf": "application/pdf",
 };
 
 const server = http.createServer((req, res) => {

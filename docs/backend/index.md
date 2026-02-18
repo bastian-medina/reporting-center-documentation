@@ -44,15 +44,15 @@ title: Backend - Reporting Center
 
 El microservicio de Subpoenas está diseñado siguiendo los principios de arquitectura limpia, lo que permite:
 
-![Vista general arquitectura limpia](../images/backend/Untitled.png)
+![Vista general arquitectura limpia](/images/backend/Untitled.png)
 
 - **Vista general arquitectura limpia**: Separación clara de responsabilidades
 
-![Relación de componentes arquitectura limpia](../images/backend/Untitled%201.png)
+![Relación de componentes arquitectura limpia](/images/backend/Untitled%201.png)
 
 - **Relación de componentes arquitectura limpia**: Flujo de dependencias controlado
 
-![Diagrama detallado de la arquitectura](../images/backend/Untitled%202.png)
+![Diagrama detallado de la arquitectura](/images/backend/Untitled%202.png)
 
 ## Dependencias Lambda/CDK
 

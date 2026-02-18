@@ -47,7 +47,7 @@ Este directorio contiene toda la documentación relacionada con los Quality Serv
 
 - [📖 Documentación CI/CD Principal](../04-cicd.md)
 - [🏗️ Arquitectura del Sistema](../01-arquitectura-backend.md)
-- [📁 Archivos QSR Originales](../../files/qsr/)
+- [📁 Archivos QSR Originales](/files/qsr/)
 - [🐳 Docker y AWS](../05-docker-aws.md)
 - [📊 Monitoreo New Relic](../06-newrelic.md)
 
