@@ -9,8 +9,8 @@ const fs = require("fs");
 const path = require("path");
 
 const PORT = 4000;
-const SITE_DIR = path.join(__dirname, "_site");
-const FALLBACK_DIR = __dirname;
+const SITE_DIR = path.join(__dirname, "..", "_site");
+const FALLBACK_DIR = path.join(__dirname, "..");
 
 // MIME types
 const mimeTypes = {

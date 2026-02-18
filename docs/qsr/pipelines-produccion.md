@@ -192,7 +192,7 @@ Todos los pipelines están configurados con:
 
 ### 📁 Archivos de Soporte
 
-- [Archivos QSR Originales](/files/qsr/) - Documentos Word de referencia
+- [Archivos QSR Originales]({{ '/files/qsr/' | relative_url }}) - Documentos Word de referencia
 - [Variables de Entorno](../general/variables_entorno.md)
 - [Casos de Uso](../general/casos-uso.md)
 

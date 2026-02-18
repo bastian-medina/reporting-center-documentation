@@ -7,17 +7,17 @@ title: Arquitectura - Reporting Center
 
 El Reporting Center está diseñado como un sistema distribuido que maneja la generación y gestión de reportes Subpoenas para cumplimiento de requerimientos federales del gobierno de EEUU.
 
-![Visión general del sistema](/images/backend/Untitled.png)
+![Visión general del sistema]({{ '/images/backend/Untitled.png' | relative_url }})
 
 ## Diagramas de Arquitectura
 
 ### Vista General de Arquitectura Limpia
 
-![Vista general arquitectura limpia](/images/backend/Untitled%202.png)
+![Vista general arquitectura limpia]({{ '/images/backend/Untitled%202.png' | relative_url }})
 
 ### Relación de Componentes
 
-![Relación de componentes arquitectura limpia](/images/backend/Untitled%201.png)
+![Relación de componentes arquitectura limpia]({{ '/images/backend/Untitled%201.png' | relative_url }})
 
 ## Modelos de Datos
 
@@ -72,7 +72,7 @@ interface AuditEvent {
 
 El siguiente diagrama muestra la arquitectura completa del sistema con todos los componentes integrados:
 
-![Flujo general del sistema](/images/arquitectura/Untitled.png)
+![Flujo general del sistema]({{ '/images/arquitectura/Untitled.png' | relative_url }})
 
 Este diagrama ilustra cómo interactúan los diferentes componentes:
 - **Frontend** se comunica con **API Gateway**
@@ -82,7 +82,7 @@ Este diagrama ilustra cómo interactúan los diferentes componentes:
 
 ### Flujo de Procesamiento de Datos
 
-![Flujo de procesamiento de datos](/images/arquitectura/Untitled%201.png)
+![Flujo de procesamiento de datos]({{ '/images/arquitectura/Untitled%201.png' | relative_url }})
 
 Este flujo muestra:
 - **Ingesta de datos** desde múltiples fuentes
@@ -92,7 +92,7 @@ Este flujo muestra:
 
 ### Flujo de Auditoría y Logging
 
-![Flujo de auditoría](/images/arquitectura/Untitled%202.png)
+![Flujo de auditoría]({{ '/images/arquitectura/Untitled%202.png' | relative_url }})
 
 Detalla el sistema de auditoría:
 - **Captura de eventos** en tiempo real
@@ -102,7 +102,7 @@ Detalla el sistema de auditoría:
 
 ### Flujo de Autenticación y Autorización
 
-![Flujo de autenticación](/images/arquitectura/Untitled%203.png)
+![Flujo de autenticación]({{ '/images/arquitectura/Untitled%203.png' | relative_url }})
 
 Muestra el proceso de autenticación:
 - **Login de usuarios** a través de Cognito
@@ -112,7 +112,7 @@ Muestra el proceso de autenticación:
 
 ### Flujo de Generación de Reportes
 
-![Flujo de reportes](/images/arquitectura/Untitled%204.png)
+![Flujo de reportes]({{ '/images/arquitectura/Untitled%204.png' | relative_url }})
 
 Describe el proceso completo de reportes:
 - **Solicitud de reporte** desde el frontend
@@ -123,7 +123,7 @@ Describe el proceso completo de reportes:
 
 ### Flujo de Notificaciones
 
-![Flujo de notificaciones](/images/arquitectura/Untitled%205.png)
+![Flujo de notificaciones]({{ '/images/arquitectura/Untitled%205.png' | relative_url }})
 
 Explica el sistema de notificaciones:
 - **Eventos del sistema** generan mensajes SQS

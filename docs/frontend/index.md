@@ -30,14 +30,14 @@ Módulo que permite realizar la búsqueda de los usuarios registrados en la plat
 
 #### Flujo:
 
-![Administrador Menu](/images/requrimiento/Untitled.png)
+![Administrador Menu]({{ '/images/requrimiento/Untitled.png' | relative_url }})
 
 **Paso 1:**
 
 1. Mediante las opciones del menú izquierdo se visualiza la Opción **Administrador (Solo para algunos perfiles específicos).**
 2. Luego en la opción **Search User** se procede a continuar con el proceso de listar los usuarios.
 
-![Search User](/images/requrimiento/Untitled%201.png)
+![Search User]({{ '/images/requrimiento/Untitled%201.png' | relative_url }})
 
 **Paso 2:**
 
@@ -45,7 +45,7 @@ Módulo que permite realizar la búsqueda de los usuarios registrados en la plat
    a. El valor ingresado no es sensible a mayúsculas o minúsculas, por lo que la búsqueda puede ejecutarse sin problema alguno.
 2. Solo se habilitará el botón de **SUBMIT** si se ingresa algún valor en el campo mencionado anteriormente.
 
-![Search Results](/images/requrimiento/Untitled%202.png)
+![Search Results]({{ '/images/requrimiento/Untitled%202.png' | relative_url }})
 
 **Paso 3:** Resultados de la búsqueda
 
@@ -55,14 +55,14 @@ Módulo que permite procesar la creación de usuarios en la plataforma.
 
 #### Flujo:
 
-![Create User Menu](/images/requrimiento/Untitled%203.png)
+![Create User Menu]({{ '/images/requrimiento/Untitled%203.png' | relative_url }})
 
 **Paso 1:**
 
 1. Mediante las opciones del menú izquierdo se visualiza la Opción **Administrador (Solo para algunos perfiles específicos).**
 2. Luego en la opción **Create User** se procede a continuar con el proceso de crear usuarios.
 
-![Create User Form](/images/requrimiento/Untitled%204.png)
+![Create User Form]({{ '/images/requrimiento/Untitled%204.png' | relative_url }})
 
 **Paso 2:**
 
@@ -82,14 +82,14 @@ Módulo que permite procesar la actualización de los usuarios en la plataforma.
 
 #### Flujo:
 
-![Admin Menu](/images/requrimiento/Untitled.png)
+![Admin Menu]({{ '/images/requrimiento/Untitled.png' | relative_url }})
 
 **Paso 1:**
 
 1. Mediante las opciones del menú izquierdo se visualiza la Opción **Administrador (Solo para algunos perfiles específicos).**
 2. Luego en la opción **Search User** se procede a continuar con el proceso de listar los usuarios.
 
-![Search User](/images/requrimiento/Untitled%201.png)
+![Search User]({{ '/images/requrimiento/Untitled%201.png' | relative_url }})
 
 **Paso 2:**
 
@@ -97,13 +97,13 @@ Módulo que permite procesar la actualización de los usuarios en la plataforma.
    a. El valor ingresado no es sensible a mayúsculas o minúsculas, por lo que la búsqueda puede ejecutarse sin problema alguno.
 2. Solo se habilitará el botón de **SUBMIT** si se ingresa algún valor en el campo mencionado anteriormente.
 
-![User List Actions](/images/requrimiento/Untitled%205.png)
+![User List Actions]({{ '/images/requrimiento/Untitled%205.png' | relative_url }})
 
 **Paso 3:**
 
 1. Para proceder con la edición de la información del usuario, se debe ingresar a la opción mostrada en **View Details**, la cual mostrará la información del usuario y los campos a editar.
 
-![Edit User Form](/images/requrimiento/Untitled%206.png)
+![Edit User Form]({{ '/images/requrimiento/Untitled%206.png' | relative_url }})
 
 **Paso 4:**
 
@@ -117,14 +117,14 @@ Módulo que deshabilita usuarios en la plataforma.
 
 #### Flujo:
 
-![Admin Menu](/images/requrimiento/Untitled.png)
+![Admin Menu]({{ '/images/requrimiento/Untitled.png' | relative_url }})
 
 **Paso 1:**
 
 1. Mediante las opciones del menú izquierdo se visualiza la Opción **Administrador (Solo para algunos perfiles específicos).**
 2. Luego en la opción **Search User** se procede a continuar con el proceso de listar los usuarios.
 
-![Search User](/images/requrimiento/Untitled%201.png)
+![Search User]({{ '/images/requrimiento/Untitled%201.png' | relative_url }})
 
 **Paso 2:**
 
@@ -132,13 +132,13 @@ Módulo que deshabilita usuarios en la plataforma.
    a. El valor ingresado no es sensible a mayúsculas o minúsculas, por lo que la búsqueda puede ejecutarse sin problema alguno.
 2. Solo se habilitará el botón de **SUBMIT** si se ingresa algún valor en el campo mencionado anteriormente.
 
-![User List Actions](/images/requrimiento/Untitled%205.png)
+![User List Actions]({{ '/images/requrimiento/Untitled%205.png' | relative_url }})
 
 **Paso 3:**
 
 1. Para proceder con la deshabilitación del usuario, se debe ingresar a la opción mostrada en **View Details**, la cual mostrará la información del usuario y los campos a editar.
 
-![Disable User](/images/requrimiento/Untitled%207.png)
+![Disable User]({{ '/images/requrimiento/Untitled%207.png' | relative_url }})
 
 **Paso 4:**
 
@@ -164,7 +164,7 @@ Para realizar la consulta se pueden utilizar los siguientes filtros:
 
 #### Flujo:
 
-![Audit Logs](/images/requrimiento/Untitled%208.png)
+![Audit Logs]({{ '/images/requrimiento/Untitled%208.png' | relative_url }})
 
 **Paso 1:**
 
