@@ -25,7 +25,7 @@ document.addEventListener("DOMContentLoaded", function () {
     "./search-data.json",
     "./search-data-static.json",
     "../search-data.json",
-    "../../search-data.json"
+    "../../search-data.json",
   ];
 
   // Cargar datos de búsqueda
@@ -36,10 +36,12 @@ document.addEventListener("DOMContentLoaded", function () {
         if (response.ok) {
           const data = await response.json();
           if (Array.isArray(data)) {
-            searchData = data.filter(item => item && item.title && item.url);
+            searchData = data.filter((item) => item && item.title && item.url);
             searchLoaded = true;
             searchError = false;
-            console.log(`✓ Índice de búsqueda cargado: ${searchData.length} páginas desde ${path}`);
+            console.log(
+              `✓ Índice de búsqueda cargado: ${searchData.length} páginas desde ${path}`,
+            );
             return;
           }
         }
@@ -47,7 +49,7 @@ document.addEventListener("DOMContentLoaded", function () {
         console.log(`Intento fallido con ${path}:`, error.message);
       }
     }
-    
+
     searchError = true;
     console.error("No se pudo cargar el índice de búsqueda desde ninguna ruta");
   }
@@ -68,19 +70,21 @@ document.addEventListener("DOMContentLoaded", function () {
     if (!searchData || searchData.length === 0) return [];
 
     const normalizedQuery = normalizeText(query);
-    const queryTerms = normalizedQuery.split(/\s+/).filter(term => term.length > 0);
+    const queryTerms = normalizedQuery
+      .split(/\s+/)
+      .filter((term) => term.length > 0);
 
     const results = searchData
       .map((page) => {
         const normalizedTitle = normalizeText(page.title || "");
         const normalizedContent = normalizeText(page.content || "");
-        
+
         let score = 0;
         let matchedInTitle = false;
         let matchedInContent = false;
 
         // Calcular score basado en coincidencias
-        queryTerms.forEach(term => {
+        queryTerms.forEach((term) => {
           // Búsqueda en título (peso mayor)
           if (normalizedTitle.includes(term)) {
             score += 10;
@@ -104,10 +108,10 @@ document.addEventListener("DOMContentLoaded", function () {
         return {
           page,
           score,
-          matched: matchedInTitle || matchedInContent
+          matched: matchedInTitle || matchedInContent,
         };
       })
-      .filter(result => result.matched && result.score > 0)
+      .filter((result) => result.matched && result.score > 0)
       .sort((a, b) => b.score - a.score);
 
     return results;
@@ -141,34 +145,35 @@ document.addEventListener("DOMContentLoaded", function () {
     const results = performSearch(query);
 
     if (results.length === 0) {
-      searchResults.innerHTML =
-        `<div class="search-result"><div class="result-title">❌ No se encontraron resultados para "${query}"</div></div>`;
+      searchResults.innerHTML = `<div class="search-result"><div class="result-title">❌ No se encontraron resultados para "${query}"</div></div>`;
       searchResults.classList.remove("hidden");
       return;
     }
 
     // Mostrar resultados
-    const resultHTML = `
+    const resultHTML =
+      `
       <div class="search-result-header">
-        <small>Encontrados ${results.length} resultado${results.length !== 1 ? 's' : ''}</small>
+        <small>Encontrados ${results.length} resultado${results.length !== 1 ? "s" : ""}</small>
       </div>
-    ` + results
-      .slice(0, 10)
-      .map((result) => {
-        const page = result.page;
-        const contentPreview = (page.content || "")
-          .substring(0, 120)
-          .replace(/\s+/g, ' ')
-          .trim();
+    ` +
+      results
+        .slice(0, 10)
+        .map((result) => {
+          const page = result.page;
+          const contentPreview = (page.content || "")
+            .substring(0, 120)
+            .replace(/\s+/g, " ")
+            .trim();
 
-        return `
+          return `
         <a href="${page.url}" class="search-result">
           <div class="result-title">📄 ${page.title}</div>
-          ${contentPreview ? `<div class="result-context">${contentPreview}...</div>` : ''}
+          ${contentPreview ? `<div class="result-context">${contentPreview}...</div>` : ""}
         </a>
       `;
-      })
-      .join("");
+        })
+        .join("");
 
     searchResults.innerHTML = resultHTML;
     searchResults.classList.remove("hidden");
@@ -182,7 +187,7 @@ document.addEventListener("DOMContentLoaded", function () {
   });
 
   // Soporte para navegación con teclado
-  searchInput.addEventListener("keydown", function(e) {
+  searchInput.addEventListener("keydown", function (e) {
     if (e.key === "Escape") {
       searchResults.classList.add("hidden");
       searchInput.blur();
