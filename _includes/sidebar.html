@@ -35,8 +35,9 @@
       </div>
 
       <div class="nav-section">
-        <h3 class="nav-title">⚙️ Configuración</h3>
+        <h3 class="nav-title">⚙️ Configuración General</h3>
         <ul class="nav-list">
+          <li><a href="{{ '/docs/general/' | relative_url }}">📋 Índice General</a></li>
           <li><a href="{{ '/docs/general/variables_entorno/' | relative_url }}">Variables Entorno</a></li>
           <li><a href="{{ '/docs/general/enums/' | relative_url }}">Enums</a></li>
           <li><a href="{{ '/docs/general/casos-uso/' | relative_url }}">Casos de Uso</a></li>
@@ -44,10 +45,22 @@
       </div>
 
       <div class="nav-section">
-        <h3 class="nav-title">🔧 Servicios</h3>
+        <h3 class="nav-title">📋 Subpoenas</h3>
         <ul class="nav-list">
-          <li><a href="{{ '/docs/lambdas/' | relative_url }}">Funciones Lambda</a></li>
-          <li><a href="{{ '/docs/subpoenas/' | relative_url }}">Subpoenas</a></li>
+          <li><a href="{{ '/docs/subpoenas/' | relative_url }}">📖 Índice Subpoenas</a></li>
+          <li><a href="{{ '/docs/subpoenas/variables_entorno/' | relative_url }}">Variables Entorno</a></li>
+          <li><a href="{{ '/docs/subpoenas/enums/' | relative_url }}">Enums</a></li>
+          <li><a href="{{ '/docs/subpoenas/casos-uso/' | relative_url }}">Casos de Uso</a></li>
+        </ul>
+      </div>
+
+      <div class="nav-section">
+        <h3 class="nav-title">🔧 Funciones Lambda</h3>
+        <ul class="nav-list">
+          <li><a href="{{ '/docs/lambdas/' | relative_url }}">📚 Índice Lambdas</a></li>
+          <li><a href="{{ '/docs/lambdas/admin-users/' | relative_url }}">Admin Users</a></li>
+          <li><a href="{{ '/docs/lambdas/search-audit-logs/' | relative_url }}">Search Audit Logs</a></li>
+          <li><a href="{{ '/docs/lambdas/send-mail/' | relative_url }}">Send Mail</a></li>
         </ul>
       </div>
     </nav>
