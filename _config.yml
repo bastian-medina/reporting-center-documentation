@@ -1,0 +1,78 @@
+# Site Configuration
+title: Reporting Center
+description: >-
+  Documentación técnica completa del Reporting Center. 
+  Guías de arquitectura, backend, frontend, CI/CD y procedimientos de despliegue.
+baseurl: ""
+url: "https://yourusername.github.io/reporting-center"
+
+# Build settings
+markdown: kramdown
+highlighter: rouge
+theme: minima
+
+# Plugins
+plugins:
+  - jekyll-feed
+  - jekyll-seo-tag
+  - jekyll-sitemap
+
+# Exclude from processing
+exclude:
+  - .gitignore
+  - .DS_Store
+  - .git
+  - requirements.txt
+  - venv/
+  - "*.pyc"
+  - node_modules/
+
+# Include
+include:
+  - _pages
+
+# Collections
+collections:
+  pages:
+    output: true
+    permalink: /:name/
+
+# Defaults
+defaults:
+  - scope:
+      path: ""
+      type: "pages"
+    values:
+      layout: "page"
+  - scope:
+      path: ""
+      type: "posts"
+    values:
+      layout: "post"
+  - scope:
+      path: "index.md"
+    values:
+      layout: "home"
+
+# Styles
+sass:
+  sass_dir: _sass
+  style: compressed
+
+# Search (Lunr.js)
+search:
+  enabled: true
+
+# SEO
+twitter_username: "@yourusername"
+github_username: yourusername
+
+# Analytics (Opcional)
+# google_analytics: UA-XXXXXXX-X
+
+# Pagination
+paginate: 10
+paginate_path: "/page:num/"
+
+# Language
+lang: es

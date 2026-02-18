@@ -1,0 +1,2532 @@
+{
+	"info": {
+		"_postman_id": "9622cfc6-4183-4fdf-ad55-527174c17f5f",
+		"name": "ATHM - Reporting service",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "40553599",
+		"_collection_link": "https://evertecteam.postman.co/workspace/ATMHSBP---QA~bf7f39c1-74ef-47ed-a9b7-7334b7a1617a/collection/37207061-9622cfc6-4183-4fdf-ad55-527174c17f5f?action=share&source=collection_link&creator=40553599"
+	},
+	"item": [
+		{
+			"name": "Subpoena",
+			"item": [
+				{
+					"name": "Cognito Login",
+					"item": [
+						{
+							"name": "login in cognito",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"var jsonData = pm.response.json();\r",
+											"pm.environment.set(\"IdToken\", jsonData.AuthenticationResult.IdToken);"
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "X-Amz-Target",
+										"value": "AWSCognitoIdentityProviderService.InitiateAuth"
+									},
+									{
+										"key": "Content-Type",
+										"value": "application/x-amz-json-1.1"
+									},
+									{
+										"key": "x-api-key",
+										"value": "{{x-api-key}}",
+										"type": "text",
+										"disabled": true
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"AuthParameters\": {\n        \"USERNAME\": \"{{username}}\",\n        \"PASSWORD\": \"{{password}}\"\n        \n    },\n    \"AuthFlow\": \"USER_PASSWORD_AUTH\",\n    \"ClientId\": \"{{clientId}}\"\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{cognitoURL}}",
+									"host": [
+										"{{cognitoURL}}"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "transactions",
+					"item": [
+						{
+							"name": "Busines",
+							"item": [
+								{
+									"name": "Subpoena - subpoenasTransactionBusinessReportUseCase",
+									"event": [
+										{
+											"listen": "test",
+											"script": {
+												"exec": [
+													" var jsonData = pm.response.json();\r",
+													"\r",
+													"pm.test(\"Status code is 200\", function () {\r",
+													"    pm.response.to.have.status(200);\r",
+													"});\r",
+													"\r",
+													"pm.test(\"Validar estructura de datos de la respuesta\", function () {\r",
+													"    // Parsear la respuesta JSON\r",
+													"   \r",
+													"\r",
+													"    // Verificar que la respuesta tenga una propiedad \"data\"\r",
+													"    pm.expect(jsonData).to.have.property(\"data\");\r",
+													"\r",
+													"    // Verificar que \"data\" sea un array\r",
+													"    pm.expect(jsonData.data).to.be.an('array');\r",
+													"\r",
+													"    // Verificar la estructura de cada objeto dentro de \"data\"\r",
+													"    jsonData.data.forEach(function(item) {\r",
+													"        pm.expect(item).to.have.property(\"id\");\r",
+													"        pm.expect(item).to.have.property(\"creationDate\");\r",
+													"        pm.expect(item).to.have.property(\"type\");\r",
+													"        pm.expect(item).to.have.property(\"subType\");\r",
+													"        pm.expect(item).to.have.property(\"filters\");\r",
+													"        pm.expect(item).to.have.property(\"status\");\r",
+													"        pm.expect(item).to.have.property(\"fileName\");\r",
+													"        pm.expect(item).to.have.property(\"fileExt\");\r",
+													"        pm.expect(item).to.have.property(\"requestedBy\");\r",
+													"\r",
+													"        // Verificar la estructura de \"searchValue\"\r",
+													"        pm.expect(item.filters).to.be.an('object');\r",
+													"        pm.expect(item.filters).to.have.property(\"path\");\r",
+													"        pm.expect(item.filters).to.have.property(\"dateFrom\");\r",
+													"        pm.expect(item.filters).to.have.property(\"dateTo\");\r",
+													"        pm.expect(item.filters).to.have.property(\"businessName\");\r",
+													"        pm.expect(item.filters).to.have.property(\"firstName\");\r",
+													"        pm.expect(item.filters).to.have.property(\"lastName\");\r",
+													"        pm.expect(item.filters).to.have.property(\"email\");\r",
+													"    });\r",
+													"});\r",
+													"\r",
+													"pm.test(\"BCPRXRP-1480- Validar formato de nombre del archivo excel\", function() {\r",
+													"   \r",
+													"    jsonData.data.forEach(function(item) {\r",
+													"       \r",
+													"        const expected = getExpectedFileName(item);\r",
+													"        console.log(item.fileName);\r",
+													"        console.log(expected);\r",
+													"        pm.expect(item.fileName).to.contain(expected);\r",
+													"    });\r",
+													"\r",
+													"});\r",
+													"\r",
+													"pm.test(\"Validate data\", function () {\r",
+													"    jsonData.data.forEach(function (report) {\r",
+													"        pm.expect(report.id).is.not.undefined;\r",
+													"        pm.expect(report.type).to.be.eq(\"TRANSACTION\");\r",
+													"        pm.expect(report.subType).to.be.eq(\"BUSINESS\");\r",
+													"        pm.expect(report.status).to.be.eq(\"IN PROGRESS\");\r",
+													"\r",
+													"        pm.environment.set(\"report-id\", report.id);\r",
+													"    });\r",
+													"});\r",
+													"\r",
+													"function getExpectedFileName(item){\r",
+													"const BUSINESS = \"Business\"\r",
+													"const SEPARATOR = \"_\";\r",
+													"const TRANSACTION = \"TR\";\r",
+													"const SUBPOENA = \"Subpoena\";\r",
+													"\r",
+													" const date = item.creationDate;\r",
+													"        const year = date.substr(0,4);\r",
+													"        const month = date.substr(5,2);\r",
+													"        const day = date.substr(8,2);\r",
+													"        const hour = date.substr(11, 2);\r",
+													"        const min = date.substr(14,2);\r",
+													"        const seg = date.substr(17,2);\r",
+													"\r",
+													"     \r",
+													"        const dateFormat = month.concat(SEPARATOR)\r",
+													"                    .concat(day).concat(SEPARATOR)\r",
+													"                    .concat(year).concat(SEPARATOR)\r",
+													"                    .concat(hour).concat(SEPARATOR)\r",
+													"                    .concat(min).concat(SEPARATOR);\r",
+													"\r",
+													"        const path = item.filters.path.replace(/[^a-zA-Z0-9]/g, \"\");\r",
+													"        const expected = BUSINESS.concat(SEPARATOR)\r",
+													"                        .concat(TRANSACTION).concat(SEPARATOR)\r",
+													"                        .concat(SUBPOENA).concat(SEPARATOR)\r",
+													"                        .concat(path).concat(SEPARATOR)\r",
+													"                        .concat(dateFormat);\r",
+													"\r",
+													"        return expected;\r",
+													"}\r",
+													"\r",
+													"pm.environment.set('transactionBusinessReportId', jsonData.data[0].id);"
+												],
+												"type": "text/javascript",
+												"packages": {}
+											}
+										}
+									],
+									"request": {
+										"method": "POST",
+										"header": [
+											{
+												"key": "Authorization",
+												"value": "{{IdToken}}",
+												"type": "text"
+											}
+										],
+										"body": {
+											"mode": "raw",
+											"raw": "//\"businessProd\"\r\n/* {\r\n     \"subType\":\"BUSINESS\",\r\n     \"transDateFrom\": \"2025-01-01\",\r\n     \"transDateTo\": \"2025-02-08\",\r\n     \"path\": \"Testing1234\",\r\n     \"username\": \"usertestrc29@gmail.com\"\r\n }\r\n*/\r\n//   \"businessRequiredDataIgnoreCase\": \r\n/*   {\r\n     \"subType\": \"BUSINESS\",\r\n     \"transDateFrom\": \"2023-08-01\",\r\n     \"transDateTo\": \"2023-08-15\",\r\n     \"path\": \"clubsalsa87\",\r\n     \"username\": \"laura.martinez@evertecinc.com\"\r\n   }\r\n*/\r\n//   \"businessOptionaNameIgnoreCase\": \r\n/*   {\r\n     \"subType\": \"BUSINESS\",\r\n     \"transDateFrom\": \"2023-08-01\",\r\n     \"transDateTo\": \"2023-08-15\",\r\n     \"path\": \"CLUBSALSA87\",\r\n     \"firstName\": \"Wilman\",\r\n     \"lastName\": \"PLAUD\",\r\n     \"username\": \"maria.ortiz@evertecinc.com\"\r\n   }\r\n*/\r\n//   \"businessOptionaEmailIgnoreCase\": \r\n/*   {\r\n     \"subType\": \"BUSINESS\",\r\n     \"transDateFrom\": \"2023-08-01\",\r\n     \"transDateTo\": \"2023-08-15\",\r\n     \"path\": \"CLUBSALSA87\",\r\n     \"email\": \"aleXislugo200@gmail.com\",\r\n     \"username\": \"maria.ortiz@evertecinc.com\"\r\n   }\r\n*/\r\n//   \"businessTransactionId\": \r\n/*   {\r\n     \"subType\": \"BUSINESS\",\r\n     \"transactionId\": \"4028f9e289dd2c2a0189fb7b3690206d\",\r\n     \"username\": \"maria.ortiz@evertecinc.com\"\r\n   }\r\n*/\r\n//   \"businessTransactionNoCompleted\": \r\n/*   {\r\n     \"subType\": \"BUSINESS\",\r\n     \"transDateFrom\": \"2021-07-01\",\r\n     \"transDateTo\": \"2024-01-01\",\r\n     \"path\": \"SmartnQA\",\r\n     \"username\": \"maria.ortiz@evertecinc.com\"\r\n   }\r\n*/\r\n//   \"businessCardNumber\": \r\n//    {\r\n//      \"subType\": \"BUSINESS\",\r\n//      \"transDateFrom\": \"2024-01-01\",\r\n//      \"transDateTo\": \"2025-03-28\",\r\n//      \"cardNumber\": \"9308400000000523\",\r\n//       \"encryptedCardNumber\": \"61cf81efca57ec550c486f0a42aabc05c1fa4fe0808ee61e90fb870711e43fa2\",\r\n//      \"username\": \"maria.ortiz@evertecinc.com\"\r\n//    }\r\n\r\n\r\n// {\r\n//     \"subType\": \"BUSINESS\",\r\n//     \"transDateFrom\": \"2025-04-01\",\r\n//     \"transDateTo\": \"2025-05-01\",\r\n//     \"path\": \"FBE1118\",\r\n//     \"businessName\": \"Firebase Events\",\r\n//     \"username\": \"laura.martinez@evertecinc.com\"\r\n//   }",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "{{subpoena-microservice-url}}/athm-subpoenas-reports/api/v1/subpoenas/transaction",
+											"host": [
+												"{{subpoena-microservice-url}}"
+											],
+											"path": [
+												"athm-subpoenas-reports",
+												"api",
+												"v1",
+												"subpoenas",
+												"transaction"
+											]
+										}
+									},
+									"response": []
+								}
+							]
+						},
+						{
+							"name": "Perfsonal",
+							"item": [
+								{
+									"name": "Subpoena - subpoenasTransactionPersonalReportUseCase",
+									"event": [
+										{
+											"listen": "test",
+											"script": {
+												"exec": [
+													"    // Parsear la respuesta JSON\r",
+													"    var jsonData = pm.response.json();\r",
+													"\r",
+													"pm.test(\"Validar estructura de datos de la respuesta\", function () {\r",
+													"\r",
+													"\r",
+													"    // Verificar que la respuesta tenga una propiedad \"data\"\r",
+													"    pm.expect(jsonData).to.have.property(\"data\");\r",
+													"\r",
+													"    // Verificar que \"data\" sea un array\r",
+													"    pm.expect(jsonData.data).to.be.an('array');\r",
+													"\r",
+													"    // Verificar la estructura de cada objeto dentro de \"data\"\r",
+													"    jsonData.data.forEach(function(item) {\r",
+													"        pm.expect(item).to.have.property(\"id\");\r",
+													"        pm.expect(item).to.have.property(\"creationDate\");\r",
+													"        pm.expect(item).to.have.property(\"type\");\r",
+													"        pm.expect(item).to.have.property(\"subType\");\r",
+													"        pm.expect(item).to.have.property(\"filters\");\r",
+													"        pm.expect(item).to.have.property(\"status\");\r",
+													"        pm.expect(item).to.have.property(\"fileName\");\r",
+													"        pm.expect(item).to.have.property(\"fileExt\");\r",
+													"        pm.expect(item).to.have.property(\"requestedBy\");\r",
+													"\r",
+													"        // Verificar la estructura de \"searchValue\"\r",
+													"        pm.expect(item.filters).to.be.an('object');\r",
+													"        pm.expect(item.filters).to.have.property(\"phoneNumber\");\r",
+													"        pm.expect(item.filters).to.have.property(\"dateFrom\");\r",
+													"        pm.expect(item.filters).to.have.property(\"dateTo\");\r",
+													"        pm.expect(item.filters).to.have.property(\"firstName\");\r",
+													"        pm.expect(item.filters).to.have.property(\"lastName\");\r",
+													"        pm.expect(item.filters).to.have.property(\"email\");\r",
+													"    });\r",
+													"});\r",
+													"\r",
+													"pm.test(\"Status code is 200\", function () {\r",
+													"    pm.response.to.have.status(200);\r",
+													"});\r",
+													"\r",
+													"pm.test(\"BCPRXRP-1481- Validar formato de nombre del archivo excel\", function() {\r",
+													" \r",
+													"\r",
+													"    jsonData.data.forEach(function(item) {\r",
+													"       \r",
+													"        const expected = getExpectedFileName(item);\r",
+													"        pm.expect(item.fileName).to.contains(expected);\r",
+													"    });\r",
+													"\r",
+													"});\r",
+													"\r",
+													"pm.test(\"Validate data\", function () {\r",
+													"    jsonData.data.forEach(function (report) {\r",
+													"        pm.expect(report.id).is.not.undefined;\r",
+													"        pm.expect(report.type).to.be.eq(\"TRANSACTION\");\r",
+													"        pm.expect(report.subType).to.be.eq(\"PERSONAL\");\r",
+													"        pm.expect(report.status).to.be.eq(\"IN PROGRESS\");\r",
+													"\r",
+													"        pm.environment.set(\"report-id\", report.id);\r",
+													"    });\r",
+													"});\r",
+													"\r",
+													"function getExpectedFileName(item){\r",
+													"\r",
+													"    const PERSONAL = \"Personal\";\r",
+													"   const SEPARATOR = \"_\";\r",
+													"   const TRANSACTION = \"TR\";\r",
+													"   const SUBPOENA = \"Subpoena\";\r",
+													"\r",
+													" const date = item.creationDate;\r",
+													"        const year = date.substr(0,4);\r",
+													"        const month = date.substr(5,2);\r",
+													"        const day = date.substr(8,2);\r",
+													"        const hour = date.substr(11, 2);\r",
+													"        const min = date.substr(14,2);\r",
+													"        const seg = date.substr(17,2);\r",
+													"\r",
+													"      \r",
+													"        const dateFormat = month.concat(SEPARATOR)\r",
+													"                    .concat(day).concat(SEPARATOR)\r",
+													"                    .concat(year).concat(SEPARATOR)\r",
+													"                    .concat(hour).concat(SEPARATOR)\r",
+													"                    .concat(min).concat(SEPARATOR);\r",
+													"\r",
+													"\r",
+													"        const expected = PERSONAL.concat(SEPARATOR)\r",
+													"                        .concat(TRANSACTION).concat(SEPARATOR)\r",
+													"                        .concat(SUBPOENA).concat(SEPARATOR)\r",
+													"                        .concat(item.filters.phoneNumber.replace(/\\s/g, '')).concat(SEPARATOR)\r",
+													"                        .concat(dateFormat);\r",
+													"        console.log(expected);\r",
+													"        return expected;\r",
+													"}\r",
+													"\r",
+													"pm.environment.set('transactionPersonalReportId', jsonData.data[0].id);\r",
+													"console.log(pm.environment.get('transactionPersonalReportId'));\r",
+													""
+												],
+												"type": "text/javascript",
+												"packages": {}
+											}
+										},
+										{
+											"listen": "prerequest",
+											"script": {
+												"exec": [
+													""
+												],
+												"type": "text/javascript",
+												"packages": {}
+											}
+										}
+									],
+									"request": {
+										"auth": {
+											"type": "noauth"
+										},
+										"method": "POST",
+										"header": [
+											{
+												"key": "Authorization",
+												"value": "{{IdToken}}",
+												"type": "text"
+											},
+											{
+												"key": "X-Amz-Date",
+												"value": "qweqeew",
+												"type": "text",
+												"disabled": true
+											}
+										],
+										"body": {
+											"mode": "raw",
+											"raw": "// p2pNoTargetCustomerProd\r\n/* {\r\n     \"subType\":\"PERSONAL\",\r\n     \"transDateFrom\": \"2023-01-01\", \r\n     \"transDateTo\": \"2024-12-24\", \r\n     // \"phoneNumber\": \"7873127753\",\r\n     \"phoneNumber\": \"9393217034\",\r\n     \"username\":\"maria.ortiz@evertecinc.com\"\r\n }\r\n*/\r\n// p2pUnregistered\r\n/* {\r\n     \"subType\":\"PERSONAL\",\r\n     \"transDateFrom\": \"2025-01-01\", \r\n     \"transDateTo\": \"2025-05-01\", \r\n     \"phoneNumber\": \"7875384002\",\r\n     \"username\":\"maria.ortiz@evertecinc.com\"\r\n }\r\n*/\r\n//   \"cardNumberPrd\":\r\n/*  {\r\n     \"subType\": \"PERSONAL\",\r\n     \"transDateFrom\": \"2024-01-01\",\r\n     \"transDateTo\": \"2024-05-31\",\r\n     //\"phoneNumber\": \"7876302456\",\r\n     \"cardNumber\": \"9308400000000940\",\r\n     \"username\":\"maria.ortiz@evertecinc.com\"\r\n   }\r\n*/\r\n //   \"personalOnlyTransactionId P2P Prd\": \r\n/*    {\r\n     \"subType\": \"PERSONAL\",\r\n     \"transactionId\": \"1788828729\",\r\n     \"username\": \"maria.ortiz@evertecinc.com\"\r\n    }\r\n*/\r\n//   \"personalOnlyTransactionId P2B Prd\": \r\n/* {\r\n     \"subType\": \"PERSONAL\",\r\n     \"transactionId\": \"4028f9ef8bc2bf63018be4f512f5754e\",\r\n     \"username\": \"maria.ortiz@evertecinc.com\"\r\n   }\r\n*/\r\n //   \"personalOnlyTransactionId POS Prd\": \r\n/* {\r\n     \"subType\": \"PERSONAL\",\r\n     \"transactionId\": \"8a36d62e8bacae31018c46f9d6ac7c87\",\r\n     \"username\": \"maria.ortiz@evertecinc.com\"\r\n   }\r\n*/\r\n// personalAlejandroboria\r\n/* {\r\n     \"subType\": \"PERSONAL\",\r\n     \"transDateFrom\": \"2025-01-01\",\r\n     \"transDateTo\": \"2025-03-04\",\r\n     \"phoneNumber\": \"9392779723\",\r\n     \"username\":\"laura.martinez@evertecinc.com\"\r\n }\r\n*/\r\n//   \"p2pNoTargetCustomer\": \r\n/* {\r\n     \"subType\": \"PERSONAL\",\r\n     \"phoneNumber\": \"4535750509\",\r\n     \"transDateFrom\": \"2024-09-20\",\r\n     \"transDateTo\": \"2024-09-25\",\r\n     \"username\": \"laura.martinez@evertecinc.com\"\r\n   }\r\n*/\r\n//   \"p2pNoTargetCustomerIncrementalDatalake\": \r\n/*    {\r\n     \"phoneNumber\": \"7872288198\",\r\n     \"transDateFrom\": \"2024-11-01\",\r\n     \"transDateTo\": \"2025-02-24\",\r\n     \"username\": \"maria.ortiz@evertecinc.com\"\r\n   }\r\n*/\r\n//   \"personalRequiredData\":\r\n/*    {\r\n     \"subType\": \"PERSONAL\",\r\n     \"transDateFrom\": \"2024-01-01\",\r\n     \"transDateTo\": \"2024-05-31\",\r\n     \"phoneNumber\": \"7876054180\",\r\n     \"username\": \"maria.ortiz@evertecinc.com\"\r\n   }\r\n*/\r\n//   \"personalFirstName\": \r\n/* {\r\n     \"subType\": \"PERSONAL\",\r\n     \"transDateFrom\": \"2024-01-01\",\r\n     \"transDateTo\": \"2024-05-31\",\r\n     \"phoneNumber\": \"7876054180\",\r\n     \"firstName\": \"mari\",\r\n     \"lastName\": \"Vega\",\r\n     \"username\": \"maria.ortiz@evertecinc.com\"\r\n   }\r\n*/\r\n//   \"personalEmailIgnoreCase\":\r\n//   {\r\n//      \"subType\": \"PERSONAL\",\r\n//      \"transDateFrom\": \"2024-01-01\",\r\n//      \"transDateTo\": \"2024-05-31\",\r\n//      \"phoneNumber\": \"7876054180\",\r\n//      \"email\": \"maRiazMejias0107@gmail.com\",\r\n//      \"username\": \"maria.ortiz@evertecinc.com\"\r\n//    }\r\n\r\n//   \"personalAllOptionalDataIgnoreCase\":\r\n/* {\r\n     \"subType\": \"PERSONAL\",\r\n     \"transDateFrom\": \"2024-01-01\",\r\n     \"transDateTo\": \"2024-05-31\",\r\n     \"phoneNumber\": \"7876054180\",\r\n     \"firstName\": \"mari\",\r\n     \"lastName\": \"vega\",\r\n     \"email\": \"mariazmejias0107@gmail.com\",\r\n     \"username\": \"maria.ortiz@evertecinc.com\"\r\n   }\r\n*/\r\n//   \"personalTip\": \r\n/*    {\r\n     \"subType\": \"PERSONAL,\",\r\n     \"transDateFrom\": \"2025-01-01,\",\r\n     \"transDateTo\": \"2025-03-04,\",\r\n     \"phoneNumber\": \"9392779723\",\r\n     \"username\": \"maria.ortiz@evertecinc.com\"\r\n   }\r\n*/\r\n//   \"personalUnregistered\": \r\n/* {\r\n     \"subType\": \"PERSONAL\",\r\n     \"transDateFrom\": \"2024-09-01\",\r\n     \"transDateTo\": \"2024-09-04\",\r\n     \"phoneNumber\": \"7771000081\",\r\n      \"username\": \"maria.ortiz@evertecinc.com\"\r\n   }\r\n*/\r\n //   \"personalCardNumber2\":\r\n /* {\r\n     \"subType\": \"PERSONAL\",\r\n     \"transDateFrom\": \"2019-01-01\",\r\n     \"transDateTo\": \"2021-12-31\",\r\n     //\"phoneNumber\": \"7876054180\",\r\n     //\"cardNumber\": \"9308400000000940\",\r\n     \"cardNumber\": \"9308400000000952\",\r\n     \"username\": \"maria.ortiz@evertecinc.com\"\r\n     // \"ecryptedCardNumber\": \"7aa09f2992080c1a08c8bf089e177076c1fa4fe0808ee61e90fb870711e43fa2\"\r\n   }\r\n*/\r\n //   \"personalCardNumberInfo2019\":\r\n/*  {\r\n     \"subType\": \"PERSONAL\",\r\n     \"transDateFrom\": \"2019-01-01\",\r\n     \"transDateTo\": \"2021-12-31\",\r\n     \"cardNumber\": \"9308400000000952\",\r\n     \"username\": \"maria.ortiz@evertecinc.com\"\r\n     // \"ecryptedCardNumber\": \"b9934c7f661bcdfd4f6963c60374a324c1fa4fe0808ee61e90fb870711e43fa2\"\r\n   }\r\n   */\r\n//   \"personalCardNumberOldData\":\r\n /* {\r\n     \"subType\": \"PERSONAL\",\r\n     \"transDateFrom\": \"2022-01-01\",\r\n     \"transDateTo\": \"2024-12-31\",\r\n     \"cardNumber\": \"0215020183001669\",\r\n     \"username\": \"maria.ortiz@evertecinc.com\"\r\n     // \"ecryptedCardNumber\": \"950213c15ed7344f7ea38fdbed32e882c1fa4fe0808ee61e90fb870711e43fa2\"\r\n   }\r\n*/\r\n//   \"personalAllData\":\r\n//   {\r\n//      \"subType\": \"PERSONAL\",\r\n//      \"transDateFrom\": \"2024-01-01\",\r\n//      \"transDateTo\": \"2024-05-31\",\r\n//      //\"phoneNumber\": \"7876054180\",\r\n//      \"cardNumber\": \"9308400000000940\",\r\n//      \"firstName\": \"mari\",\r\n//      \"lastName\": \"vega\",\r\n//      \"username\": \"maria.ortiz@evertecinc.com\"\r\n//      // \"ecryptedCardNumber\": \"7aa09f2992080c1a08c8bf089e177076c1fa4fe0808ee61e90fb870711e43fa2\"\r\n//    }\r\n\r\n//   \"personalOnlyTransactionId P2P\": \r\n/* {\r\n     \"subType\": \"PERSONAL\",\r\n     //\"transactionId\": \"1001046992\",\r\n     \"transactionId\": \"2001025492\",\r\n     \"username\": \"maria.ortiz@evertecinc.com\"\r\n   }\r\n*/\r\n// \"transactionPersonlP2B\"\r\n/*{\r\n  \"type\":\"TRANSACTION\",\r\n  \"subType\":\"PERSONAL\",\r\n  \"transactionId\":\"8a36db128fca565f018fcf2c56770094\",\r\n  \"username\":\"maria.ortiz@evertecinc.com\"\r\n}\r\n*/\r\n// \"transactionPersonalPOS\"\r\n/*{\r\n \"type\":\"TRANSACTION\",\r\n \"subType\":\"PERSONAL\",\r\n \"transactionId\":\"8a36db258f81e544018fcbe70bc50625\",\r\n \"username\":\"maria.ortiz@evertecinc.com\"\r\n}\r\n*/\r\n// \"transactionPersonalOver1027\"\r\n/*{\r\n     \"subType\": \"PERSONAL\",\r\n    \"transDateFrom\": \"2024-01-01\",\r\n    \"transDateTo\": \"2025-01-01\",\r\n    \"phoneNumber\": \"73426346\",\r\n    \"username\":\"maria.ortiz@evertecinc.com\"\r\n    }\r\n*/\r\n\r\n// // \"phone to phone\":\r\n// {\r\n//      \"subType\": \"PERSONAL\",\r\n//     \"transDateFrom\": \"2020-08-01\",\r\n//     \"transDateTo\": \"2024-09-30\",\r\n//     \"phoneNumber\": \"4535750509\",\r\n//     \"targetPhoneNumber\":\"4927598396\",\r\n//     \"username\":\"maria.ortiz@evertecinc.com\"\r\n//     }\r\n\r\n\r\n\r\n// // // \"phone to phone\":\r\n// {\r\n//      \"subType\": \"PERSONAL\",\r\n//     \"transDateFrom\": \"2018-01-01\",\r\n//     \"transDateTo\": \"2020-12-31\",\r\n//     \"phoneNumber\": \"7632991258\",\r\n//     \"targetPhoneNumber\":\"3148820606\",\r\n//     \"username\":\"maria.ortiz@evertecinc.com\"\r\n//     }\r\n\r\n//     // // \"phone to phone faild becouase date is over 2 years\":\r\n// {\r\n//      \"subType\": \"PERSONAL\",\r\n//     \"transDateFrom\": \"2021-01-01\",\r\n//     \"transDateTo\": \"2024-01-20\",\r\n//     // \"transDateTo\": \"2024-01-31\",\r\n//     \"phoneNumber\": \"7872391615\",\r\n//     \"targetPhoneNumber\":\"7874002570\",\r\n//     \"username\":\"laura.martinez@evertecinc.com\"\r\n// }\r\n",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "{{subpoena-microservice-url}}/athm-subpoenas-reports/api/v1/subpoenas/transaction",
+											"host": [
+												"{{subpoena-microservice-url}}"
+											],
+											"path": [
+												"athm-subpoenas-reports",
+												"api",
+												"v1",
+												"subpoenas",
+												"transaction"
+											]
+										}
+									},
+									"response": []
+								}
+							]
+						}
+					]
+				},
+				{
+					"name": "customer",
+					"item": [
+						{
+							"name": "Subpoena - Report DOB - subpoenasCustomerDobReportUseCase",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Status code is 200\", function () {\r",
+											"    pm.response.to.have.status(200);\r",
+											"});\r",
+											"\r",
+											" const jsonData = pm.response.json();\r",
+											"\r",
+											"pm.test(\"Validar estructura de datos de la respuesta\", function () {\r",
+											"    // Verificar que la respuesta tenga una propiedad \"data\"\r",
+											"    pm.expect(jsonData).to.have.property(\"data\");\r",
+											"\r",
+											"    // Verificar que \"data\" sea un array\r",
+											"    pm.expect(jsonData.data).to.be.an('array');\r",
+											"\r",
+											"    // Verificar la estructura de cada objeto dentro de \"data\"\r",
+											"    jsonData.data.forEach(function(item) {\r",
+											"        pm.expect(item).to.have.property(\"id\");\r",
+											"        pm.expect(item).to.have.property(\"creationDate\");\r",
+											"        pm.expect(item).to.have.property(\"type\");\r",
+											"        pm.expect(item).to.have.property(\"subType\");\r",
+											"        pm.expect(item).to.have.property(\"filters\");\r",
+											"        pm.expect(item).to.have.property(\"status\");\r",
+											"        pm.expect(item).to.have.property(\"fileName\");\r",
+											"        pm.expect(item).to.have.property(\"fileExt\");\r",
+											"        pm.expect(item).to.have.property(\"requestedBy\");\r",
+											"\r",
+											"        // Verificar la estructura de \"searchValue\"\r",
+											"        pm.expect(item.filters).to.be.an('object');\r",
+											"        pm.expect(item.filters).to.have.property(\"dateOfBirth\");\r",
+											"\r",
+											"    });\r",
+											"});\r",
+											"\r",
+											"pm.test(\"Validate data\", function () {\r",
+											"    jsonData.data.forEach(function (report) {\r",
+											"        pm.expect(report.id).is.not.undefined;\r",
+											"        pm.expect(report.type).to.be.eq(\"CUSTOMER\");\r",
+											"        pm.expect(report.subType).to.be.eq(\"PERSONAL_DOB\");\r",
+											"        pm.expect(report.status).to.be.eq(\"IN PROGRESS\");\r",
+											"        pm.environment.set(\"report-id\", report.id);\r",
+											"    });\r",
+											"});\r",
+											"\r",
+											"pm.environment.set('DOBReportId', jsonData.data[0].id);\r",
+											"console.log(pm.environment.get('DOBReportId'));\r",
+											""
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Authorization",
+										"value": "{{IdToken}}",
+										"type": "default"
+									},
+									{
+										"key": "X-Amz-Date",
+										"value": "aswe",
+										"type": "text"
+									},
+									{
+										"key": "SignedHeaders",
+										"value": "eqwewe",
+										"type": "text",
+										"disabled": true
+									},
+									{
+										"key": "Signature",
+										"value": "wewqewq",
+										"type": "text",
+										"disabled": true
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": " {\r\n     \"subType\":\"PERSONAL_DOB\",\r\n     \"username\": \"laura.martinez@evertecinc.com\",\r\n     \"dateOfBirth\": \"1988-01-01\"\r\n }\r\n\r\n// //  \"dob_2\": \r\n// {\r\n//         \"subType\": \"PERSONAL_DOB\",\r\n//         \"username\": \"laura.martinez@evertecinc.com\",\r\n//         \"dateOfBirth\": \"2004-01-01\"\r\n//     }\r\n    ",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{subpoena-microservice-url}}/athm-subpoenas-reports/api/v1/subpoenas/customer",
+									"host": [
+										"{{subpoena-microservice-url}}"
+									],
+									"path": [
+										"athm-subpoenas-reports",
+										"api",
+										"v1",
+										"subpoenas",
+										"customer"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Subpoena - Report - subpoenasCustomerPersonalReportUseCase",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"// Parsear la respuesta JSON\r",
+											"    const jsonData = pm.response.json();\r",
+											"\r",
+											"\r",
+											"pm.test(\"Validar estructura de datos de la respuesta\", function () {\r",
+											"   \r",
+											"    // Verificar que la respuesta tenga una propiedad \"data\"\r",
+											"    pm.expect(jsonData).to.have.property(\"data\");\r",
+											"\r",
+											"    // Verificar que \"data\" sea un array\r",
+											"    pm.expect(jsonData.data).to.be.an('array');\r",
+											"\r",
+											"    // Verificar la estructura de cada objeto dentro de \"data\"\r",
+											"    jsonData.data.forEach(function(item) {\r",
+											"        pm.expect(item).to.have.property(\"id\");\r",
+											"        pm.expect(item).to.have.property(\"creationDate\");\r",
+											"        pm.expect(item).to.have.property(\"type\");\r",
+											"        pm.expect(item).to.have.property(\"subType\");\r",
+											"        pm.expect(item).to.have.property(\"filters\");\r",
+											"        pm.expect(item).to.have.property(\"status\");\r",
+											"        pm.expect(item).to.have.property(\"fileName\");\r",
+											"        pm.expect(item).to.have.property(\"fileExt\");\r",
+											"        pm.expect(item).to.have.property(\"requestedBy\");\r",
+											"\r",
+											"        // Verificar la estructura de \"searchValue\"\r",
+											"        pm.expect(item.filters).to.be.an('object');\r",
+											"        pm.expect(item.filters).to.have.property(\"phoneNumber\");\r",
+											"        pm.expect(item.filters).to.have.property(\"firstName\");\r",
+											"        pm.expect(item.filters).to.have.property(\"lastName\");\r",
+											"        pm.expect(item.filters).to.have.property(\"email\");\r",
+											"        pm.expect(item.filters).to.have.property(\"dateFrom\");\r",
+											"        pm.expect(item.filters).to.have.property(\"dateTo\");\r",
+											"    });\r",
+											"});\r",
+											"\r",
+											"pm.test(\"Status code is 200\", function () {\r",
+											"    pm.response.to.have.status(200);\r",
+											"});\r",
+											"\r",
+											"pm.test(\"BCPRXRP-1479- Validar formato de nombre del archivo excel\", function() {\r",
+											"\r",
+											"    \r",
+											"    jsonData.data.forEach(function(item) {\r",
+											"       \r",
+											"        const expected = getExpectedFileName(item);\r",
+											"        console.log(expected);\r",
+											"        console.log(item.fileName);\r",
+											"        pm.expect(item.fileName).to.contain(expected, \"File name ins't on the right format\");\r",
+											"    });\r",
+											"\r",
+											"});\r",
+											"\r",
+											"pm.test(\"Validate data\", function () {\r",
+											"    jsonData.data.forEach(function (report) {\r",
+											"        pm.expect(report.id).is.not.undefined;\r",
+											"        pm.expect(report.type).to.be.eq(\"CUSTOMER\");\r",
+											"        pm.expect(report.subType).to.be.eq(\"PERSONAL\");\r",
+											"        pm.expect(report.status).to.be.eq(\"IN PROGRESS\");\r",
+											"        \r",
+											"        pm.environment.set(\"report-id\", report.id);\r",
+											"    });\r",
+											"});\r",
+											"\r",
+											"function getExpectedFileName(item){\r",
+											"const PERSONAL = \"Personal\";\r",
+											"    const SEPARATOR = \"_\";\r",
+											"    const CUSTOMER = \"CR\";\r",
+											"    const SUBPOENA = \"Subpoena\";\r",
+											"\r",
+											" const date = item.creationDate;\r",
+											"        const year = date.substr(0,4);\r",
+											"        const month = date.substr(5,2);\r",
+											"        const day = date.substr(8,2);\r",
+											"        const hour = date.substr(11,2);\r",
+											"        const min = date.substr(14,2);\r",
+											"\r",
+											"        const dateFormat = month.concat(SEPARATOR)\r",
+											"                    .concat(day).concat(SEPARATOR)\r",
+											"                    .concat(year).concat(SEPARATOR)\r",
+											"                    .concat(hour).concat(SEPARATOR)\r",
+											"                    .concat(min).concat(SEPARATOR);\r",
+											"\r",
+											"\r",
+											"        const expected = PERSONAL.concat(SEPARATOR)\r",
+											"                        .concat(CUSTOMER).concat(SEPARATOR)\r",
+											"                        .concat(SUBPOENA).concat(SEPARATOR)\r",
+											"                        .concat(item.filters.phoneNumber).concat(SEPARATOR)\r",
+											"                        .concat(dateFormat);\r",
+											"\r",
+											"        return expected;\r",
+											"}\r",
+											"\r",
+											"pm.environment.set('customerPersonalId', jsonData.data[0].id);\r",
+											"console.log(pm.environment.get('customerPersonalId'));\r",
+											""
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Authorization",
+										"value": "{{IdToken}}",
+										"type": "text"
+									},
+									{
+										"key": "x-api-key",
+										"value": "",
+										"type": "text",
+										"disabled": true
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "// //  \"personalRequired\": \r\n {\r\n    \"subType\": \"PERSONAL\",\r\n    \"phoneNumber\": \"9393042639\",\r\n    \"username\": \"laura.martinez@evertecinc.com\"\r\n  }\r\n\r\n\r\n//   \"personalOptionalDate\": \r\n//   {\r\n//     \"subType\": \"PERSONAL\",\r\n//     \"regDateFrom\": \"2025-01-01\",\r\n//     \"regDateTo\": \"2025-04-01\",\r\n//     \"username\": \"laura.martinez@evertecinc.com\"\r\n//   }\r\n\r\n\r\n//   \"personalWrongDateFrom\": \r\n//   {\r\n//     \"subType\": \"PERSONAL\",\r\n//     \"regDateTo\": \"2022-06-01\",\r\n//     \"username\": \"laura.martinez@evertecinc.com\"\r\n//   }\r\n\r\n// //   \"personalWrongDateTo\": \r\n//   {\r\n//     \"subType\": \"PERSONAL\",\r\n//     \"regDateFrom\": \"2022-05-01\",\r\n//     \"username\": \"laura.martinez@evertecinc.com\"\r\n//   }\r\n\r\n\r\n// //   \"personalAllText\": \r\n//   {\r\n//     \"subType\": \"PERSONAL\",\r\n//     \"firstName\": \"Mary\",\r\n//     \"lastName\": \"Mejias\",\r\n//     \"email\": \"blanquiyperla@gmail.com\",\r\n//     \"username\": \"laura.martinez@evertecinc.com\"\r\n//   }\r\n\r\n\r\n //   \"personalAllTextIgnoreCase\": \r\n /*      {\r\n         \"subType\": \"PERSONAL\",\r\n         \"firstName\": \"mary\",\r\n         \"lastName\": \"MEJIAS\",\r\n         \"email\": \"bLanquIyperLa@gmail.com\",\r\n         \"regDateFrom\": \"2023-06-01\",\r\n         \"regDateTo\": \"2023-07-01\",\r\n         \"username\": \"maria.ortiz@evertecinc.com\"\r\n       }\r\n*/\r\n// //   \"personalOnlyCustomer\": \r\n  \r\n//   {\r\n//     \"subType\": \"PERSONAL\",\r\n//     \"firstName\": \"Liancito\",\r\n//     \"lastName\": \"Gonzalez\",\r\n//     \"username\": \"laura.martinez@evertecinc.com\"\r\n//   }\r\n\r\n\r\n// //   \"personalWrongCustomerFirstName\":]\r\n//    {\r\n//     \"subType\": \"PERSONAL\",\r\n//     \"lastName\": \"Azocar\",\r\n//     \"username\": \"laura.martinez@evertecinc.com\"\r\n//   }\r\n\r\n// //   \"personalWrongCustomerLastName\": \r\n//   {\r\n//     \"subType\": \"PERSONAL\",\r\n//     \"firstName\": \"Liancito\",\r\n//     \"username\": \"laura.martinez@evertecinc.com\"\r\n//   }\r\n\r\n\r\n// //   \"personalEmail\": \r\n//   {\r\n//     \"subType\": \"PERSONAL\",\r\n//     \"email\": \"blanquiyperla@gmail.com\",\r\n//     \"username\": \"laura.martinez@evertecinc.com\"\r\n//   }\r\n\r\n//  \"personalCardNumber2\": \r\n/*  {\r\n     \"subType\": \"PERSONAL\",\r\n     \"cardNumber\": \"9308400000000940\",\r\n     \"username\": \"maria.ortiz@evertecinc.com\"\r\n     // \"ecryptedCardNumber\": \"7aa09f2992080c1a08c8bf089e177076c1fa4fe0808ee61e90fb870711e43fa2\"\r\n   }\r\n*/\r\n// // //  \"personalCardNumber2\": \r\n/* {\r\n    \"subType\": \"PERSONAL\",\r\n    \"cardNumber\": \"9308400000000087\",\r\n    \"firstName\": \"Nicolle\",\r\n    \"lastName\": \"Rosario\",\r\n    \"username\": \"laura.martinez@evertecinc.com\",\r\n    \"ecryptedCardNumber\": \"7aa09f2992080c1a08c8bf089e177076c1fa4fe0808ee61e90fb870711e43fa2\"\r\n  }\r\n*/\r\n// //   \"customerAllData\":\r\n//    {\r\n//     \"subType\": \"PERSONAL\",\r\n//     \"phoneNumber\": \"7876054180\",\r\n//     \"firstName\": \"Maritza\",\r\n//     \"lastName\": \"Vega\",\r\n//     \"regDateFrom\": \"2022-11-01\",\r\n//     \"regDateTo\": \"2023-01-01\",\r\n//     \"cardNumber\": \"9308400000000085\",\r\n//     \"email\": \"marvegon07@gmail.com\",\r\n//     \"username\": \"laura.martinez@evertecinc.com\"\r\n//   }\r\n",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{subpoena-microservice-url}}/athm-subpoenas-reports/api/v1/subpoenas/customer",
+									"host": [
+										"{{subpoena-microservice-url}}"
+									],
+									"path": [
+										"athm-subpoenas-reports",
+										"api",
+										"v1",
+										"subpoenas",
+										"customer"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Subpoena - subpoenasCustomerBusinessReportUseCase",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"   // Parsear la respuesta JSON\r",
+											"    const jsonData = pm.response.json();\r",
+											"\r",
+											"pm.test(\"Validar estructura de datos de la respuesta\", function () {\r",
+											" \r",
+											"    // Verificar que la respuesta tenga una propiedad \"data\"\r",
+											"    pm.expect(jsonData).to.have.property(\"data\");\r",
+											"\r",
+											"    // Verificar que \"data\" sea un array\r",
+											"    pm.expect(jsonData.data).to.be.an('array');\r",
+											"\r",
+											"    // Verificar la estructura de cada objeto dentro de \"data\"\r",
+											"    jsonData.data.forEach(function(item) {\r",
+											"        pm.expect(item).to.have.property(\"id\");\r",
+											"        pm.expect(item).to.have.property(\"creationDate\");\r",
+											"        pm.expect(item).to.have.property(\"type\");\r",
+											"        pm.expect(item).to.have.property(\"subType\");\r",
+											"        pm.expect(item).to.have.property(\"filters\");\r",
+											"        pm.expect(item).to.have.property(\"status\");\r",
+											"        pm.expect(item).to.have.property(\"fileName\");\r",
+											"        pm.expect(item).to.have.property(\"fileExt\");\r",
+											"        pm.expect(item).to.have.property(\"requestedBy\");\r",
+											"\r",
+											"        // Verificar la estructura de \"searchValue\"\r",
+											"        pm.expect(item.filters).to.be.an('object');\r",
+											"        pm.expect(item.filters).to.have.property(\"path\");\r",
+											"        pm.expect(item.filters).to.have.property(\"dateFrom\");\r",
+											"        pm.expect(item.filters).to.have.property(\"dateTo\");\r",
+											"        pm.expect(item.filters).to.have.property(\"businessName\");\r",
+											"        pm.expect(item.filters).to.have.property(\"firstName\");\r",
+											"        pm.expect(item.filters).to.have.property(\"lastName\");\r",
+											"        pm.expect(item.filters).to.have.property(\"email\");\r",
+											"    });\r",
+											"});\r",
+											"\r",
+											"pm.test(\"Status code is 200\", function () {\r",
+											"    pm.response.to.have.status(200);\r",
+											"});\r",
+											"\r",
+											"pm.test(\"BCPRXRP-1482- Validar formato de nombre del archivo excel\", function() {\r",
+											"   \r",
+											"    jsonData.data.forEach(function(item) {\r",
+											"       \r",
+											"        const expected = getExpectedFileName(item);\r",
+											"        console.log(expected);\r",
+											"        console.log(item.fileName);\r",
+											"        pm.expect(item.fileName).to.contain(expected, \"File name ins't on the right format\");\r",
+											"    });\r",
+											"\r",
+											"});\r",
+											"\r",
+											"pm.test(\"Validate data\", function () {\r",
+											"    jsonData.data.forEach(function (report) {\r",
+											"        pm.expect(report.id).is.not.undefined;\r",
+											"        pm.expect(report.type).to.be.eq(\"CUSTOMER\");\r",
+											"        pm.expect(report.subType).to.be.eq(\"BUSINESS\");\r",
+											"        pm.expect(report.status).to.be.eq(\"IN PROGRESS\");\r",
+											"\r",
+											"        pm.environment.set(\"report-id\", report.id);\r",
+											"    });\r",
+											"});\r",
+											"\r",
+											"function getExpectedFileName(item){\r",
+											"\r",
+											"const BUSINESS = \"Business\"\r",
+											"const SEPARATOR = \"_\";\r",
+											"const CUSTOMER = \"CR\";\r",
+											"const SUBPOENA = \"Subpoena\";\r",
+											"\r",
+											" const date = item.creationDate;\r",
+											"        const year = date.substr(0,4);\r",
+											"        const month = date.substr(5,2);\r",
+											"        const day = date.substr(8,2);\r",
+											"        const hour = date.substr(11,2);\r",
+											"        const min = date.substr(14,2);\r",
+											"\r",
+											"        const dateFormat = month.concat(SEPARATOR)\r",
+											"                    .concat(day).concat(SEPARATOR)\r",
+											"                    .concat(year).concat(SEPARATOR)\r",
+											"                    .concat(hour).concat(SEPARATOR)\r",
+											"                    .concat(min).concat(SEPARATOR);\r",
+											"\r",
+											"        const path = item.filters.path.replace(/[^a-zA-Z0-9]/g, \"\");\r",
+											"        \r",
+											"\r",
+											"        const expected = BUSINESS.concat(SEPARATOR)\r",
+											"                        .concat(CUSTOMER).concat(SEPARATOR)\r",
+											"                        .concat(SUBPOENA).concat(SEPARATOR)\r",
+											"                        .concat(path).concat(SEPARATOR)\r",
+											"                        .concat(dateFormat);\r",
+											"\r",
+											"        return expected;\r",
+											"}\r",
+											"\r",
+											"pm.environment.set('customerBusinessReportId', jsonData.data[0].id);\r",
+											"console.log(pm.environment.get('customerBusinessReportId'));"
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Authorization",
+										"value": "{{IdToken}}",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "//  \"businessNoCard\":  \r\n/*  {\r\n     \"subType\": \"BUSINESS\",\r\n     \"path\": \"EnrollmentPath\",\r\n     \"username\": \"maria.ortiz@evertecinc.com\"\r\n   }\r\n*/\r\n// //   \"businessNoSSN\": \r\n//   {\r\n//     \"subType\": \"BUSINESS\",\r\n//     \"path\": \"SlowHappy\",\r\n//     \"username\": \"laura.martinez@evertecinc.com\"\r\n//   }\r\n\r\n\r\n//   \"businessTamalitosDavidIgnoreCase\": \r\n//   {\r\n//     \"subType\": \"BUSINESS\",\r\n//     \"path\": \"TAMAlitosdavid\",\r\n//     \"username\": \"laura.martinez@evertecinc.com\"\r\n//   }\r\n\r\n//   \"businessDate\": \r\n    //   {\r\n    //     \"subType\": \"BUSINESS\",\r\n    //     \"regDateFrom\": \"2024-05-01\",\r\n    //     \"regDateTo\": \"2025-07-02\",\r\n    //     \"username\": \"laura.martinez@evertecinc.com\"\r\n    //   }\r\n\r\n// //   \"businessWrongDateFrom\":\r\n//    {\r\n//     \"subType\": \"BUSINESS\",\r\n//     \"regDateFrom\": \"2024-05-01\",\r\n//     \"username\": \"laura.martinez@evertecinc.com\"\r\n//   }\r\n\r\n// //   \"businessWrongDateTo\": \r\n//   {\r\n//     \"subType\": \"BUSINESS\",\r\n//     \"regDateTo\": \"2025-07-02\",\r\n//     \"username\": \"laura.martinez@evertecinc.com\"\r\n//   }\r\n\r\n//   \"businessName\": \r\n//   {\r\n//     \"subType\": \"BUSINESS\",\r\n//     \"businessName\": \"Muffin\",\r\n//     \"username\": \"laura.martinez@evertecinc.com\"\r\n//   }\r\n\r\n//   \"businessCustomerIgnoreCase\": \r\n  {\r\n    \"subType\": \"BUSINESS\",\r\n    \"firstName\": \"test\",\r\n    \"lastName\": \"TEStIng\",\r\n    \"username\": \"laura.martinez@evertecinc.com\"\r\n  }\r\n\r\n// //   \"businessWrongCustomerName\": \r\n//   {\r\n//     \"subType\": \"BUSINESS\",\r\n//     \"lastName\": \"TestING\",\r\n//     \"username\": \"laura.martinez@evertecinc.com\"\r\n//   }\r\n\r\n// //   \"businessWrongCustomerLastName\":\r\n//    {\r\n//     \"subType\": \"BUSINESS\",\r\n//     \"firstName\": \"Test\",\r\n//     \"username\": \"laura.martinez@evertecinc.com\"\r\n//   }\r\n\r\n// //   \"businessIdentificationNumber\": \r\n//   {\r\n//     \"subType\": \"BUSINESS\",\r\n//     \"ssnOrEin\": \"148006968\",\r\n//     \"username\": \"laura.martinez@evertecinc.com\"\r\n//   }\r\n\r\n\r\n// //   \"businessEmailIgnoreCase\": \r\n//   {\r\n//     \"subType\": \"BUSINESS\",\r\n//     \"email\": \"DAvid.munOz@EVERtecinc.com\",\r\n//     \"username\": \"laura.martinez@evertecinc.com\"\r\n//   }\r\n\r\n//   \"businessCustomerByCard\": \r\n/* {\r\n     \"subType\": \"BUSINESS\",\r\n     \"cardNumber\": \"9308400000000116\",\r\n     //\"encryptedCardNumber\": \"61cf81efca57ec550c486f0a42aabc05c1fa4fe0808ee61e90fb870711e43fa2\",\r\n     \"username\": \"maria.ortiz@evertecinc.com\"\r\n   }\r\n*/\r\n    //   \"businessAllData\": \r\n// {\r\n//       \"subType\": \"BUSINESS\",\r\n//         \"regDateFrom\": \"2025-04-01\",\r\n//         \"regDateTo\": \"2025-05-01\",\r\n//         \"path\": \"FBE1118\",\r\n//       \"email\": \"itziar.olvera17@gmail.com\",\r\n//       \"businessName\": \"Firebase Events\",\r\n//       \"ssnOrEin\": \"123456789\",\r\n//         \"username\": \"laura.martinez@evertecinc.com\"\r\n// }\r\n",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{subpoena-microservice-url}}/athm-subpoenas-reports/api/v1/subpoenas/customer",
+									"host": [
+										"{{subpoena-microservice-url}}"
+									],
+									"path": [
+										"athm-subpoenas-reports",
+										"api",
+										"v1",
+										"subpoenas",
+										"customer"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				}
+			]
+		},
+		{
+			"name": "general reports",
+			"item": [
+				{
+					"name": "transactions",
+					"item": [
+						{
+							"name": "B2C",
+							"item": [
+								{
+									"name": "Required data",
+									"request": {
+										"method": "GET",
+										"header": []
+									},
+									"response": []
+								}
+							],
+							"description": "{\n\n```\n\"transType\": \"B2C\",\n\"transDateFrom\": \"2021-07-01\",\n\"transDateTo\": \"2024-01-01\",\n//\"lastLoginAfterBefore\": \"AFTER\"|BEFORE SE PRUEBA EN \n\"lastLoginDate\": \"\",\n\"customerStatus\": \"\",\n\"primaryCard\": \"\",\n\"institution\": \"\",\n//depende del tipo de transaction seleccionado\n\"transStatus\": \"\",\n\"primaryPhone\": \"\"\n// direction no est[a implementado aún\n\n ```\n\n}"
+						},
+						{
+							"name": "P2P",
+							"item": [
+								{
+									"name": "Required data",
+									"request": {
+										"method": "POST",
+										"header": [
+											{
+												"key": "Authorization",
+												"value": "{{IdToken}}",
+												"type": "text"
+											}
+										],
+										"body": {
+											"mode": "raw",
+											"raw": "\n// // only required data over 2 years fail\n// {\n//     \"transType\": \"P2P\",\n//     \"transDateFrom\": \"2021-01-01\",\n//     \"transDateTo\": \"2024-01-31\"\n// }\n\n// // only required data 2 years\n// {\n//     \"transType\": \"P2P\",\n//     \"transDateFrom\": \"2022-01-01\",\n//     \"transDateTo\": \"2024-01-31\"\n// }\n\n// only required data\n// {\n//     \"transType\": \"P2P\",\n//     \"transDateFrom\": \"2024-01-01\",\n//     \"transDateTo\": \"2024-01-31\"\n// }\n\n // filter transaction by transaction status\n// {\n//     \"transType\": \"P2P\",\n//     \"transDateFrom\": \"2024-01-01\",\n//     \"transDateTo\": \"2024-01-31\",\n//     \"transStatus\": \"36\",\n// }\n\n// // filter transactions by customer status \n// {\n//     \"transType\": \"P2P\",\n//     \"transDateFrom\": \"2024-01-01\",\n//     \"transDateTo\": \"2024-01-31\",\n//     \"customerStatus\": \"5\"\n// }\n\n// //institution EVERBANK\n// {\n//     \"transType\": \"P2P\",\n//     \"transDateFrom\": \"2024-01-01\",\n//     \"transDateTo\": \"2024-01-31\",\n//     \"institution\": \"EVPR\"\n// }\n\t\n    //filter transaction by primary card Yes\n// {\n//     \"transType\": \"P2P\",\n//     \"transDateFrom\": \"2024-01-01\",\n//     \"transDateTo\": \"2024-01-31\", \n//     \"primaryCard\": \"YES\"\n\n// }\n\n    //filter transaction by primary card NO\n// {\n//     \"transType\": \"P2P\",\n//     \"transDateFrom\": \"2024-01-01\",\n//     \"transDateTo\": \"2024-01-31\", \n//     \"primaryCard\": \"NO\"\n\n// }\n\n//filter transaction by last login before\n// {\n//     \"transType\": \"P2P\",\n//     \"transDateFrom\": \"2024-01-01\",\n//     \"transDateTo\": \"2024-01-31\",\n//  \"lastLoginAfterBefore\": \"BEFORE\",\n//     \"lastLoginDate\": \"2024-05-09\",\n\n// }\n\n\n// //filter transaction by last login after\n// {\n//    \"transType\": \"P2P\",\n//     \"transDateFrom\": \"2024-01-01\",\n//     \"transDateTo\": \"2024-01-31\",\n//     \"lastLoginAfterBefore\": \"AFTER\",\n//     \"lastLoginDate\": \"2024-11-01\"\n// }\n\n// byPrimaryPhone\n// {\n//     \"transType\": \"P2P\",\n//     \"transDateFrom\": \"2024-01-01\",\n//     \"transDateTo\": \"2024-01-31\",\n//     \"primaryPhone\": \"YES\"\n// }\n\n// / byPrimaryPhone nO\n{\n    \"transType\": \"P2P\",\n    \"transDateFrom\": \"2024-01-01\",\n    \"transDateTo\": \"2024-01-31\",\n    \"primaryPhone\": \"NO\"\n}\n\n//empty report fail\n// {\n//     \"transType\": \"P2P\",\n//     \"transDateFrom\": \"2024-01-01\",\n//     \"transDateTo\": \"2024-01-31\",\n//     \"lastLoginDate\": \"\",\n//     \"customerStatus\": \"\",\n \n//     \"primaryCard\": \"\",\n//     \"institution\": \"\",\n//     \"transStatus\": \"\",\n \n//     \"primaryPhone\": \"\",\n//     \"channel\": \"\"\n// }\n\n//by channel\n// {\n//     \"transType\": \"P2P\",\n//     \"transDateFrom\": \"2024-01-01\",\n//     \"transDateTo\": \"2024-01-31\",\n//     \"channel\": \"\"\n// }\n",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "{{subpoena-microservice-url}}/athm-general-reports/api/v1/general/transaction",
+											"host": [
+												"{{subpoena-microservice-url}}"
+											],
+											"path": [
+												"athm-general-reports",
+												"api",
+												"v1",
+												"general",
+												"transaction"
+											]
+										}
+									},
+									"response": []
+								}
+							]
+						},
+						{
+							"name": "P2B",
+							"item": [
+								{
+									"name": "Required Data",
+									"request": {
+										"method": "GET",
+										"header": []
+									},
+									"response": []
+								}
+							]
+						},
+						{
+							"name": "REFUND - generalReportTransactionRefundUseCase",
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Authorization",
+										"value": "{{IdToken}}",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"transType\":\"REFUND\",\r\n    \"transDateFrom\": \"01/01/2023\",\r\n    \"transDateTo\": \"01/01/2023\",\r\n    \"username\": \"simon.fermo@evertecinc.com\",\r\n\r\n    \"customerStatus\": \"\",\r\n    \"rsaStatus\": \"\",\r\n    \"institution\": \"\",\r\n\r\n    \"hardwareId\": \"\",\r\n    \"deviceId\": \"\",\r\n\r\n    \"lastLoginDate\": \"\",\r\n    \"primaryCard\": true,\r\n    \"cardStatus\": \"\",\r\n    \"transStatus\": \"EXPIRED\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{subpoena-microservice-url}}/athm-general-reports/general/transaction",
+									"host": [
+										"{{subpoena-microservice-url}}"
+									],
+									"path": [
+										"athm-general-reports",
+										"general",
+										"transaction"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "P2P - transaction generalReportTransactionP2PTransferUseCase",
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"filters\": {\r\n    \"regDateTo\": \"01/01/2023\",\r\n    \"regDateFrom\": \"01/01/2023\",\r\n    \"transDateTo\": \"01/01/2023\",\r\n    \"transDateFrom\": \"01/01/2023\",\r\n    \"transType\":\"P2P\",\r\n    \"transStatus\": \"EXPIRED\",\r\n    \"type\": \"BUSINESS\"\r\n}}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost:8080/api/v1/general/transaction",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8080",
+									"path": [
+										"api",
+										"v1",
+										"general",
+										"transaction"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "POS_PAYMENT - transaction generalReportTransactionPOSPaymentUseCase",
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"filters\": {\r\n    \"regDateTo\": \"01/01/2023\",\r\n    \"regDateFrom\": \"01/01/2023\",\r\n    \"transDateTo\": \"01/01/2023\",\r\n    \"transDateFrom\": \"01/01/2023\",\r\n    \"transType\":\"POS_PAYMENT\",\r\n    \"transStatus\": \"EXPIRED\",\r\n    \"type\": \"BUSINESS\"\r\n}}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost:8080/api/v1/general/transaction",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8080",
+									"path": [
+										"api",
+										"v1",
+										"general",
+										"transaction"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "All Transfer types",
+							"request": {
+								"method": "GET",
+								"header": []
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "customer",
+					"item": [
+						{
+							"name": "General - ReportCustomerBusiness",
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Authorization",
+										"value": "{{IdToken}}",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "// // // //Required Data\r\n//          {\r\n//              \"accountType\": \"BUSINESS\",\r\n//              \"regDateTo\": \"2022-03-31\",\r\n//              \"regDateFrom\": \"2018-03-31\",\r\n//              \"username\": \"maria.ortiz@evertecinc.com\"\r\n//          }\r\n\r\n\r\n// // //Required Data 8 year -->Registros del 2022-05-04 al 2022-06-13 Con problemas de encryptacion\r\n    //    {\r\n    //          \"accountType\": \"BUSINESS\",\r\n    //          \"regDateFrom\": \"2017-01-01\",\r\n    //          \"regDateTo\": \"2025-01-01\",\r\n    //          \"customerStatus\": [\"PENDING_ATHB_VERIFICATION\", \"DISABLED\", \"LOCKED\"]\r\n    //     } \r\n\r\n// // //Last Login Data AFTER\r\n// {\r\n//     \"accountType\": \"BUSINESS\",\r\n//     \"regDateFrom\": \"2025-05-01\",\r\n//    \"regDateTo\": \"2025-05-29\",\r\n//     \"username\": \"maria.ortiz@evertecinc.com\",\r\n//     \"lastLoginDate\": \"2025-06-01\",\r\n//     \"lastLoginAfterBefore\": \"AFTER\"\r\n//     // \"lastLoginAfterBefore\": \"BEFORE\"\r\n// }\r\n\r\n\r\n// //Last Login Data Sin campo AfterBefore\r\n// {\r\n//     \"accountType\": \"BUSINESS\",\r\n//     \"regDateTo\": \"2024-01-01\",\r\n//     \"regDateFrom\": \"2018-07-01\",\r\n//     \"username\": \"maria.ortiz@evertecinc.com\",\r\n//     \"lastLoginDate\": \"2025-01-17\"\r\n// }\r\n\r\n// //Sin regDateFrom Data\r\n// {\r\n//     \"accountType\": \"BUSINESS\"\r\n// }\r\n\r\n    // //Profit Data Y\r\n    // {\r\n    //     \"accountType\": \"BUSINESS\",\r\n    //     \"regDateFrom\": \"2025-05-10\",\r\n    //     \"regDateTo\": \"2025-05-10\",\r\n    //     \"profit\":\"YES\"\r\n    // }\r\n\r\n// // //Profit Data NO\r\n// {\r\n//     \"accountType\": \"BUSINESS\",\r\n//     \"regDateFrom\": \"2025-05-01\",\r\n//     \"regDateTo\": \"2025-05-10\"\r\n//     // \"profit\":\"NO\"\r\n// }\r\n\r\n// //category Data\r\n// {\r\n//     \"accountType\": \"BUSINESS\",\r\n//      \"regDateFrom\": \"2025-01-01\",\r\n//     \"regDateTo\": \"2025-05-31\",\r\n//     \"username\": \"maria.ortiz@evertecinc.com\",\r\n//     \"category\": [\"AGRICULTURE\", \"BAKING\"]\r\n// }\r\n\r\n// //Financial Institution One\r\n        // {\r\n        //     \"accountType\": \"BUSINESS\",\r\n        //     \"regDateFrom\": \"2017-05-01\",\r\n        //     \"regDateTo\": \"2024-12-31\",\r\n        //     \"institution\": [\"C035\"]\r\n        // }\r\n\r\n// //  //Financial Institution Multiple\r\n//         {\r\n//             \"accountType\": \"BUSINESS\",\r\n//             \"regDateFrom\": \"2017-05-01\",\r\n//             \"regDateTo\": \"2024-12-31\",\r\n//             \"institution\": [\"C049\", \"C076\", \"C021\", \"C035\"],\r\n//             \"username\": \"maria.ortiz@evertecinc.com\"\r\n//         }       \r\n\r\n\r\n        // //customerStatusActive\r\n        // {\r\n        //     \"accountType\": \"BUSINESS\",\r\n        //     \"regDateFrom\": \"2025-05-27\",\r\n        //     \"regDateTo\": \"2025-05-27\",\r\n        //     \"customerStatus\": [\"ACTIVE\"],\r\n        //     \"username\": \"laura.martinez@evertecinc.com\"\r\n        // }\r\n\r\n        //  // //customerStatusPendingRegainAccess Fail\r\n        // {\r\n        //     \"accountType\": \"BUSINESS\",\r\n        //     \"regDateFrom\": \"2025-05-27\",\r\n        //     \"regDateTo\": \"2025-05-27\",\r\n        //     \"customerStatus\": [\"PENDING_REGAIN_ACCESS_VERIFICATION\"]\r\n        // }\r\n\r\n    // //customerStatusMultiple\r\n        // {\r\n        //     \"accountType\": \"BUSINESS\",\r\n        //     \"regDateFrom\": \"2024-01-01\",\r\n        //     \"regDateTo\": \"2025-05-27\",\r\n        //     \"customerStatus\": [\"PENDING_ATHB_VERIFICATION\", \"DISABLED\", \"LOCKED\"],\r\n        //     \"username\": \"laura.martinez@evertecinc.com\"\r\n        // }\r\n\r\n        //   //cardStatusMultiple\r\n        // {\r\n        //     \"accountType\": \"BUSINESS\",\r\n        //     \"regDateFrom\": \"2025-01-01\",\r\n        //     \"regDateTo\": \"2025-06-01\",\r\n        //     \"cardStatus\": [\"DELETED_CARD\", \"INACTIVE_CARD\"],\r\n        //     \"username\": \"laura.martinez@evertecinc.com\"\r\n        // }\r\n\r\n//   //Primary Card Y\r\n//     {\r\n//         \"accountType\": \"BUSINESS\",\r\n//         \"regDateFrom\": \"2025-01-01\",\r\n//         \"regDateTo\": \"2025-06-01\",\r\n        // \"primaryCard\":\"YES\"\r\n//     }\r\n\r\n// //Primary Card NO\r\n// {\r\n//     \"accountType\": \"BUSINESS\",\r\n//     \"regDateFrom\": \"2025-01-01\",\r\n//     \"regDateTo\": \"2025-06-01\",\r\n//     \"primaryCard\":\"NO\"\r\n// }\r\n\r\n\r\n//  //   \"unregisteredUser\":\r\n//    {\r\n//     \"accountType\": \"BUSINESS\",\r\n//    \"regDateFrom\": \"2025-01-01\",\r\n//     \"regDateTo\": \"2025-06-17\",\r\n//     \"customerStatus\": [\"UNREGISTERED\"],\r\n//     \"unregisteredDateFrom\": \"2025-05-01\",\r\n//     \"unregisteredDateTo\": \"2025-06-18\"\r\n//   }\r\n\r\n\r\n// //   \"unregisteredUserLongerYears\":\r\n//    {\r\n//     \"accountType\": \"BUSINESS\",\r\n//    \"regDateFrom\": \"2018-01-01\",\r\n//     \"regDateTo\": \"2020-06-17\",\r\n//     \"customerStatus\": [\"UNREGISTERED\"],\r\n//     \"unregisteredDateFrom\": \"2015-05-01\",\r\n//     \"unregisteredDateTo\": \"2025-06-18\"\r\n//   }\r\n\r\n\r\n// // //Required Data with no parameter primary card\r\n//          {\r\n//              \"accountType\": \"BUSINESS\",\r\n//                \"regDateFrom\": \"2017-01-01\",\r\n//              \"regDateTo\": \"2017-01-27\"\r\n//          }\r\n\r\n\r\n// //Required Data with  primary card YES\r\n//          {\r\n//              \"accountType\": \"BUSINESS\",\r\n//              \"regDateFrom\": \"2017-01-01\",\r\n//              \"regDateTo\": \"2017-01-27\",\r\n//              \"primaryCard\": \"YES\"\r\n//          }\r\n\r\n// //  //Required Data with  primary card NO\r\n         {\r\n             \"accountType\": \"BUSINESS\",\r\n             \"regDateFrom\": \"2017-01-01\",\r\n             \"regDateTo\": \"2017-01-27\",\r\n             \"primaryCard\": \"NO\"\r\n         }        \r\n\r\n\r\n",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{subpoena-microservice-url}}/athm-general-reports/api/v1/general/customer",
+									"host": [
+										"{{subpoena-microservice-url}}"
+									],
+									"path": [
+										"athm-general-reports",
+										"api",
+										"v1",
+										"general",
+										"customer"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "General - ReportCustomerBusiness Copy",
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Authorization",
+										"value": "{{IdToken}}",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "// //Required Data\r\n//          {\r\n//              \"accountType\": \"BUSINESS\",\r\n//              \"regDateTo\": \"2022-03-31\",\r\n//              \"regDateFrom\": \"2018-03-31\",\r\n//              \"username\": \"maria.ortiz@evertecinc.com\"\r\n//          }\r\n\r\n\r\n// // //Required Data 8 year -->Registros del 2022-05-04 al 2022-06-13 Con problemas de encryptacion\r\n    //    {\r\n    //          \"accountType\": \"BUSINESS\",\r\n    //          \"regDateFrom\": \"2017-01-01\",\r\n    //          \"regDateTo\": \"2025-01-01\",\r\n    //          \"customerStatus\": [\"PENDING_ATHB_VERIFICATION\", \"DISABLED\", \"LOCKED\"]\r\n    //     } \r\n\r\n// // //Last Login Data AFTER\r\n// {\r\n//     \"accountType\": \"BUSINESS\",\r\n//     \"regDateFrom\": \"2025-05-01\",\r\n//    \"regDateTo\": \"2025-05-29\",\r\n//     \"username\": \"maria.ortiz@evertecinc.com\",\r\n//     \"lastLoginDate\": \"2025-06-01\",\r\n//     \"lastLoginAfterBefore\": \"AFTER\"\r\n//     // \"lastLoginAfterBefore\": \"BEFORE\"\r\n// }\r\n\r\n\r\n// //Last Login Data Sin campo AfterBefore\r\n// {\r\n//     \"accountType\": \"BUSINESS\",\r\n//     \"regDateTo\": \"2024-01-01\",\r\n//     \"regDateFrom\": \"2018-07-01\",\r\n//     \"username\": \"maria.ortiz@evertecinc.com\",\r\n//     \"lastLoginDate\": \"2025-01-17\"\r\n// }\r\n\r\n// //Sin regDateFrom Data\r\n// {\r\n//     \"accountType\": \"BUSINESS\"\r\n// }\r\n\r\n    // //Profit Data Y\r\n    // {\r\n    //     \"accountType\": \"BUSINESS\",\r\n    //     \"regDateFrom\": \"2025-05-10\",\r\n    //     \"regDateTo\": \"2025-05-10\",\r\n    //     \"profit\":\"YES\"\r\n    // }\r\n\r\n// //Profit Data NO\r\n// {\r\n//     \"accountType\": \"BUSINESS\",\r\n//     \"regDateFrom\": \"2025-05-01\",\r\n//     \"regDateTo\": \"2025-05-10\",\r\n//     \"username\": \"maria.ortiz@evertecinc.com\",\r\n//     \"profit\":\"YES\"\r\n// }\r\n\r\n// //category Data\r\n// {\r\n//     \"accountType\": \"BUSINESS\",\r\n//      \"regDateFrom\": \"2025-01-01\",\r\n//     \"regDateTo\": \"2025-05-31\",\r\n//     \"username\": \"maria.ortiz@evertecinc.com\",\r\n//     \"category\": [\"AGRICULTURE\", \"BAKING\"]\r\n// }\r\n\r\n// //Financial Institution One\r\n//         {\r\n//             \"accountType\": \"BUSINESS\",\r\n//             \"regDateFrom\": \"2017-05-01\",\r\n//             \"regDateTo\": \"2024-12-31\",\r\n//             \"institution\": [\"C035\"],\r\n//             \"username\": \"maria.ortiz@evertecinc.com\"\r\n//         }\r\n\r\n// //  //Financial Institution Multiple\r\n//         {\r\n//             \"accountType\": \"BUSINESS\",\r\n//             \"regDateFrom\": \"2017-05-01\",\r\n//             \"regDateTo\": \"2024-12-31\",\r\n//             \"institution\": [\"C049\", \"C076\", \"C021\", \"C035\"],\r\n//             \"username\": \"maria.ortiz@evertecinc.com\"\r\n//         }       \r\n\r\n\r\n        // //customerStatusActive\r\n        // {\r\n        //     \"accountType\": \"BUSINESS\",\r\n        //     \"regDateFrom\": \"2025-05-27\",\r\n        //     \"regDateTo\": \"2025-05-27\",\r\n        //     \"customerStatus\": [\"ACTIVE\"],\r\n        //     \"username\": \"laura.martinez@evertecinc.com\"\r\n        // }\r\n\r\n        //  // //customerStatusPendingRegainAccess Fail\r\n        // {\r\n        //     \"accountType\": \"BUSINESS\",\r\n        //     \"regDateFrom\": \"2025-05-27\",\r\n        //     \"regDateTo\": \"2025-05-27\",\r\n        //     \"customerStatus\": [\"PENDING_REGAIN_ACCESS_VERIFICATION\"]\r\n        // }\r\n\r\n    // //customerStatusMultiple\r\n        // {\r\n        //     \"accountType\": \"BUSINESS\",\r\n        //     \"regDateFrom\": \"2024-01-01\",\r\n        //     \"regDateTo\": \"2025-05-27\",\r\n        //     \"customerStatus\": [\"PENDING_ATHB_VERIFICATION\", \"DISABLED\", \"LOCKED\"],\r\n        //     \"username\": \"laura.martinez@evertecinc.com\"\r\n        // }\r\n\r\n        //   //cardStatusMultiple\r\n        // {\r\n        //     \"accountType\": \"BUSINESS\",\r\n        //     \"regDateFrom\": \"2025-01-01\",\r\n        //     \"regDateTo\": \"2025-06-01\",\r\n        //     \"cardStatus\": [\"DELETED_CARD\", \"INACTIVE_CARD\"],\r\n        //     \"username\": \"laura.martinez@evertecinc.com\"\r\n        // }\r\n\r\n//   //Primary Card Y\r\n//     {\r\n//         \"accountType\": \"BUSINESS\",\r\n//         \"regDateFrom\": \"2025-01-01\",\r\n//         \"regDateTo\": \"2025-06-01\",\r\n//         \"primaryCard\":\"YES\"\r\n//     }\r\n\r\n// //Primary Card NO\r\n// {\r\n//     \"accountType\": \"BUSINESS\",\r\n//     \"regDateFrom\": \"2025-01-01\",\r\n//     \"regDateTo\": \"2025-06-01\",\r\n//     \"primaryCard\":\"NO\"\r\n// }\r\n\r\n\r\n//  //   \"unregisteredUser\":\r\n//    {\r\n//     \"accountType\": \"BUSINESS\",\r\n//    \"regDateFrom\": \"2025-01-01\",\r\n//     \"regDateTo\": \"2025-06-17\",\r\n//     \"customerStatus\": [\"UNREGISTERED\"],\r\n//     \"unregisteredDateFrom\": \"2025-05-01\",\r\n//     \"unregisteredDateTo\": \"2025-06-18\"\r\n//   }\r\n\r\n\r\n// //   \"unregisteredUserLongerYears\":\r\n//    {\r\n//     \"accountType\": \"BUSINESS\",\r\n//    \"regDateFrom\": \"2018-01-01\",\r\n//     \"regDateTo\": \"2020-06-17\",\r\n//     \"customerStatus\": [\"UNREGISTERED\"],\r\n//     \"unregisteredDateFrom\": \"2015-05-01\",\r\n//     \"unregisteredDateTo\": \"2025-06-18\"\r\n//   }\r\n\r\n\r\n// //Required Data with no parameter primary card\r\n        //  {\r\n        //      \"accountType\": \"BUSINESS\",\r\n        //        \"regDateFrom\": \"2017-01-01\",\r\n        //      \"regDateTo\": \"2017-01-27\"\r\n        //  }\r\n\r\n\r\n// //Required Data with  primary card YES\r\n        //  {\r\n        //      \"accountType\": \"BUSINESS\",\r\n        //      \"regDateFrom\": \"2017-01-01\",\r\n        //      \"regDateTo\": \"2017-01-27\",\r\n        //      \"primaryCard\": \"YES\"\r\n        //  }\r\n\r\n//  //Required Data with  primary card NO\r\n         {\r\n             \"accountType\": \"BUSINESS\",\r\n             \"regDateFrom\": \"2017-01-01\",\r\n             \"regDateTo\": \"2017-01-27\",\r\n             \"primaryCard\": \"NO\"\r\n         }        \r\n\r\n\r\n",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{subpoena-microservice-url}}/athm-general-reports/api/v1/general/customer",
+									"host": [
+										"{{subpoena-microservice-url}}"
+									],
+									"path": [
+										"athm-general-reports",
+										"api",
+										"v1",
+										"general",
+										"customer"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "General - ReportCustomerBusiness Required Data 8 year -->Registros del 2022-05-04 al 2022-06-13 Con problemas de encryptacion",
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Authorization",
+										"value": "{{IdToken}}",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "// //Required Data\r\n//          {\r\n//              \"accountType\": \"BUSINESS\",\r\n//              \"regDateTo\": \"2022-03-31\",\r\n//              \"regDateFrom\": \"2018-03-31\",\r\n//              \"username\": \"maria.ortiz@evertecinc.com\"\r\n//          }\r\n\r\n\r\n// // //Required Data 8 year -->Registros del 2022-05-04 al 2022-06-13 Con problemas de encryptacion\r\n    //    {\r\n    //          \"accountType\": \"BUSINESS\",\r\n    //          \"regDateFrom\": \"2017-01-01\",\r\n    //          \"regDateTo\": \"2025-01-01\",\r\n    //          \"customerStatus\": [\"PENDING_ATHB_VERIFICATION\", \"DISABLED\", \"LOCKED\"]\r\n    //     } \r\n\r\n// // //Last Login Data AFTER\r\n// {\r\n//     \"accountType\": \"BUSINESS\",\r\n//     \"regDateFrom\": \"2025-05-01\",\r\n//    \"regDateTo\": \"2025-05-29\",\r\n//     \"username\": \"maria.ortiz@evertecinc.com\",\r\n//     \"lastLoginDate\": \"2025-06-01\",\r\n//     \"lastLoginAfterBefore\": \"AFTER\"\r\n//     // \"lastLoginAfterBefore\": \"BEFORE\"\r\n// }\r\n\r\n\r\n// //Last Login Data Sin campo AfterBefore\r\n// {\r\n//     \"accountType\": \"BUSINESS\",\r\n//     \"regDateTo\": \"2024-01-01\",\r\n//     \"regDateFrom\": \"2018-07-01\",\r\n//     \"username\": \"maria.ortiz@evertecinc.com\",\r\n//     \"lastLoginDate\": \"2025-01-17\"\r\n// }\r\n\r\n// //Sin regDateFrom Data\r\n// {\r\n//     \"accountType\": \"BUSINESS\"\r\n// }\r\n\r\n    // //Profit Data Y\r\n    // {\r\n    //     \"accountType\": \"BUSINESS\",\r\n    //     \"regDateFrom\": \"2025-05-10\",\r\n    //     \"regDateTo\": \"2025-05-10\",\r\n    //     \"profit\":\"YES\"\r\n    // }\r\n\r\n// //Profit Data NO\r\n// {\r\n//     \"accountType\": \"BUSINESS\",\r\n//     \"regDateFrom\": \"2025-05-01\",\r\n//     \"regDateTo\": \"2025-05-10\",\r\n//     \"username\": \"maria.ortiz@evertecinc.com\",\r\n//     \"profit\":\"YES\"\r\n// }\r\n\r\n// //category Data\r\n// {\r\n//     \"accountType\": \"BUSINESS\",\r\n//      \"regDateFrom\": \"2025-01-01\",\r\n//     \"regDateTo\": \"2025-05-31\",\r\n//     \"username\": \"maria.ortiz@evertecinc.com\",\r\n//     \"category\": [\"AGRICULTURE\", \"BAKING\"]\r\n// }\r\n\r\n// //Financial Institution One\r\n//         {\r\n//             \"accountType\": \"BUSINESS\",\r\n//             \"regDateFrom\": \"2017-05-01\",\r\n//             \"regDateTo\": \"2024-12-31\",\r\n//             \"institution\": [\"C035\"],\r\n//             \"username\": \"maria.ortiz@evertecinc.com\"\r\n//         }\r\n\r\n// //  //Financial Institution Multiple\r\n//         {\r\n//             \"accountType\": \"BUSINESS\",\r\n//             \"regDateFrom\": \"2017-05-01\",\r\n//             \"regDateTo\": \"2024-12-31\",\r\n//             \"institution\": [\"C049\", \"C076\", \"C021\", \"C035\"],\r\n//             \"username\": \"maria.ortiz@evertecinc.com\"\r\n//         }       \r\n\r\n\r\n        // //customerStatusActive\r\n        // {\r\n        //     \"accountType\": \"BUSINESS\",\r\n        //     \"regDateFrom\": \"2025-05-27\",\r\n        //     \"regDateTo\": \"2025-05-27\",\r\n        //     \"customerStatus\": [\"ACTIVE\"],\r\n        //     \"username\": \"laura.martinez@evertecinc.com\"\r\n        // }\r\n\r\n        //  // //customerStatusPendingRegainAccess Fail\r\n        // {\r\n        //     \"accountType\": \"BUSINESS\",\r\n        //     \"regDateFrom\": \"2025-05-27\",\r\n        //     \"regDateTo\": \"2025-05-27\",\r\n        //     \"customerStatus\": [\"PENDING_REGAIN_ACCESS_VERIFICATION\"]\r\n        // }\r\n\r\n    // //customerStatusMultiple\r\n        // {\r\n        //     \"accountType\": \"BUSINESS\",\r\n        //     \"regDateFrom\": \"2024-01-01\",\r\n        //     \"regDateTo\": \"2025-05-27\",\r\n        //     \"customerStatus\": [\"PENDING_ATHB_VERIFICATION\", \"DISABLED\", \"LOCKED\"],\r\n        //     \"username\": \"laura.martinez@evertecinc.com\"\r\n        // }\r\n\r\n        //   //cardStatusMultiple\r\n        // {\r\n        //     \"accountType\": \"BUSINESS\",\r\n        //     \"regDateFrom\": \"2025-01-01\",\r\n        //     \"regDateTo\": \"2025-06-01\",\r\n        //     \"cardStatus\": [\"DELETED_CARD\", \"INACTIVE_CARD\"],\r\n        //     \"username\": \"laura.martinez@evertecinc.com\"\r\n        // }\r\n\r\n//   //Primary Card Y\r\n//     {\r\n//         \"accountType\": \"BUSINESS\",\r\n//         \"regDateFrom\": \"2025-01-01\",\r\n//         \"regDateTo\": \"2025-06-01\",\r\n//         \"primaryCard\":\"YES\"\r\n//     }\r\n\r\n// //Primary Card NO\r\n// {\r\n//     \"accountType\": \"BUSINESS\",\r\n//     \"regDateFrom\": \"2025-01-01\",\r\n//     \"regDateTo\": \"2025-06-01\",\r\n//     \"primaryCard\":\"NO\"\r\n// }\r\n\r\n\r\n//  //   \"unregisteredUser\":\r\n//    {\r\n//     \"accountType\": \"BUSINESS\",\r\n//    \"regDateFrom\": \"2025-01-01\",\r\n//     \"regDateTo\": \"2025-06-17\",\r\n//     \"customerStatus\": [\"UNREGISTERED\"],\r\n//     \"unregisteredDateFrom\": \"2025-05-01\",\r\n//     \"unregisteredDateTo\": \"2025-06-18\"\r\n//   }\r\n\r\n\r\n// //   \"unregisteredUserLongerYears\":\r\n//    {\r\n//     \"accountType\": \"BUSINESS\",\r\n//    \"regDateFrom\": \"2018-01-01\",\r\n//     \"regDateTo\": \"2020-06-17\",\r\n//     \"customerStatus\": [\"UNREGISTERED\"],\r\n//     \"unregisteredDateFrom\": \"2015-05-01\",\r\n//     \"unregisteredDateTo\": \"2025-06-18\"\r\n//   }\r\n\r\n\r\n// //Required Data with no parameter primary card\r\n        //  {\r\n        //      \"accountType\": \"BUSINESS\",\r\n        //        \"regDateFrom\": \"2017-01-01\",\r\n        //      \"regDateTo\": \"2017-01-27\"\r\n        //  }\r\n\r\n\r\n// //Required Data with  primary card YES\r\n        //  {\r\n        //      \"accountType\": \"BUSINESS\",\r\n        //      \"regDateFrom\": \"2017-01-01\",\r\n        //      \"regDateTo\": \"2017-01-27\",\r\n        //      \"primaryCard\": \"YES\"\r\n        //  }\r\n\r\n//  //Required Data with  primary card NO\r\n         {\r\n             \"accountType\": \"BUSINESS\",\r\n             \"regDateFrom\": \"2017-01-01\",\r\n             \"regDateTo\": \"2017-01-27\",\r\n             \"primaryCard\": \"NO\"\r\n         }        \r\n\r\n\r\n",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{subpoena-microservice-url}}/athm-general-reports/api/v1/general/customer",
+									"host": [
+										"{{subpoena-microservice-url}}"
+									],
+									"path": [
+										"athm-general-reports",
+										"api",
+										"v1",
+										"general",
+										"customer"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "General - ReportCustomerBusiness Registros del 2022-05-04 al 2022-06-13 Con problemas de encryptacion",
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Authorization",
+										"value": "{{IdToken}}",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "// //Required Data\r\n//          {\r\n//              \"accountType\": \"BUSINESS\",\r\n//              \"regDateTo\": \"2022-03-31\",\r\n//              \"regDateFrom\": \"2018-03-31\",\r\n//              \"username\": \"maria.ortiz@evertecinc.com\"\r\n//          }\r\n\r\n\r\n// // //Required Data 8 year -->Registros del 2022-05-04 al 2022-06-13 Con problemas de encryptacion\r\n    //    {\r\n    //          \"accountType\": \"BUSINESS\",\r\n    //          \"regDateFrom\": \"2017-01-01\",\r\n    //          \"regDateTo\": \"2025-01-01\",\r\n    //          \"customerStatus\": [\"PENDING_ATHB_VERIFICATION\", \"DISABLED\", \"LOCKED\"]\r\n    //     } \r\n\r\n// // //Last Login Data AFTER\r\n// {\r\n//     \"accountType\": \"BUSINESS\",\r\n//     \"regDateFrom\": \"2025-05-01\",\r\n//    \"regDateTo\": \"2025-05-29\",\r\n//     \"username\": \"maria.ortiz@evertecinc.com\",\r\n//     \"lastLoginDate\": \"2025-06-01\",\r\n//     \"lastLoginAfterBefore\": \"AFTER\"\r\n//     // \"lastLoginAfterBefore\": \"BEFORE\"\r\n// }\r\n\r\n\r\n// //Last Login Data Sin campo AfterBefore\r\n// {\r\n//     \"accountType\": \"BUSINESS\",\r\n//     \"regDateTo\": \"2024-01-01\",\r\n//     \"regDateFrom\": \"2018-07-01\",\r\n//     \"username\": \"maria.ortiz@evertecinc.com\",\r\n//     \"lastLoginDate\": \"2025-01-17\"\r\n// }\r\n\r\n// //Sin regDateFrom Data\r\n// {\r\n//     \"accountType\": \"BUSINESS\"\r\n// }\r\n\r\n    // //Profit Data Y\r\n    // {\r\n    //     \"accountType\": \"BUSINESS\",\r\n    //     \"regDateFrom\": \"2025-05-10\",\r\n    //     \"regDateTo\": \"2025-05-10\",\r\n    //     \"profit\":\"YES\"\r\n    // }\r\n\r\n// //Profit Data NO\r\n// {\r\n//     \"accountType\": \"BUSINESS\",\r\n//     \"regDateFrom\": \"2025-05-01\",\r\n//     \"regDateTo\": \"2025-05-10\",\r\n//     \"username\": \"maria.ortiz@evertecinc.com\",\r\n//     \"profit\":\"YES\"\r\n// }\r\n\r\n// //category Data\r\n// {\r\n//     \"accountType\": \"BUSINESS\",\r\n//      \"regDateFrom\": \"2025-01-01\",\r\n//     \"regDateTo\": \"2025-05-31\",\r\n//     \"username\": \"maria.ortiz@evertecinc.com\",\r\n//     \"category\": [\"AGRICULTURE\", \"BAKING\"]\r\n// }\r\n\r\n// //Financial Institution One\r\n//         {\r\n//             \"accountType\": \"BUSINESS\",\r\n//             \"regDateFrom\": \"2017-05-01\",\r\n//             \"regDateTo\": \"2024-12-31\",\r\n//             \"institution\": [\"C035\"],\r\n//             \"username\": \"maria.ortiz@evertecinc.com\"\r\n//         }\r\n\r\n// //  //Financial Institution Multiple\r\n//         {\r\n//             \"accountType\": \"BUSINESS\",\r\n//             \"regDateFrom\": \"2017-05-01\",\r\n//             \"regDateTo\": \"2024-12-31\",\r\n//             \"institution\": [\"C049\", \"C076\", \"C021\", \"C035\"],\r\n//             \"username\": \"maria.ortiz@evertecinc.com\"\r\n//         }       \r\n\r\n\r\n        // //customerStatusActive\r\n        // {\r\n        //     \"accountType\": \"BUSINESS\",\r\n        //     \"regDateFrom\": \"2025-05-27\",\r\n        //     \"regDateTo\": \"2025-05-27\",\r\n        //     \"customerStatus\": [\"ACTIVE\"],\r\n        //     \"username\": \"laura.martinez@evertecinc.com\"\r\n        // }\r\n\r\n        //  // //customerStatusPendingRegainAccess Fail\r\n        // {\r\n        //     \"accountType\": \"BUSINESS\",\r\n        //     \"regDateFrom\": \"2025-05-27\",\r\n        //     \"regDateTo\": \"2025-05-27\",\r\n        //     \"customerStatus\": [\"PENDING_REGAIN_ACCESS_VERIFICATION\"]\r\n        // }\r\n\r\n    // //customerStatusMultiple\r\n        // {\r\n        //     \"accountType\": \"BUSINESS\",\r\n        //     \"regDateFrom\": \"2024-01-01\",\r\n        //     \"regDateTo\": \"2025-05-27\",\r\n        //     \"customerStatus\": [\"PENDING_ATHB_VERIFICATION\", \"DISABLED\", \"LOCKED\"],\r\n        //     \"username\": \"laura.martinez@evertecinc.com\"\r\n        // }\r\n\r\n        //   //cardStatusMultiple\r\n        // {\r\n        //     \"accountType\": \"BUSINESS\",\r\n        //     \"regDateFrom\": \"2025-01-01\",\r\n        //     \"regDateTo\": \"2025-06-01\",\r\n        //     \"cardStatus\": [\"DELETED_CARD\", \"INACTIVE_CARD\"],\r\n        //     \"username\": \"laura.martinez@evertecinc.com\"\r\n        // }\r\n\r\n//   //Primary Card Y\r\n//     {\r\n//         \"accountType\": \"BUSINESS\",\r\n//         \"regDateFrom\": \"2025-01-01\",\r\n//         \"regDateTo\": \"2025-06-01\",\r\n//         \"primaryCard\":\"YES\"\r\n//     }\r\n\r\n// //Primary Card NO\r\n// {\r\n//     \"accountType\": \"BUSINESS\",\r\n//     \"regDateFrom\": \"2025-01-01\",\r\n//     \"regDateTo\": \"2025-06-01\",\r\n//     \"primaryCard\":\"NO\"\r\n// }\r\n\r\n\r\n//  //   \"unregisteredUser\":\r\n//    {\r\n//     \"accountType\": \"BUSINESS\",\r\n//    \"regDateFrom\": \"2025-01-01\",\r\n//     \"regDateTo\": \"2025-06-17\",\r\n//     \"customerStatus\": [\"UNREGISTERED\"],\r\n//     \"unregisteredDateFrom\": \"2025-05-01\",\r\n//     \"unregisteredDateTo\": \"2025-06-18\"\r\n//   }\r\n\r\n\r\n// //   \"unregisteredUserLongerYears\":\r\n//    {\r\n//     \"accountType\": \"BUSINESS\",\r\n//    \"regDateFrom\": \"2018-01-01\",\r\n//     \"regDateTo\": \"2020-06-17\",\r\n//     \"customerStatus\": [\"UNREGISTERED\"],\r\n//     \"unregisteredDateFrom\": \"2015-05-01\",\r\n//     \"unregisteredDateTo\": \"2025-06-18\"\r\n//   }\r\n\r\n\r\n// //Required Data with no parameter primary card\r\n        //  {\r\n        //      \"accountType\": \"BUSINESS\",\r\n        //        \"regDateFrom\": \"2017-01-01\",\r\n        //      \"regDateTo\": \"2017-01-27\"\r\n        //  }\r\n\r\n\r\n// //Required Data with  primary card YES\r\n        //  {\r\n        //      \"accountType\": \"BUSINESS\",\r\n        //      \"regDateFrom\": \"2017-01-01\",\r\n        //      \"regDateTo\": \"2017-01-27\",\r\n        //      \"primaryCard\": \"YES\"\r\n        //  }\r\n\r\n//  //Required Data with  primary card NO\r\n         {\r\n             \"accountType\": \"BUSINESS\",\r\n             \"regDateFrom\": \"2017-01-01\",\r\n             \"regDateTo\": \"2017-01-27\",\r\n             \"primaryCard\": \"NO\"\r\n         }        \r\n\r\n\r\n",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{subpoena-microservice-url}}/athm-general-reports/api/v1/general/customer",
+									"host": [
+										"{{subpoena-microservice-url}}"
+									],
+									"path": [
+										"athm-general-reports",
+										"api",
+										"v1",
+										"general",
+										"customer"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "General - ReportCustomerBusiness CRT",
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Authorization",
+										"value": "{{IdToken}}",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "// //Required Data\r\n//          {\r\n//              \"accountType\": \"BUSINESS\",\r\n//              \"regDateFrom\": \"2018-03-31\",\r\n//              \"regDateTo\": \"2022-03-31\"\r\n//          }\r\n\r\n// // NoProfit Yes\r\n//          {\r\n//              \"accountType\": \"BUSINESS\",\r\n                // \"regDateFrom\": \"2018-03-31\",\r\n//              \"regDateTo\": \"2022-03-31\",\r\n//              \"profit\":\"YES\"\r\n//          }\r\n\r\n         // //  //Financial Institution Multiple\r\n        // {\r\n        //     \"accountType\": \"BUSINESS\",\r\n        //         \"regDateFrom\": \"2018-03-31\",\r\n        //      \"regDateTo\": \"2022-03-31\",\r\n        //     \"institution\": [\"BPPR\"]\r\n        // }   \r\n\r\n//         // //category Data\r\n// {\r\n//     \"accountType\": \"BUSINESS\",\r\n//    \"regDateFrom\": \"2018-03-31\",\r\n//    \"regDateTo\": \"2022-03-31\",\r\n//     \"category\": [\"ACCOUNTING\"]\r\n// }\r\n\r\n// //Last Login Data AFTER\r\n// {\r\n//     \"accountType\": \"BUSINESS\",\r\n//    \"regDateFrom\": \"2018-03-31\",\r\n//    \"regDateTo\": \"2022-03-31\",\r\n//     \"lastLoginDate\": \"2025-01-01\",\r\n//     \"lastLoginAfterBefore\": \"AFTER\"\r\n// }\r\n\r\n// // //Last Login Data AFTER\r\n// {\r\n//     \"accountType\": \"BUSINESS\",\r\n//    \"regDateFrom\": \"2018-03-31\",\r\n//    \"regDateTo\": \"2022-03-31\",\r\n//     \"lastLoginDate\": \"2018-07-01\",\r\n//     \"lastLoginAfterBefore\": \"BEFORE\"\r\n// }\r\n\r\n   //customerStatusActive\r\n        {\r\n            \"accountType\": \"BUSINESS\",\r\n            \"regDateFrom\": \"2018-03-31\",\r\n            \"regDateTo\": \"2022-03-31\",\r\n            \"customerStatus\": [\"DISABLED\", \"DISABLED_FRAUD\", \"LOCKED\"]\r\n        }\r\n\r\n// // //Required Data 8 year -->Registros del 2022-05-04 al 2022-06-13 Con problemas de encryptacion\r\n    //    {\r\n    //          \"accountType\": \"BUSINESS\",\r\n    //          \"regDateFrom\": \"2017-01-01\",\r\n    //          \"regDateTo\": \"2025-01-01\",\r\n    //          \"customerStatus\": [\"PENDING_ATHB_VERIFICATION\", \"DISABLED\", \"LOCKED\"]\r\n    //     } \r\n\r\n// // //Last Login Data AFTER\r\n// {\r\n//     \"accountType\": \"BUSINESS\",\r\n//     \"regDateFrom\": \"2025-05-01\",\r\n//    \"regDateTo\": \"2025-05-29\",\r\n//     \"username\": \"maria.ortiz@evertecinc.com\",\r\n//     \"lastLoginDate\": \"2025-06-01\",\r\n//     \"lastLoginAfterBefore\": \"AFTER\"\r\n//     // \"lastLoginAfterBefore\": \"BEFORE\"\r\n// }\r\n\r\n\r\n// //Last Login Data Sin campo AfterBefore\r\n// {\r\n//     \"accountType\": \"BUSINESS\",\r\n//     \"regDateTo\": \"2024-01-01\",\r\n//     \"regDateFrom\": \"2018-07-01\",\r\n//     \"username\": \"maria.ortiz@evertecinc.com\",\r\n//     \"lastLoginDate\": \"2025-01-17\"f\r\n// }\r\n\r\n// //Sin regDateFrom Data\r\n// {\r\n//     \"accountType\": \"BUSINESS\"\r\n// }\r\n\r\n\r\n\r\n\r\n\r\n// //Financial Institution One\r\n//         {\r\n//             \"accountType\": \"BUSINESS\",\r\n//             \"regDateFrom\": \"2017-05-01\",\r\n//             \"regDateTo\": \"2024-12-31\",\r\n//             \"institution\": [\"C035\"],\r\n//             \"username\": \"maria.ortiz@evertecinc.com\"\r\n//         }\r\n\r\n// //  //Financial Institution Multiple\r\n//         {\r\n//             \"accountType\": \"BUSINESS\",\r\n//             \"regDateFrom\": \"2017-05-01\",\r\n//             \"regDateTo\": \"2024-12-31\",\r\n//             \"institution\": [\"C049\", \"C076\", \"C021\", \"C035\"],\r\n//             \"username\": \"maria.ortiz@evertecinc.com\"\r\n//         }       \r\n\r\n\r\n        // //customerStatusActive\r\n        // {\r\n        //     \"accountType\": \"BUSINESS\",\r\n        //     \"regDateFrom\": \"2025-05-27\",\r\n        //     \"regDateTo\": \"2025-05-27\",\r\n        //     \"customerStatus\": [\"ACTIVE\"],\r\n        //     \"username\": \"laura.martinez@evertecinc.com\"\r\n        // }\r\n\r\n        //  // //customerStatusPendingRegainAccess Fail\r\n        // {\r\n        //     \"accountType\": \"BUSINESS\",\r\n        //     \"regDateFrom\": \"2025-05-27\",\r\n        //     \"regDateTo\": \"2025-05-27\",\r\n        //     \"customerStatus\": [\"PENDING_REGAIN_ACCESS_VERIFICATION\"]\r\n        // }\r\n\r\n    // //customerStatusMultiple\r\n        // {\r\n        //     \"accountType\": \"BUSINESS\",\r\n        //     \"regDateFrom\": \"2024-01-01\",\r\n        //     \"regDateTo\": \"2025-05-27\",\r\n        //     \"customerStatus\": [\"PENDING_ATHB_VERIFICATION\", \"DISABLED\", \"LOCKED\"],\r\n        //     \"username\": \"laura.martinez@evertecinc.com\"\r\n        // }\r\n\r\n        //   //cardStatusMultiple\r\n        // {\r\n        //     \"accountType\": \"BUSINESS\",\r\n        //     \"regDateFrom\": \"2025-01-01\",\r\n        //     \"regDateTo\": \"2025-06-01\",\r\n        //     \"cardStatus\": [\"DELETED_CARD\", \"INACTIVE_CARD\"],\r\n        //     \"username\": \"laura.martinez@evertecinc.com\"\r\n        // }\r\n\r\n//   //Primary Card Y\r\n//     {\r\n//         \"accountType\": \"BUSINESS\",\r\n//         \"regDateFrom\": \"2025-01-01\",\r\n//         \"regDateTo\": \"2025-06-01\",\r\n//         \"primaryCard\":\"YES\"\r\n//     }\r\n\r\n// //Primary Card NO\r\n// {\r\n//     \"accountType\": \"BUSINESS\",\r\n//     \"regDateFrom\": \"2025-01-01\",\r\n//     \"regDateTo\": \"2025-06-01\",\r\n//     \"primaryCard\":\"NO\"\r\n// }\r\n\r\n\r\n//  //   \"unregisteredUser\":\r\n//    {\r\n//     \"accountType\": \"BUSINESS\",\r\n//    \"regDateFrom\": \"2025-01-01\",\r\n//     \"regDateTo\": \"2025-06-17\",\r\n//     \"customerStatus\": [\"UNREGISTERED\"],\r\n//     \"unregisteredDateFrom\": \"2025-05-01\",\r\n//     \"unregisteredDateTo\": \"2025-06-18\"\r\n//   }\r\n\r\n\r\n// //   \"unregisteredUserLongerYears\":\r\n//    {\r\n//     \"accountType\": \"BUSINESS\",\r\n//    \"regDateFrom\": \"2018-01-01\",\r\n//     \"regDateTo\": \"2020-06-17\",\r\n//     \"customerStatus\": [\"UNREGISTERED\"],\r\n//     \"unregisteredDateFrom\": \"2015-05-01\",\r\n//     \"unregisteredDateTo\": \"2025-06-18\"\r\n//   }\r\n\r\n\r\n// //Required Data with no parameter primary card\r\n        //  {\r\n        //      \"accountType\": \"BUSINESS\",\r\n        //        \"regDateFrom\": \"2017-01-01\",\r\n        //      \"regDateTo\": \"2017-01-27\"\r\n        //  }\r\n\r\n\r\n// //Required Data with  primary card YES\r\n        //  {\r\n        //      \"accountType\": \"BUSINESS\",\r\n        //      \"regDateFrom\": \"2017-01-01\",\r\n        //      \"regDateTo\": \"2017-01-27\",\r\n        //      \"primaryCard\": \"YES\"\r\n        //  }\r\n\r\n//  //Required Data with  primary card NO\r\n         {\r\n             \"accountType\": \"BUSINESS\",\r\n             \"regDateFrom\": \"2017-01-01\",\r\n             \"regDateTo\": \"2017-01-27\",\r\n             \"primaryCard\": \"NO\"\r\n         }        \r\n\r\n\r\n",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{subpoena-microservice-url}}/athm-general-reports/api/v1/general/customer",
+									"host": [
+										"{{subpoena-microservice-url}}"
+									],
+									"path": [
+										"athm-general-reports",
+										"api",
+										"v1",
+										"general",
+										"customer"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "General Customer Personal",
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Authorization",
+										"value": "{{IdToken}}",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "\r\n// // //   \"requiredData\":\r\n//     {\r\n//      \"accountType\": \"PERSONAL\",\r\n//      \"regDateTo\": \"2025-06-01\",\r\n//      \"regDateFrom\": \"2025-01-01\",\r\n//      \"username\": \"maria.ortiz@evertecinc.com\"\r\n//    }\r\n   \r\n//    // //   \"requiredData 8 year\r\n//     {\r\n//      \"accountType\": \"PERSONAL\",\r\n//     \"regDateFrom\": \"2013-01-01\",\r\n//     \"regDateTo\": \"2021-01-01\"\r\n//    }\r\n   \r\n\r\n// // //   \"old registration search\":\r\n//   {\r\n//     \"accountType\": \"PERSONAL\",\r\n//     \"regDateTo\": \"2015-01-01\",\r\n//     \"regDateFrom\": \"2012-01-01\"\r\n//   }\r\n\r\n// //   \"beforeLastLogin\":\r\n//    {\r\n//     \"accountType\": \"PERSONAL\",\r\n//     \"regDateTo\": \"2024-01-01\",\r\n//     \"regDateFrom\": \"2018-07-01\",\r\n//     \"lastLoginDate\": \"2025-01-01\",\r\n//     \"lastLoginAfterBefore\": \"BEFORE\"\r\n//   }\r\n\r\n// //   \"afterLastLogin\": \r\n//   {\r\n//     \"accountType\": \"PERSONAL\",\r\n//     \"regDateTo\": \"2024-01-01\",\r\n//     \"regDateFrom\": \"2018-07-01\",\r\n//     \"username\": \"test_user@putsbox.com\",\r\n//     \"lastLoginDate\": \"2025-01-01\",\r\n//     \"lastLoginAfterBefore\": \"AFTER\"\r\n//   }\r\n\r\n// //   \"unregisteredUser\":\r\n/*   {\r\n    \"accountType\": \"PERSONAL\",\r\n   \"regDateFrom\": \"2017-06-01\",\r\n    \"regDateTo\": \"2025-06-01\",\r\n    \"customerStatus\": [5],\r\n    \"unregisteredDateFrom\": \"2017-06-01\",\r\n    \"unregisteredDateTo\": \"2025-06-01\"\r\n  }\r\n*/\r\n//   //   \"unregisteredUser 8 year\r\n//   {\r\n//     \"accountType\": \"PERSONAL\",\r\n//    \"regDateFrom\": \"2013-01-01\",\r\n//     \"regDateTo\": \"2021-01-01\",\r\n//     \"customerStatus\": [5],\r\n//     \"unregisteredDateFrom\": \"2016-06-01\",\r\n//     \"unregisteredDateTo\": \"2025-06-01\"\r\n//   }\r\n\r\n// // //   \"customerWitStatusActive\": \r\n//   {\r\n//     \"accountType\": \"PERSONAL\",\r\n//     \"regDateFrom\": \"2025-01-01\",\r\n//     \"regDateTo\": \"2025-06-01\",\r\n//     \"username\": \"test_user@putsbox.com\",\r\n//     \"customerStatus\": [4]\r\n//   }\r\n\r\n\r\n\r\n// //   \"customerWitStatusMultiple\": \r\n//   {\r\n//     \"accountType\": \"PERSONAL\",\r\n//     \"regDateFrom\": \"2024-09-01\",\r\n//     \"regDateTo\": \"2025-06-01\",\r\n//     \"customerStatus\": [3, 50, 47]\r\n//   }\r\n// //   \"withPrimaryCard\": \r\n//   {\r\n//     \"accountType\": \"PERSONAL\",\r\n//     \"regDateFrom\": \"2025-01-01\",\r\n//     \"regDateTo\": \"2025-06-01\",\r\n//     \"username\": \"test_user@putsbox.com\",\r\n//     \"primaryCard\": \"YES\"\r\n//   }\r\n\r\n// // //   \"withNoPrimaryCard\": \r\n//   {\r\n//     \"accountType\": \"PERSONAL\",\r\n//     \"regDateFrom\": \"2025-01-01\",\r\n//     \"regDateTo\": \"2025-06-01\",\r\n//     \"primaryCard\": \"NO\"\r\n//   }\r\n\r\n// //   \"withFraudStatus\":\r\n//    {\r\n//     \"accountType\": \"PERSONAL\",\r\n//     \"regDateTo\": \"2025-01-01\",\r\n//     \"regDateFrom\": \"2024-01-01\",\r\n//     \"username\": \"test_user@putsbox.com\",\r\n//     \"customerStatus\": [48],\r\n//     \"fraudStatus\": [\"TERMS_AND_CONDITIONS\",\"HIGH_VOLUME\",\"FRAUDSTER\"]\r\n//     // \"fraudStatus\": [\"EMPTY\"]\r\n   \r\n//   }\r\n// //   \"withSuspectStatus\":\r\n//    {\r\n//     \"accountType\": \"PERSONAL\",\r\n//     \"regDateTo\": \"2024-01-01\",\r\n//     \"regDateFrom\": \"2018-07-01\",\r\n//     \"username\": \"test_user@putsbox.com\",\r\n//     \"customerStatus\": [48],\r\n//     \"fraudStatus\": [\"SUSPECT\"]\r\n//   }\r\n\r\n// //   \"withRsaStatus\": \r\n//   {\r\n//     \"accountType\": \"PERSONAL\",\r\n//     \"regDateFrom\": \"2024-01-01\",\r\n//     \"regDateTo\": \"2025-06-01\",\r\n//     \"username\": \"test_user@putsbox.com\",\r\n//     \"rsaStatus\": [\"TWO_FACTOR_AUTHENTICATION_BLOCKED\", \"TWO_FACTOR_AUTHENTICATION_RESET\"]\r\n//   }\r\n\r\n// // \"withRsaStatusEmpty\":\r\n//    {\r\n//     \"accountType\": \"PERSONAL\",\r\n//     \"regDateFrom\": \"2024-01-01\",\r\n//     \"regDateTo\": \"2025-06-01\",\r\n//     \"username\": \"test_user@putsbox.com\",\r\n//     \"rsaStatus\": [\"EMPTY\"]\r\n//   }\r\n\r\n// //   \"withCardStatus\": \r\n//   {\r\n//     \"accountType\": \"PERSONAL\",\r\n//     \"regDateFrom\": \"2025-01-01\",\r\n//     \"regDateTo\": \"2025-06-01\",\r\n//     \"username\": \"test_user@putsbox.com\",\r\n//     \"cardStatus\": [14,47,23]\r\n//   }\r\n  \r\n\r\n// //   \"withFI\": \r\n//   {\r\n//     \"accountType\": \"PERSONAL\",\r\n//     \"regDateFrom\": \"2025-01-01\",\r\n//     \"regDateTo\": \"2025-06-01\",\r\n//     \"username\": \"test_user@putsbox.com\",\r\n//     \"institution\": [\"PR21\", \"BPPR\"]\r\n//   }\r\n\r\n// // \"Temporary phone Number\"\r\n// {\r\n//     \"accountType\": \"PERSONAL\",\r\n//     \"regDateFrom\": \"2022-01-01\",\r\n//     \"regDateTo\": \"2025-06-30\",\r\n//     \"phoneNumberStatus\": \"30\"  \r\n// }\r\n\r\n// // // // Prueba PO registration date desorganizada\r\n// {\r\n//     \"accountType\": \"PERSONAL\",\r\n//     \"regDateFrom\": \"2017-06-30\",\r\n//     \"regDateTo\": \"2025-06-30\",\r\n//      \"primaryCard\": \"YES\"\r\n// }\r\n \r\n//  Customer con ANY card activa Francisco\r\n{\r\n    \"accountType\": \"PERSONAL\",\r\n    \"regDateFrom\": \"2021-01-01\",\r\n    \"regDateTo\": \"2021-01-14\",\r\n     \"primaryCard\": \"YES\"\r\n}\r\n\r\n// // //Customer con varios teléfonos e instituciones\r\n// {\r\n//     \"accountType\": \"PERSONAL\",\r\n//     \"regDateFrom\": \"2022-05-13\",\r\n//     \"regDateTo\": \"2022-05-13\"\r\n// }\r\n",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{subpoena-microservice-url}}/athm-general-reports/api/v1/general/customer",
+									"host": [
+										"{{subpoena-microservice-url}}"
+									],
+									"path": [
+										"athm-general-reports",
+										"api",
+										"v1",
+										"general",
+										"customer"
+									]
+								}
+							},
+							"response": []
+						}
+					],
+					"description": "{  \n\"accountType\": \"PERSONAL\",  \n\"regDateTo\": \"2024-01-01\",  \n\"regDateFrom\": \"2018-07-01\",  \n\"username\": \"{{username}}\",\n\n``` json\n\"lastLoginDate\": \"\",\n\"lastLoginAfterBefore\": \"AFTER\",\n\"unregisteredDateFrom\": \"\",\n\"unregisteredDateTo\": \"\",\n// 5 -> Unregistered\n\"customerStatus\": [],\n// YES, NO\n\"primaryCard\": \"\",\n// NULL, TERMS_AND_CONDITIONS, FRAUDSTER, HIGH_VOLUME, EMPTY, SUSPECT\n\"fraudStatus\": [],\n// NULL, TWO_FACTOR_AUTHENTICATION_BLOCKED, RSA_ACTIVE, TWO_FACTOR_AUTHENTICATION_ACTIVE, RSA_ENROLLMENT_REQUIRED, TWO_FACTOR_AUTHENTICATION_RESET\n\"rsaStatus\": [],                             \n\"cardStatus\": [],\n\"institution\": []\n\n ```\n\n}\n\n{  \n\"accountType\": \"BUSINESS\",  \n\"regDateTo\": \"2024-01-01\",  \n\"regDateFrom\": \"2018-07-01\",  \n\"username\": \"{{username}}\",\n\n``` json\n\"lastLoginDate\": \"\",\n\"lastLoginAfterBefore\": \"AFTER\",\n// DISABLED_FRAUD, UNREGISTERED, ACTIVE, DISABLED, PENDING_ATHB_VERIFICATION, LOCKED\n\"customerStatus\": [],\n// YES, NO\n\"primaryCard\": \"\",\n// ACTIVE_CARD, DELETED_CARD, INACTIVE_CARD\n\"cardStatus\": [],\n\"institution\": [],\n\"category\": [],\n// YES, NO, ANY\n\"profit\": \"\"\n\n ```\n\n}"
+				},
+				{
+					"name": "Download",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{IdToken}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"url": {
+							"raw": "{{subpoena-microservice-url}}/athm-general-reports/api/v1/general/report-download?fileName=CustomersReport_23_07_2025_05_35_32.xlsx",
+							"host": [
+								"{{subpoena-microservice-url}}"
+							],
+							"path": [
+								"athm-general-reports",
+								"api",
+								"v1",
+								"general",
+								"report-download"
+							],
+							"query": [
+								{
+									"key": "fileName",
+									"value": "CustomersReport_23_07_2025_05_35_32.xlsx"
+								},
+								{
+									"key": "username",
+									"value": "maria.ortiz@evertecinc.com",
+									"disabled": true
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Latest Reports CUSTOMER",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"const jsonReponse = pm.response.json();",
+									"",
+									"console.log(jsonReponse.data[0].reports.length);"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{IdToken}}",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{subpoena-microservice-url}}/athm-general-reports/api/v1/general/lastReports?reportType=CUSTOMER",
+							"host": [
+								"{{subpoena-microservice-url}}"
+							],
+							"path": [
+								"athm-general-reports",
+								"api",
+								"v1",
+								"general",
+								"lastReports"
+							],
+							"query": [
+								{
+									"key": "reportType",
+									"value": "CUSTOMER"
+								},
+								{
+									"key": "",
+									"value": "",
+									"disabled": true
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Latest Reports TRANSACTION",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"const jsonReponse = pm.response.json();",
+									"",
+									"console.log(jsonReponse.data[0].reports.length);"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{IdToken}}",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{subpoena-microservice-url}}/athm-general-reports/api/v1/general/lastReports?reportType=TRANSACTION",
+							"host": [
+								"{{subpoena-microservice-url}}"
+							],
+							"path": [
+								"athm-general-reports",
+								"api",
+								"v1",
+								"general",
+								"lastReports"
+							],
+							"query": [
+								{
+									"key": "reportType",
+									"value": "TRANSACTION"
+								},
+								{
+									"key": "",
+									"value": "",
+									"disabled": true
+								}
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "health check",
+			"item": [
+				{
+					"name": "health_check_Subpoena",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"const jsonResponse = pm.response.json();",
+									"pm.test(\"Status code is 200\", function () {",
+									"    pm.response.to.have.status(200);",
+									"});",
+									"",
+									"pm.test(\"Validate response\", function() {",
+									"    pm.expect(jsonResponse.status).to.be.equal(\"UP\");",
+									"    pm.expect(jsonResponse.components.customHealthCheck.status).to.be.eq(\"UP\");",
+									"    pm.expect(jsonResponse.components.customHealthCheck.details.message).to.be.eq(\"Service is Up\");",
+									"    pm.expect(jsonResponse.components.customHealthCheck.details.version).to.contain(\"SNAPSHOT-BUILD\");",
+									"    pm.expect(jsonResponse.components.customHealthCheck.details.redshiftStatus).to.contain(\"Redshift is Up\");",
+									"    pm.expect(jsonResponse.components.customHealthCheck.details.memoryStatus).to.be.not.empty;",
+									"    pm.expect(jsonResponse.components.customHealthCheck.details.versionFileStatus).to.be.not.empty;",
+									"});",
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{IdToken}}",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{subpoena-microservice-url}}/athm-subpoenas-reports/api/v1/health",
+							"host": [
+								"{{subpoena-microservice-url}}"
+							],
+							"path": [
+								"athm-subpoenas-reports",
+								"api",
+								"v1",
+								"health"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "health_check_General",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"const jsonResponse = pm.response.json();",
+									"pm.test(\"Status code is 200\", function () {",
+									"    pm.response.to.have.status(200);",
+									"});",
+									"",
+									"pm.test(\"Validate response\", function() {",
+									"    pm.expect(jsonResponse.status).to.be.equal(\"UP\");",
+									"    pm.expect(jsonResponse.components.customHealthCheck.status).to.be.eq(\"UP\");",
+									"    pm.expect(jsonResponse.components.customHealthCheck.details.message).to.be.eq(\"Service is Up\");",
+									"    pm.expect(jsonResponse.components.customHealthCheck.details.version).to.contain(\"SNAPSHOT-BUILD\");",
+									"    pm.expect(jsonResponse.components.customHealthCheck.details.redshiftStatus).to.contain(\"Redshift is Up\");",
+									"    pm.expect(jsonResponse.components.customHealthCheck.details.memoryStatus).to.be.not.empty;",
+									"    pm.expect(jsonResponse.components.customHealthCheck.details.versionFileStatus).to.be.not.empty;",
+									"});",
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{IdToken}}",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{subpoena-microservice-url}}/athm-general-reports/api/v1/health",
+							"host": [
+								"{{subpoena-microservice-url}}"
+							],
+							"path": [
+								"athm-general-reports",
+								"api",
+								"v1",
+								"health"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "health check info",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{IdToken}}",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{subpoena-microservice-url}}/api/v1/athm-subpoenas-reporting-services/info",
+							"host": [
+								"{{subpoena-microservice-url}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"athm-subpoenas-reporting-services",
+								"info"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "search",
+			"item": [
+				{
+					"name": "Search Subpoenas PERSONAL reports",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Validar estructura de datos de la respuesta\", function () {\r",
+									"    // Parsear la respuesta JSON\r",
+									"    var jsonData = pm.response.json();\r",
+									"\r",
+									"    // Verificar que la respuesta tenga una propiedad \"data\"\r",
+									"    pm.expect(jsonData).to.have.property(\"data\");\r",
+									"\r",
+									"    // Verificar que \"data\" sea un array\r",
+									"    pm.expect(jsonData.data).to.be.an('array');\r",
+									"\r",
+									"    // Verificar que cada objeto dentro de \"data\" tenga una propiedad \"reports\"\r",
+									"    jsonData.data.forEach(function(item) {\r",
+									"        pm.expect(item).to.have.property(\"reports\");\r",
+									"\r",
+									"        // Verificar que \"reports\" sea un array\r",
+									"        pm.expect(item.reports).to.be.an('array');\r",
+									"\r",
+									"        // Verificar la estructura de cada objeto dentro de \"reports\"\r",
+									"        item.reports.forEach(function(report) {\r",
+									"            pm.expect(report).to.have.property(\"id\");\r",
+									"            pm.expect(report).to.have.property(\"requestedBy\");\r",
+									"            pm.expect(report).to.have.property(\"creationDate\");\r",
+									"            pm.expect(report).to.have.property(\"status\");\r",
+									"            pm.expect(report).to.have.property(\"type\");\r",
+									"            pm.expect(report).to.have.property(\"subtype\");\r",
+									"            pm.expect(report).to.have.property(\"filters\");\r",
+									"            pm.expect(report).to.have.property(\"fileName\");\r",
+									"            \r",
+									"            // Verificar que \"filters\" sea un objeto\r",
+									"            pm.expect(report.filters).to.be.an('object');\r",
+									"        });\r",
+									"    });\r",
+									"});"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{IdToken}}",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{subpoena-microservice-url}}/athm-subpoenas-reports/api/v1/subpoenas?from=2025-06-01&to=2025-06-11&subType=PERSONAL_DOB&status=ALL&username=laura.martinez@evertecinc.com",
+							"host": [
+								"{{subpoena-microservice-url}}"
+							],
+							"path": [
+								"athm-subpoenas-reports",
+								"api",
+								"v1",
+								"subpoenas"
+							],
+							"query": [
+								{
+									"key": "from",
+									"value": "2025-06-01"
+								},
+								{
+									"key": "to",
+									"value": "2025-06-11"
+								},
+								{
+									"key": "subType",
+									"value": "PERSONAL_DOB"
+								},
+								{
+									"key": "status",
+									"value": "ALL"
+								},
+								{
+									"key": "birthdate",
+									"value": "1988-01-01",
+									"disabled": true
+								},
+								{
+									"key": "username",
+									"value": "laura.martinez@evertecinc.com"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Search General reportsPERSONAL reports",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Validar estructura de datos de la respuesta\", function () {\r",
+									"    // Parsear la respuesta JSON\r",
+									"    var jsonData = pm.response.json();\r",
+									"\r",
+									"    // Verificar que la respuesta tenga una propiedad \"data\"\r",
+									"    pm.expect(jsonData).to.have.property(\"data\");\r",
+									"\r",
+									"    // Verificar que \"data\" sea un array\r",
+									"    pm.expect(jsonData.data).to.be.an('array');\r",
+									"\r",
+									"    // Verificar que cada objeto dentro de \"data\" tenga una propiedad \"reports\"\r",
+									"    jsonData.data.forEach(function(item) {\r",
+									"        pm.expect(item).to.have.property(\"reports\");\r",
+									"\r",
+									"        // Verificar que \"reports\" sea un array\r",
+									"        pm.expect(item.reports).to.be.an('array');\r",
+									"\r",
+									"        // Verificar la estructura de cada objeto dentro de \"reports\"\r",
+									"        item.reports.forEach(function(report) {\r",
+									"            pm.expect(report).to.have.property(\"id\");\r",
+									"            pm.expect(report).to.have.property(\"requestedBy\");\r",
+									"            pm.expect(report).to.have.property(\"creationDate\");\r",
+									"            pm.expect(report).to.have.property(\"status\");\r",
+									"            pm.expect(report).to.have.property(\"type\");\r",
+									"            pm.expect(report).to.have.property(\"subtype\");\r",
+									"            pm.expect(report).to.have.property(\"filters\");\r",
+									"            pm.expect(report).to.have.property(\"fileName\");\r",
+									"            \r",
+									"            // Verificar que \"filters\" sea un objeto\r",
+									"            pm.expect(report.filters).to.be.an('object');\r",
+									"        });\r",
+									"    });\r",
+									"});"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{IdToken}}",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{subpoena-microservice-url}}/api/v1/athm-reporting-services/general/lastReports?reportType=CUSTOMER&username=simon.fermo@evertecinc.com",
+							"host": [
+								"{{subpoena-microservice-url}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"athm-reporting-services",
+								"general",
+								"lastReports"
+							],
+							"query": [
+								{
+									"key": "birthdate",
+									"value": "2020-02-18",
+									"disabled": true
+								},
+								{
+									"key": "reportType",
+									"value": "CUSTOMER"
+								},
+								{
+									"key": "username",
+									"value": "simon.fermo@evertecinc.com"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Search Subpoenas Transactions",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Validar estructura de datos de la respuesta\", function () {\r",
+									"    // Parsear la respuesta JSON\r",
+									"    var jsonData = pm.response.json();\r",
+									"\r",
+									"    // Verificar que la respuesta tenga una propiedad \"data\"\r",
+									"    pm.expect(jsonData).to.have.property(\"data\");\r",
+									"\r",
+									"    // Verificar que \"data\" sea un array\r",
+									"    pm.expect(jsonData.data).to.be.an('array');\r",
+									"\r",
+									"    // Verificar que cada objeto dentro de \"data\" tenga una propiedad \"reports\"\r",
+									"    jsonData.data.forEach(function(item) {\r",
+									"        pm.expect(item).to.have.property(\"reports\");\r",
+									"\r",
+									"        // Verificar que \"reports\" sea un array\r",
+									"        pm.expect(item.reports).to.be.an('array');\r",
+									"\r",
+									"        // Verificar la estructura de cada objeto dentro de \"reports\"\r",
+									"        item.reports.forEach(function(report) {\r",
+									"            pm.expect(report).to.have.property(\"id\");\r",
+									"            pm.expect(report).to.have.property(\"requestedBy\");\r",
+									"            pm.expect(report).to.have.property(\"creationDate\");\r",
+									"            pm.expect(report).to.have.property(\"status\");\r",
+									"            pm.expect(report).to.have.property(\"type\");\r",
+									"            pm.expect(report).to.have.property(\"subtype\");\r",
+									"            pm.expect(report).to.have.property(\"filters\");\r",
+									"            pm.expect(report).to.have.property(\"fileName\");\r",
+									"            \r",
+									"            // Verificar que \"filters\" sea un objeto\r",
+									"            pm.expect(report.filters).to.be.an('object');\r",
+									"        });\r",
+									"    });\r",
+									"});"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "User-Agent",
+								"value": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:136.0) Gecko/20100101 Firefox/136.0"
+							},
+							{
+								"key": "Accept",
+								"value": "application/json, text/plain, */*"
+							},
+							{
+								"key": "Accept-Language",
+								"value": "en-US,en;q=0.5"
+							},
+							{
+								"key": "Accept-Encoding",
+								"value": "gzip, deflate, br, zstd"
+							},
+							{
+								"key": "Referer",
+								"value": "https://reports-dev.athmovil.com/"
+							},
+							{
+								"key": "Authorization",
+								"value": "{{IdToken}}"
+							}
+						],
+						"url": {
+							"raw": "{{subpoena-microservice-url}}/api/v1/athm-reporting-services/subpoenas?limit=10&offset=0&from=2025-05-01&to=2025-05-01&subType=PERSONAL&status=COMPLETED&username=laura.martinez%40evertecinc.com",
+							"host": [
+								"{{subpoena-microservice-url}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"athm-reporting-services",
+								"subpoenas"
+							],
+							"query": [
+								{
+									"key": "limit",
+									"value": "10"
+								},
+								{
+									"key": "offset",
+									"value": "0"
+								},
+								{
+									"key": "from",
+									"value": "2025-05-01"
+								},
+								{
+									"key": "to",
+									"value": "2025-05-01"
+								},
+								{
+									"key": "subType",
+									"value": "PERSONAL"
+								},
+								{
+									"key": "status",
+									"value": "COMPLETED"
+								},
+								{
+									"key": "path",
+									"value": "",
+									"disabled": true
+								},
+								{
+									"key": "username",
+									"value": "laura.martinez%40evertecinc.com"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Search Subpoenas by ID",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Validar estructura de datos de la respuesta\", function () {\r",
+									"    // Parsear la respuesta JSON\r",
+									"    var jsonData = pm.response.json();\r",
+									"\r",
+									"    // Verificar que la respuesta tenga una propiedad \"data\"\r",
+									"    pm.expect(jsonData).to.have.property(\"data\");\r",
+									"\r",
+									"    // Verificar que \"data\" sea un array\r",
+									"    pm.expect(jsonData.data).to.be.an('array');\r",
+									"\r",
+									"    // Verificar que cada objeto dentro de \"data\" tenga una propiedad \"reports\"\r",
+									"    jsonData.data.forEach(function(item) {\r",
+									"        pm.expect(item).to.have.property(\"reports\");\r",
+									"\r",
+									"        // Verificar que \"reports\" sea un array\r",
+									"        pm.expect(item.reports).to.be.an('array');\r",
+									"\r",
+									"        // Verificar la estructura de cada objeto dentro de \"reports\"\r",
+									"        item.reports.forEach(function(report) {\r",
+									"            pm.expect(report).to.have.property(\"id\");\r",
+									"            pm.expect(report).to.have.property(\"requestedBy\");\r",
+									"            pm.expect(report).to.have.property(\"creationDate\");\r",
+									"            pm.expect(report).to.have.property(\"status\");\r",
+									"            pm.expect(report).to.have.property(\"type\");\r",
+									"            pm.expect(report).to.have.property(\"subtype\");\r",
+									"            pm.expect(report).to.have.property(\"filters\");\r",
+									"            pm.expect(report).to.have.property(\"fileName\");\r",
+									"            \r",
+									"            // Verificar que \"filters\" sea un objeto\r",
+									"            pm.expect(report.filters).to.be.an('object');\r",
+									"        });\r",
+									"    });\r",
+									"});"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{IdToken}}",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{subpoena-microservice-url}}/athm-subpoenas-reports/api/v1/subpoenas?username=laura.martinez@evertecinc.com&id=31bb7a35-b497-46b0-a4f0-9bb864b3268f",
+							"host": [
+								"{{subpoena-microservice-url}}"
+							],
+							"path": [
+								"athm-subpoenas-reports",
+								"api",
+								"v1",
+								"subpoenas"
+							],
+							"query": [
+								{
+									"key": "username",
+									"value": "laura.martinez@evertecinc.com"
+								},
+								{
+									"key": "id",
+									"value": "31bb7a35-b497-46b0-a4f0-9bb864b3268f"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Search Subpoenas personal reports",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "User-Agent",
+								"value": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:136.0) Gecko/20100101 Firefox/136.0",
+								"disabled": true
+							},
+							{
+								"key": "Accept",
+								"value": "application/json, text/plain, */*",
+								"disabled": true
+							},
+							{
+								"key": "Accept-Language",
+								"value": "en-US,en;q=0.5",
+								"disabled": true
+							},
+							{
+								"key": "Accept-Encoding",
+								"value": "gzip, deflate, br, zstd",
+								"disabled": true
+							},
+							{
+								"key": "Referer",
+								"value": "https://reports-dev.athmovil.com/",
+								"disabled": true
+							},
+							{
+								"key": "Authorization",
+								"value": "{{IdToken}}"
+							}
+						],
+						"url": {
+							"raw": "{{subpoena-microservice-url}}/api/v1/athm-reporting-services/subpoenas?limit=10&offset=0&from=2025-05-01&to=2025-05-01&subType=PERSONAL&status=ALL&phone=9392779723&username=laura.martinez%40evertecinc.com",
+							"host": [
+								"{{subpoena-microservice-url}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"athm-reporting-services",
+								"subpoenas"
+							],
+							"query": [
+								{
+									"key": "limit",
+									"value": "10"
+								},
+								{
+									"key": "offset",
+									"value": "0"
+								},
+								{
+									"key": "from",
+									"value": "2025-05-01"
+								},
+								{
+									"key": "to",
+									"value": "2025-05-01"
+								},
+								{
+									"key": "subType",
+									"value": "PERSONAL"
+								},
+								{
+									"key": "status",
+									"value": "ALL"
+								},
+								{
+									"key": "phone",
+									"value": "9392779723"
+								},
+								{
+									"key": "username",
+									"value": "laura.martinez%40evertecinc.com"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Search Subpoenas business reports",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{IdToken}}"
+							}
+						],
+						"url": {
+							"raw": "{{subpoena-microservice-url}}/athm-subpoenas-reports/api/v1/subpoenas?limit=10&offset=0&from=2025-06-01&to=2025-06-16&subType=BUSINESS&status=ALL&path=TamalitosDavid&username=laura.martinez%40evertecinc.com",
+							"host": [
+								"{{subpoena-microservice-url}}"
+							],
+							"path": [
+								"athm-subpoenas-reports",
+								"api",
+								"v1",
+								"subpoenas"
+							],
+							"query": [
+								{
+									"key": "limit",
+									"value": "10"
+								},
+								{
+									"key": "offset",
+									"value": "0"
+								},
+								{
+									"key": "from",
+									"value": "2025-06-01"
+								},
+								{
+									"key": "to",
+									"value": "2025-06-16"
+								},
+								{
+									"key": "subType",
+									"value": "BUSINESS"
+								},
+								{
+									"key": "status",
+									"value": "ALL"
+								},
+								{
+									"key": "path",
+									"value": "TamalitosDavid"
+								},
+								{
+									"key": "username",
+									"value": "laura.martinez%40evertecinc.com"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Search last reports Transaction type",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{IdToken}}",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{subpoena-microservice-url}}/athm-subpoenas-reports/api/v1/subpoenas/lastReports?reportType=TRANSACTION&username=laura.martinez@evertecinc.com",
+							"host": [
+								"{{subpoena-microservice-url}}"
+							],
+							"path": [
+								"athm-subpoenas-reports",
+								"api",
+								"v1",
+								"subpoenas",
+								"lastReports"
+							],
+							"query": [
+								{
+									"key": "reportType",
+									"value": "TRANSACTION"
+								},
+								{
+									"key": "username",
+									"value": "laura.martinez@evertecinc.com"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Search last reports Customer",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{IdToken}}",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{subpoena-microservice-url}}/athm-subpoenas-reports/api/v1/subpoenas/lastReports?reportType=CUSTOMER&username=laura.martinez@evertecinc.com",
+							"host": [
+								"{{subpoena-microservice-url}}"
+							],
+							"path": [
+								"athm-subpoenas-reports",
+								"api",
+								"v1",
+								"subpoenas",
+								"lastReports"
+							],
+							"query": [
+								{
+									"key": "reportType",
+									"value": "CUSTOMER"
+								},
+								{
+									"key": "username",
+									"value": "laura.martinez@evertecinc.com"
+								}
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Integration Audit Logs",
+			"item": [
+				{
+					"name": "Get Subpoena Reports log",
+					"event": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									"const moment = require('moment');",
+									"const today = moment().format('YYYY-MM-DD');",
+									"const now = moment().format('YYYY-MM-DD');",
+									"",
+									"pm.environment.set('dateFrom', today);",
+									"pm.environment.set('dateTo', now);",
+									"",
+									"if (pm.environment.get(\"x-api-key\")) {",
+									"pm.request.headers.add({",
+									"    key: 'x-api-key',",
+									"    value: pm.environment.get(\"x-api-key\")",
+									"});",
+									"}",
+									"",
+									"pm.request.headers.add({",
+									"    key: 'Authorization',",
+									"    value: pm.environment.get(\"IdToken\")",
+									"    });",
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						},
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"const jsonResponse = pm.response.json();",
+									"",
+									"pm.test(\"Status code is 200\", function () {",
+									"    pm.response.to.have.status(200);",
+									"});",
+									"",
+									"pm.test(\"Validate response contain posted reports\", function() {",
+									"    const dobReportId = pm.environment.get('DOBReportId');",
+									"    const customerpersonalReportId = pm.environment.get('customerPersonalId');",
+									"    const customerBusinessReportId = pm.environment.get('customerBusinessReportId');",
+									"    const transactionBusinessReportId = pm.environment.get('transactionBusinessReportId');",
+									"    const transactionPersonalReportId = pm.environment.get('transactionPersonalReportId');",
+									"",
+									"    console.log(dobReportId);",
+									"     console.log(customerpersonalReportId);",
+									"     console.log(customerBusinessReportId);",
+									"     console.log(transactionBusinessReportId);",
+									"     console.log(transactionPersonalReportId);",
+									"",
+									"    const dobReport = jsonResponse.data.find(report => report.data=== getReportID(dobReportId));",
+									"    const cpReport = jsonResponse.data.find(report => report.data === getReportID(customerpersonalReportId));",
+									"    const cbReport = jsonResponse.data.find(report => report.data === getReportID(customerBusinessReportId));",
+									"    const tpReport = jsonResponse.data.find(report => report.data === getReportID(transactionPersonalReportId));",
+									"     const tbReport = jsonResponse.data.find(report => report.data === getReportID(transactionBusinessReportId));",
+									"",
+									"     console.log(dobReport);",
+									"     console.log(cpReport);",
+									"     console.log(cbReport);",
+									"     console.log(tbReport);",
+									"     console.log(tpReport);",
+									"     console.log(jsonResponse.data.length);",
+									"});",
+									"",
+									"function getReportID(reportID){",
+									"    const expectedFormat = \"{\\\"reportId\\\":\\\"\";",
+									"    const result = expectedFormat.concat(reportID).concat(\"\\\"}\");",
+									"",
+									"    return result;",
+									"}"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{reports-api-gateway-url}}/api/v1/auditLogs?dateFrom={{dateFrom}}&dateTo={{dateTo}}&action=BUILD_SUBPOENA_REPORT&limit=30&lastEvaluatedKey=3bf9b32d-18a6-4903-950a-596dc6bc411d&sortField=2025-05-01T11:56:57",
+							"host": [
+								"{{reports-api-gateway-url}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"auditLogs"
+							],
+							"query": [
+								{
+									"key": "dateFrom",
+									"value": "{{dateFrom}}"
+								},
+								{
+									"key": "dateTo",
+									"value": "{{dateTo}}"
+								},
+								{
+									"key": "action",
+									"value": "BUILD_SUBPOENA_REPORT"
+								},
+								{
+									"key": "limit",
+									"value": "30"
+								},
+								{
+									"key": "lastEvaluatedKey",
+									"value": "3bf9b32d-18a6-4903-950a-596dc6bc411d"
+								},
+								{
+									"key": "sortField",
+									"value": "2025-05-01T11:56:57"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get Subpoena Reports log Copy",
+					"event": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									"const moment = require('moment');",
+									"const today = moment().format('YYYY-MM-DD');",
+									"const now = moment().format('YYYY-MM-DD');",
+									"",
+									"pm.environment.set('dateFrom', today);",
+									"pm.environment.set('dateTo', now);",
+									"",
+									"if (pm.environment.get(\"x-api-key\")) {",
+									"pm.request.headers.add({",
+									"    key: 'x-api-key',",
+									"    value: pm.environment.get(\"x-api-key\")",
+									"});",
+									"}",
+									"",
+									"pm.request.headers.add({",
+									"    key: 'Authorization',",
+									"    value: pm.environment.get(\"IdToken\")",
+									"    });",
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						},
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"const jsonResponse = pm.response.json();",
+									"",
+									"pm.test(\"Status code is 200\", function () {",
+									"    pm.response.to.have.status(200);",
+									"});",
+									"",
+									"pm.test(\"Validate response contain posted reports\", function() {",
+									"    const dobReportId = pm.environment.get('DOBReportId');",
+									"    const customerpersonalReportId = pm.environment.get('customerPersonalId');",
+									"    const customerBusinessReportId = pm.environment.get('customerBusinessReportId');",
+									"    const transactionBusinessReportId = pm.environment.get('transactionBusinessReportId');",
+									"    const transactionPersonalReportId = pm.environment.get('transactionPersonalReportId');",
+									"",
+									"    console.log(dobReportId);",
+									"     console.log(customerpersonalReportId);",
+									"     console.log(customerBusinessReportId);",
+									"     console.log(transactionBusinessReportId);",
+									"     console.log(transactionPersonalReportId);",
+									"",
+									"    const dobReport = jsonResponse.data.find(report => report.data=== getReportID(dobReportId));",
+									"    const cpReport = jsonResponse.data.find(report => report.data === getReportID(customerpersonalReportId));",
+									"    const cbReport = jsonResponse.data.find(report => report.data === getReportID(customerBusinessReportId));",
+									"    const tpReport = jsonResponse.data.find(report => report.data === getReportID(transactionPersonalReportId));",
+									"     const tbReport = jsonResponse.data.find(report => report.data === getReportID(transactionBusinessReportId));",
+									"",
+									"     console.log(dobReport);",
+									"     console.log(cpReport);",
+									"     console.log(cbReport);",
+									"     console.log(tbReport);",
+									"     console.log(tpReport);",
+									"     console.log(jsonResponse.data.length);",
+									"});",
+									"",
+									"function getReportID(reportID){",
+									"    const expectedFormat = \"{\\\"reportId\\\":\\\"\";",
+									"    const result = expectedFormat.concat(reportID).concat(\"\\\"}\");",
+									"",
+									"    return result;",
+									"}"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{reports-api-gateway-url}}/api/v1/auditLogs?dateFrom={{dateFrom}}&dateTo={{dateTo}}&action=DOWNLOAD_REPORT&limit=30&lastEvaluatedKey=71466457-1af4-4d02-bde4-94dc88aff80f&sortField=2025-05-01T12:15:00",
+							"host": [
+								"{{reports-api-gateway-url}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"auditLogs"
+							],
+							"query": [
+								{
+									"key": "dateFrom",
+									"value": "{{dateFrom}}"
+								},
+								{
+									"key": "dateTo",
+									"value": "{{dateTo}}"
+								},
+								{
+									"key": "action",
+									"value": "DOWNLOAD_REPORT"
+								},
+								{
+									"key": "limit",
+									"value": "30"
+								},
+								{
+									"key": "lastEvaluatedKey",
+									"value": "71466457-1af4-4d02-bde4-94dc88aff80f"
+								},
+								{
+									"key": "sortField",
+									"value": "2025-05-01T12:15:00"
+								}
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Cognito Copy",
+			"item": [
+				{
+					"name": "login in cognito",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"var jsonData = pm.response.json();\r",
+									"pm.environment.set(\"IdToken\", jsonData.AuthenticationResult.IdToken);"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "X-Amz-Target",
+								"value": "AWSCognitoIdentityProviderService.InitiateAuth"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/x-amz-json-1.1"
+							},
+							{
+								"key": "x-api-key",
+								"value": "{{x-api-key}}",
+								"type": "text",
+								"disabled": true
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"AuthParameters\": {\n        \"USERNAME\": \"{{username}}\",\n        \"PASSWORD\": \"{{password}}\"\n        \n    },\n    \"AuthFlow\": \"USER_PASSWORD_AUTH\",\n    \"ClientId\": \"{{clientId}}\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{cognitoURL}}",
+							"host": [
+								"{{cognitoURL}}"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Download report file",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {",
+							"    pm.response.to.have.status(200);",
+							"});",
+							""
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "{{IdToken}}",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{subpoena-microservice-url}}/athm-subpoenas-reports/api/v1/download?fileName=Personal_TR_Subpoena_06_04_2025_14_46_27.xlsx&username=maria.ortiz@evertecinc.com",
+					"host": [
+						"{{subpoena-microservice-url}}"
+					],
+					"path": [
+						"athm-subpoenas-reports",
+						"api",
+						"v1",
+						"download"
+					],
+					"query": [
+						{
+							"key": "fileName",
+							"value": "Personal_TR_Subpoena_06_04_2025_14_46_27.xlsx"
+						},
+						{
+							"key": "username",
+							"value": "maria.ortiz@evertecinc.com"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Download general_report file",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {",
+							"    pm.response.to.have.status(200);",
+							"});",
+							""
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "{{IdToken}}",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{subpoena-microservice-url}}/api/v1/athm-reporting-services/download?fileName=Personal_TR_Subpoena_7876054180_05_27_2025_15_41_09.xlsx&username=maria.ortiz@evertecinc.com",
+					"host": [
+						"{{subpoena-microservice-url}}"
+					],
+					"path": [
+						"api",
+						"v1",
+						"athm-reporting-services",
+						"download"
+					],
+					"query": [
+						{
+							"key": "fileName",
+							"value": "Personal_TR_Subpoena_7876054180_05_27_2025_15_41_09.xlsx"
+						},
+						{
+							"key": "username",
+							"value": "maria.ortiz@evertecinc.com"
+						}
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}

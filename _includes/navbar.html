@@ -1,0 +1,36 @@
+<nav class="navbar">
+  <div class="navbar-container">
+    <div class="navbar-brand">
+      <a href="{{ '/' | relative_url }}" class="logo">
+        <span class="logo-icon">📚</span>
+        <span class="logo-text">{{ site.title }}</span>
+      </a>
+    </div>
+    
+    <div class="navbar-search">
+      <input 
+        type="text" 
+        id="search-input" 
+        class="search-box" 
+        placeholder="Buscar documentación..."
+        aria-label="Buscar"
+      >
+      <div id="search-results" class="search-results hidden"></div>
+    </div>
+    
+    <div class="navbar-links">
+      <a href="{{ '/docs/qsr/' | relative_url }}" class="nav-link">QSR</a>
+      <a href="{{ '/docs/arquitectura/' | relative_url }}" class="nav-link">Arquitectura</a>
+      <a href="{{ '/docs/backend/' | relative_url }}" class="nav-link">Backend</a>
+      <button class="theme-toggle" id="theme-toggle" aria-label="Cambiar tema">
+        <span id="theme-icon">🌙</span>
+      </button>
+    </div>
+    
+    <button class="mobile-menu-toggle" id="mobile-menu-toggle" aria-label="Menú">
+      <span></span>
+      <span></span>
+      <span></span>
+    </button>
+  </div>
+</nav>

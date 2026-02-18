@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="{{ site.lang | default: 'es' }}">
+<head>
+  {% include head.html %}
+</head>
+<body class="dark-mode">
+  <div class="page-wrapper">
+    {% include navbar.html %}
+    
+    <div class="main-content">
+      {% include sidebar.html %}
+      
+      <main class="content">
+        {{ content }}
+      </main>
+    </div>
+    
+    {% include footer.html %}
+  </div>
+  
+  <script src="{{ '/assets/js/search.js' | relative_url }}"></script>
+</body>
+</html>
