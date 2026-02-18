@@ -3,8 +3,6 @@ layout: page
 title: Arquitectura - Reporting Center
 ---
 
-# Arquitectura - Reporting Center
-
 ## Visión General del Sistema
 
 El Reporting Center está diseñado como un sistema distribuido que maneja la generación y gestión de reportes Subpoenas para cumplimiento de requerimientos federales del gobierno de EEUU.

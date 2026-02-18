@@ -3,8 +3,6 @@ layout: page
 title: Business Categories - Lambda Function
 ---
 
-# Business Categories - Lambda Function
-
 ## 📋 Descripción General
 
 Función Lambda del repositorio `api-reports` que consulta categorías de negocio desde Redshift. Proporciona una lista de categorías disponibles con información de habilitación y soporte multiidioma.

@@ -3,8 +3,6 @@ layout: page
 title: Variables de Entorno - Subpoenas
 ---
 
-# Variables de Entorno - Microservicio Subpoenas
-
 ## 📋 Descripción General
 
 Este documento describe todas las variables de entorno utilizadas en el microservicio de Subpoenas del Reporting Center, organizadas por categorías y ambientes.

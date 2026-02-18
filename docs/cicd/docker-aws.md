@@ -3,8 +3,6 @@ layout: page
 title: Docker y AWS ECR
 ---
 
-# Docker y AWS ECR - Despliegue Manual
-
 Este documento contiene las instrucciones para realizar despliegues manuales en caso de que el pipeline esté bloqueado.
 
 ## 📋 Requisitos Previos

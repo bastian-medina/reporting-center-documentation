@@ -3,8 +3,6 @@ layout: page
 title: Checklist QSR
 ---
 
-# Checklist QSR - Pase a Producción
-
 Lista de verificación completa para asegurar un pase a producción exitoso del sistema Reporting Center.
 
 ## 📋 Pre-Deploy Checklist

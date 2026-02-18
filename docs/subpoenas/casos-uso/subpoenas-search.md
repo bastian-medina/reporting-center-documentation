@@ -3,8 +3,6 @@ layout: page
 title: SubpoenasSearchUseCase
 ---
 
-# SubpoenasSearchUseCase
-
 ## 📋 Descripción
 
 **Propósito**: Buscar reportes de subpoenas existentes por diferentes criterios como ID específico, subtipo, fechas, estado y otros filtros.

@@ -3,8 +3,6 @@ layout: page
 title: Financial Institutions - Lambda
 ---
 
-# Financial Institutions - Lambda Function
-
 ## 📋 Descripción General
 
 Función Lambda del repositorio `api-reports` que consulta instituciones financieras desde Redshift. Permite obtener todas las instituciones o buscar una específica por ID.

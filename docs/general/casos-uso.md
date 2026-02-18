@@ -3,8 +3,6 @@ layout: page
 title: Casos de Uso - Microservicio Reportes Generales
 ---
 
-# Casos de Uso - Microservicio Reportes Generales
-
 ## 📋 Descripción General
 
 Este documento describe todos los casos de uso implementados en el microservicio de reportes generales (`athmrc-dev-reporting-general`), incluyendo su propósito, tipo de ejecución (síncrono/asíncrono) y validaciones del request body.

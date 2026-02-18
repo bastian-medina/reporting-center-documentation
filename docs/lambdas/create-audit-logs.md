@@ -3,8 +3,6 @@ layout: page
 title: Create Audit Logs - Lambda
 ---
 
-# Create Audit Logs - Lambda Function
-
 ## 📋 Descripción General
 
 Función Lambda del repositorio `athm-dev-anl-dataflow` que procesa eventos de SQS para crear registros de auditoría en DynamoDB. Actúa como consumidor de mensajes para el sistema de auditoría distribuido.

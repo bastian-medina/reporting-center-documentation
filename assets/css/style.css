@@ -309,15 +309,18 @@ body {
   cursor: pointer;
   font-family: inherit;
   font-size: 1rem;
+  position: relative;
+  z-index: 1;
 }
 .btn-primary {
   background-color: #6366f1;
   color: white;
+  box-shadow: 0 2px 8px rgba(99, 102, 241, 0.3);
 }
 .btn-primary:hover {
   background-color: #4f46e5;
   transform: translateY(-2px);
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+  box-shadow: 0 4px 12px rgba(99, 102, 241, 0.5);
 }
 .btn-secondary {
   background-color: transparent;

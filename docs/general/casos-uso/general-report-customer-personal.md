@@ -3,8 +3,6 @@ layout: page
 title: GeneralReportCustomerPersonalUseCase
 ---
 
-# GeneralReportCustomerPersonalUseCase
-
 ## 📋 Descripción
 
 **Propósito**: Generar reportes de clientes personales con información demográfica, estados de tarjetas, fechas de registro y datos de login.

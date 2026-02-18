@@ -3,8 +3,6 @@ layout: page
 title: DownloadFileUseCase
 ---
 
-# DownloadFileUseCase
-
 ## 📋 Descripción
 
 **Propósito**: Descargar archivo de reporte de subpoena previamente generado desde S3, con desencriptación automática del contenido.

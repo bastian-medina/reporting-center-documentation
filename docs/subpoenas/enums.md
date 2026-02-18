@@ -3,8 +3,6 @@ layout: page
 title: Enums - Subpoenas
 ---
 
-# Enums - Subpoenas
-
 ## 📋 Descripción
 
 Este documento contiene todos los valores posibles de los enums utilizados en el microservicio de subpoenas.

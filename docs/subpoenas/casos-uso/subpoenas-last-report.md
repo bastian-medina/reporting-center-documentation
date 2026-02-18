@@ -3,8 +3,6 @@ layout: page
 title: SubpoenasLastReportUseCase
 ---
 
-# SubpoenasLastReportUseCase
-
 ## 📋 Descripción
 
 **Propósito**: Consultar información de los últimos reportes de subpoenas generados por el usuario autenticado, filtrados por tipo de reporte.

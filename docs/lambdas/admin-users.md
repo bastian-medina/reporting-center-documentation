@@ -3,8 +3,6 @@ layout: page
 title: Admin Users Handler - Lambda Function
 ---
 
-# Admin Users Handler - Lambda Function
-
 ## 📋 Descripción General
 
 Función Lambda del repositorio `api-reports` que maneja la gestión de usuarios administrativos en AWS Cognito. Permite crear, actualizar y deshabilitar usuarios del sistema.

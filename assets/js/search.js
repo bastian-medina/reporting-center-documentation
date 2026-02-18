@@ -1,31 +1,117 @@
-// Search implementation with Lunr.js
+// Search implementation - Native JavaScript
 document.addEventListener("DOMContentLoaded", function () {
   const searchInput = document.getElementById("search-input");
   const searchResults = document.getElementById("search-results");
 
-  if (!searchInput) return;
+  if (!searchInput) {
+    console.warn("Elemento search-input no encontrado");
+    return;
+  }
 
-  // Variable para almacenar el índice de búsqueda
-  let searchIndex = null;
-  let searchData = null;
+  if (!searchResults) {
+    console.warn("Elemento search-results no encontrado");
+    return;
+  }
+
+  // Variable para almacenar los datos de búsqueda
+  let searchData = [];
+  let searchLoaded = false;
+  let searchError = false;
+
+  // Intentar diferentes rutas para el archivo JSON
+  const searchPaths = [
+    "/search-data.json",
+    "/search-data-static.json",
+    "./search-data.json",
+    "./search-data-static.json",
+    "../search-data.json",
+    "../../search-data.json"
+  ];
 
   // Cargar datos de búsqueda
-  fetch("/search-data.json")
-    .then((response) => response.json())
-    .then((data) => {
-      searchData = data;
-      // Crear índice de Lunr
-      searchIndex = lunr(function () {
-        this.field("title", { boost: 10 });
-        this.field("content");
-        this.field("url");
+  async function loadSearchData() {
+    for (const path of searchPaths) {
+      try {
+        const response = await fetch(path);
+        if (response.ok) {
+          const data = await response.json();
+          if (Array.isArray(data)) {
+            searchData = data.filter(item => item && item.title && item.url);
+            searchLoaded = true;
+            searchError = false;
+            console.log(`✓ Índice de búsqueda cargado: ${searchData.length} páginas desde ${path}`);
+            return;
+          }
+        }
+      } catch (error) {
+        console.log(`Intento fallido con ${path}:`, error.message);
+      }
+    }
+    
+    searchError = true;
+    console.error("No se pudo cargar el índice de búsqueda desde ninguna ruta");
+  }
 
-        data.forEach((page) => {
-          this.add(page);
+  loadSearchData();
+
+  // Función para normalizar texto (remover acentos y convertir a minúsculas)
+  function normalizeText(text) {
+    if (!text) return "";
+    return text
+      .toLowerCase()
+      .normalize("NFD")
+      .replace(/[\u0300-\u036f]/g, "");
+  }
+
+  // Función de búsqueda nativa
+  function performSearch(query) {
+    if (!searchData || searchData.length === 0) return [];
+
+    const normalizedQuery = normalizeText(query);
+    const queryTerms = normalizedQuery.split(/\s+/).filter(term => term.length > 0);
+
+    const results = searchData
+      .map((page) => {
+        const normalizedTitle = normalizeText(page.title || "");
+        const normalizedContent = normalizeText(page.content || "");
+        
+        let score = 0;
+        let matchedInTitle = false;
+        let matchedInContent = false;
+
+        // Calcular score basado en coincidencias
+        queryTerms.forEach(term => {
+          // Búsqueda en título (peso mayor)
+          if (normalizedTitle.includes(term)) {
+            score += 10;
+            matchedInTitle = true;
+          }
+          // Búsqueda en contenido
+          if (normalizedContent.includes(term)) {
+            score += 1;
+            matchedInContent = true;
+          }
         });
-      });
-    })
-    .catch((error) => console.log("Error loading search data:", error));
+
+        // Bonus si coincide la búsqueda exacta
+        if (normalizedTitle.includes(normalizedQuery)) {
+          score += 20;
+        }
+        if (normalizedContent.includes(normalizedQuery)) {
+          score += 5;
+        }
+
+        return {
+          page,
+          score,
+          matched: matchedInTitle || matchedInContent
+        };
+      })
+      .filter(result => result.matched && result.score > 0)
+      .sort((a, b) => b.score - a.score);
+
+    return results;
+  }
 
   // Event listener para búsqueda
   searchInput.addEventListener("input", function (e) {
@@ -37,39 +123,54 @@ document.addEventListener("DOMContentLoaded", function () {
       return;
     }
 
-    if (!searchIndex) {
+    if (searchError) {
       searchResults.innerHTML =
-        '<div class="search-result"><div class="result-title">Índice de búsqueda cargando...</div></div>';
+        '<div class="search-result"><div class="result-title">⚠️ Error: No se pudo cargar el índice de búsqueda</div><div class="result-context">Asegúrate de que el sitio esté compilado con Jekyll.</div></div>';
+      searchResults.classList.remove("hidden");
+      return;
+    }
+
+    if (!searchLoaded) {
+      searchResults.innerHTML =
+        '<div class="search-result"><div class="result-title">⏳ Cargando índice de búsqueda...</div></div>';
       searchResults.classList.remove("hidden");
       return;
     }
 
     // Realizar búsqueda
-    const results = searchIndex.search(query);
+    const results = performSearch(query);
 
     if (results.length === 0) {
       searchResults.innerHTML =
-        '<div class="search-result"><div class="result-title">No se encontraron resultados</div></div>';
+        `<div class="search-result"><div class="result-title">❌ No se encontraron resultados para "${query}"</div></div>`;
       searchResults.classList.remove("hidden");
       return;
     }
 
     // Mostrar resultados
-    searchResults.innerHTML = results
-      .slice(0, 8)
+    const resultHTML = `
+      <div class="search-result-header">
+        <small>Encontrados ${results.length} resultado${results.length !== 1 ? 's' : ''}</small>
+      </div>
+    ` + results
+      .slice(0, 10)
       .map((result) => {
-        const page = searchData.find((p) => p.url === result.ref);
-        if (!page) return "";
+        const page = result.page;
+        const contentPreview = (page.content || "")
+          .substring(0, 120)
+          .replace(/\s+/g, ' ')
+          .trim();
 
         return `
         <a href="${page.url}" class="search-result">
-          <div class="result-title">${page.title}</div>
-          <div class="result-context">${page.content.substring(0, 80)}...</div>
+          <div class="result-title">📄 ${page.title}</div>
+          ${contentPreview ? `<div class="result-context">${contentPreview}...</div>` : ''}
         </a>
       `;
       })
       .join("");
 
+    searchResults.innerHTML = resultHTML;
     searchResults.classList.remove("hidden");
   });
 
@@ -77,6 +178,14 @@ document.addEventListener("DOMContentLoaded", function () {
   document.addEventListener("click", function (e) {
     if (!e.target.closest(".navbar-search")) {
       searchResults.classList.add("hidden");
+    }
+  });
+
+  // Soporte para navegación con teclado
+  searchInput.addEventListener("keydown", function(e) {
+    if (e.key === "Escape") {
+      searchResults.classList.add("hidden");
+      searchInput.blur();
     }
   });
 });
@@ -135,7 +244,9 @@ document.addEventListener("click", function (e) {
   }
 });
 
-// Table of contents generation (opcional)
+// Table of contents generation (opcional) - DESHABILITADO
+// Ya existe "Tabla de contenido" en los archivos markdown
+/*
 function generateTableOfContents() {
   const content = document.querySelector(".content");
   if (!content) return;
@@ -177,3 +288,4 @@ if (document.readyState === "loading") {
 } else {
   generateTableOfContents();
 }
+*/

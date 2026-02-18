@@ -3,8 +3,6 @@ layout: page
 title: GeneralReportTransactionPOSPaymentUseCase
 ---
 
-# GeneralReportTransactionPOSPaymentUseCase
-
 ## 📋 Descripción
 
 **Propósito**: Generar reportes de transacciones de pagos POS (Point of Sale) con detalles de comercios, montos y estados.

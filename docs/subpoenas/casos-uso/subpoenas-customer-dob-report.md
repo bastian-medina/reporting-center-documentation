@@ -3,8 +3,6 @@ layout: page
 title: SubpoenasCustomerDOBReportUseCase
 ---
 
-# SubpoenasCustomerDOBReportUseCase
-
 ## 📋 Descripción
 
 **Propósito**: Generar reportes de subpoenas para búsqueda de clientes por fecha de nacimiento específica (Date of Birth).

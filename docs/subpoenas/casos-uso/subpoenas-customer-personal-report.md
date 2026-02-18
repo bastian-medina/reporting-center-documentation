@@ -3,8 +3,6 @@ layout: page
 title: SubpoenasCustomerPersonalReportUseCase
 ---
 
-# SubpoenasCustomerPersonalReportUseCase
-
 ## 📋 Descripción
 
 **Propósito**: Generar reportes de subpoenas para clientes de tipo personal con información de KYC, datos personales y de contacto.

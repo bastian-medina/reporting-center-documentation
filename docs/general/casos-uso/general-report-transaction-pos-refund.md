@@ -3,8 +3,6 @@ layout: page
 title: GeneralReportTransactionPOSRefundUseCase
 ---
 
-# GeneralReportTransactionPOSRefundUseCase
-
 ## 📋 Descripción
 
 **Propósito**: Generar reportes de reembolsos específicos de transacciones realizadas en puntos de venta (POS).

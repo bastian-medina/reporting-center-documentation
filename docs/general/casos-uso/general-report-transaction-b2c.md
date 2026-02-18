@@ -3,8 +3,6 @@ layout: page
 title: GeneralReportTransactionB2CTransferUseCase
 ---
 
-# GeneralReportTransactionB2CTransferUseCase
-
 ## 📋 Descripción
 
 **Propósito**: Generar reportes de transferencias negocio a cliente (B2C) como devoluciones o pagos empresariales.

@@ -1,14 +1,7 @@
 ---
 layout: page
-title: 🔧 Funciones Lambda
----
-
----
-layout: page
 title: AWS Lambda Functions
 ---
-
-# 🔧 Funciones Lambda
 
 Documentación de todas las funciones AWS Lambda utilizadas en el sistema Reporting Center.
 

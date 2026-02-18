@@ -3,8 +3,6 @@ layout: page
 title: List Cognito Users - Lambda
 ---
 
-# List Cognito Users - Lambda Function
-
 ## 📋 Descripción General
 
 Función Lambda del repositorio `api-reports` que obtiene usuarios de AWS Cognito con paginación y filtros. Permite buscar usuarios por atributos específicos y retorna información completa incluyendo roles.

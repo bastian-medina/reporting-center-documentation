@@ -3,8 +3,6 @@ layout: page
 title: GeneralReportTransactionRefundUseCase
 ---
 
-# GeneralReportTransactionRefundUseCase
-
 ## 📋 Descripción
 
 **Propósito**: Generar reportes de reembolsos y devoluciones de transacciones fallidas o disputadas.

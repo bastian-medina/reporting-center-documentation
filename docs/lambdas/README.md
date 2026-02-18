@@ -3,8 +3,6 @@ layout: page
 title: Funciones Lambda - Reporting Center
 ---
 
-# Funciones Lambda - Reporting Center
-
 Este directorio contiene la documentación de las funciones Lambda de los repositorios del proyecto Reporting Center, utilizando Serverless Framework v3.
 
 ## 📁 Estructura de Repositorios

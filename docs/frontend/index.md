@@ -3,8 +3,6 @@ layout: page
 title: Frontend - Reporting Center
 ---
 
-# Frontend - Reporting Center
-
 ## 📋 Descripción
 
 El frontend del Reporting Center es una aplicación web construida para proporcionar una interfaz de usuario intuitiva para la gestión de reportes Subpoenas y administración de usuarios. La aplicación está diseñada con diferentes módulos especializados que permiten a los usuarios realizar operaciones específicas según su rol y permisos.

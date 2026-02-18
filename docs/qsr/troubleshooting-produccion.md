@@ -3,8 +3,6 @@ layout: page
 title: Troubleshooting - Pases a Producción
 ---
 
-# Troubleshooting - Pases a Producción
-
 Guía de resolución de problemas comunes durante los pases a producción del sistema Reporting Center.
 
 ## 🚨 Problemas Comunes por Pipeline

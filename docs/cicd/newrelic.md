@@ -3,8 +3,6 @@ layout: page
 title: New Relic - Monitoreo y Observabilidad
 ---
 
-# New Relic - Monitoreo y Observabilidad
-
 ## Descripción General
 
 New Relic es la plataforma de observabilidad utilizada en el Reporting Center para monitorear el rendimiento de la aplicación Java, rastrear transacciones, identificar errores, y obtener insights sobre el comportamiento del sistema en tiempo real.

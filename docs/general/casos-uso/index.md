@@ -3,8 +3,6 @@ layout: page
 title: Casos de Uso - Reportes Generales
 ---
 
-# Casos de Uso - Reportes Generales
-
 ## 📋 Índice de Casos de Uso
 
 Este directorio contiene la documentación detallada de todos los casos de uso del microservicio de reportes generales. Cada caso de uso incluye validaciones específicas, campos obligatorios y opcionales, y ejemplos de request/response.

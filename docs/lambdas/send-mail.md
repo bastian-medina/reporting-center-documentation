@@ -3,8 +3,6 @@ layout: page
 title: Send Mail - Lambda
 ---
 
-# Send Mail - Lambda Function
-
 ## 📋 Descripción General
 
 Función Lambda del repositorio `athm-dev-anl-dataflow` que procesa eventos de SQS para enviar correos electrónicos utilizando SendGrid. Maneja el envío asíncrono de notificaciones del sistema.

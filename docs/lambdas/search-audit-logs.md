@@ -3,8 +3,6 @@ layout: page
 title: Search Audit Logs - Lambda
 ---
 
-# Search Audit Logs - Lambda Function
-
 ## 📋 Descripción General
 
 Función Lambda del repositorio `api-reports` que busca y consulta logs de auditoría almacenados en DynamoDB. Permite filtrar por usuario, acción, rango de fechas y proporciona paginación de resultados.

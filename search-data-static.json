@@ -1,0 +1,257 @@
+[
+  {
+    "url": "/",
+    "title": "Reporting Center",
+    "content": "Bienvenido a la documentación técnica oficial del Reporting Center. Una plataforma especializada en la gestión y generación de reportes, con enfoque en casos de uso específicos como Subpoenas para cumplimiento de requerimientos federales. 🚀 Para Empezar Si necesitas hacer un pase a producción Sigue la sección QSR completa que contiene toda la información que necesitas: 1. Índice QSR - Punto de entrada 2. Pipelines de Producción 3. Proceso de Deploy 4. Checklist QSR 5. Troubleshooting Si necesit"
+  },
+  {
+    "url": "/docs/arquitectura/",
+    "title": "Arquitectura - Reporting Center",
+    "content": "Visión General del Sistema El Reporting Center está diseñado como un sistema distribuido que maneja la generación y gestión de reportes Subpoenas para cumplimiento de requerimientos federales del gobierno de EEUU. Diagramas de Arquitectura Vista General de Arquitectura Limpia Relación de Componentes Modelos de Datos Filtros de Búsqueda Ejemplo: Eventos de Auditoría Componentes del Sistema Microservicios 1. Microservicio Principal: Maneja la lógica de negocio principal 2. Microservicio de Auditor"
+  },
+  {
+    "url": "/docs/backend/",
+    "title": "Backend - Reporting Center",
+    "content": "Tecnologías Versiones y Dependencias Stack Principal: - Spring Boot: 2.7.3 - Jacoco: 0.8.10 - Gradle: 7.6 - Java: 17 - Spring WebFlux Dependencias del Microservicio Desarrollo: Testing: Diseño de Arquitectura Arquitectura Limpia (Clean Architecture) El microservicio de Subpoenas está diseñado siguiendo los principios de arquitectura limpia, lo que permite: - Vista general arquitectura limpia: Separación clara de responsabilidades - Relación de componentes arquitectura limpia: Flujo de dependenci"
+  },
+  {
+    "url": "/docs/cicd/docker-aws",
+    "title": "Docker y AWS ECR",
+    "content": "Este documento contiene las instrucciones para realizar despliegues manuales en caso de que el pipeline esté bloqueado. 📋 Requisitos Previos - AWS CLI configurado con las credenciales apropiadas - Docker instalado y configurado - Acceso al repositorio ECR de ATH Móvil Reportes Generales - Repository: - Image Name: Subpoenas - Repository: - Image Name: 🚀 Proceso de Despliegue Paso 0: Preparación del Build (Requerido) Antes de ejecutar los comandos de Docker, debes preparar el proyecto siguiendo"
+  },
+  {
+    "url": "/docs/cicd/",
+    "title": "CI/CD - Integración y Despliegue Continuo",
+    "content": "Este documento contiene la información sobre los pipelines de CI/CD y procesos de integración continua del proyecto Reporting Center. 🔧 Jenkins - Pipelines Automáticos El proyecto utiliza Jenkins para la integración y despliegue continuo en los diferentes ambientes. 📋 Requisitos de Acceso ⚠️ Importante: Debes estar conectado a la VPN corporativa para acceder a los recursos de Jenkins. 🚀 Repositorios Jenkins Subpoenas - Microservicio - Pipeline: INTEGRATOR_DEV - Descripción: Pipeline principal"
+  },
+  {
+    "url": "/docs/cicd/newrelic",
+    "title": "New Relic - Monitoreo y Observabilidad",
+    "content": "Descripción General New Relic es la plataforma de observabilidad utilizada en el Reporting Center para monitorear el rendimiento de la aplicación Java, rastrear transacciones, identificar errores, y obtener insights sobre el comportamiento del sistema en tiempo real. Configuración del Agente Java El proyecto utiliza el agente de New Relic para Java con las siguientes características: - Monitoreo de transacciones en tiempo real - Distributed tracing para rastrear requests entre servicios - Logs f"
+  },
+  {
+    "url": "/docs/frontend/",
+    "title": "Frontend - Reporting Center",
+    "content": "📋 Descripción El frontend del Reporting Center es una aplicación web construida para proporcionar una interfaz de usuario intuitiva para la gestión de reportes Subpoenas y administración de usuarios. La aplicación está diseñada con diferentes módulos especializados que permiten a los usuarios realizar operaciones específicas según su rol y permisos. 📑 Tabla de Contenido - Módulo Administrador de Usuarios - Módulo Auditoría (Logs de auditoría) - Módulo Reportes Subpoenas - Módulo Búsqueda de Re"
+  },
+  {
+    "url": "/docs/general/casos-uso/download-file",
+    "title": "DownloadFileUseCase",
+    "content": "📋 Descripción Propósito: Descargar archivo de reporte previamente generado usando el ID del reporte o URL de descarga. Tipo de Ejecución: Síncrono (WebFlux) - Respuesta inmediata con stream del archivo o redirección Request Body: Sin request body (consulta por parámetro de URL) 📊 Parámetros del Request | Parámetro | Ubicación | Tipo | Obligatorio | Validaciones | Valores Permitidos | |-----------|-----------|------|-------------|--------------|-------------------| | | Path Parameter | | ✅ Sí |"
+  },
+  {
+    "url": "/docs/general/casos-uso/general-last-report",
+    "title": "GeneralLastReportUseCase",
+    "content": "📋 Descripción Propósito: Consultar información del último reporte generado por el usuario autenticado para verificar estado y progreso. Tipo de Ejecución: Síncrono (WebFlux) - Respuesta inmediata con información del último reporte Request Body: Sin request body (consulta por contexto de autenticación) 📊 Campos del Request | Campo | Tipo | Obligatorio | Validaciones | Valores Permitidos | |-------|------|-------------|--------------|-------------------| | | | ✅ Sí | String no vacío (inyectado a"
+  },
+  {
+    "url": "/docs/general/casos-uso/general-report-customer-business",
+    "title": "GeneralReportCustomerBusinessUseCase",
+    "content": "📋 Descripción Propósito: Generar reportes de clientes empresariales con información de negocios, categorías, rentabilidad y datos específicos de empresas. Tipo de Ejecución: Asíncrono (WebFlux) - Procesamiento en background con notificación por email Request Body: 📊 Campos del Request Body | Campo | Tipo | Obligatorio | Validaciones | Valores Permitidos | |-------|------|-------------|--------------|-------------------| | | | ✅ Sí | | (fijo para este caso de uso) | | | | ✅ Sí | , formato YYYY-"
+  },
+  {
+    "url": "/docs/general/casos-uso/general-report-customer-personal",
+    "title": "GeneralReportCustomerPersonalUseCase",
+    "content": "📋 Descripción Propósito: Generar reportes de clientes personales con información demográfica, estados de tarjetas, fechas de registro y datos de login. Tipo de Ejecución: Asíncrono (WebFlux) - Procesamiento en background con notificación por email Request Body: 📊 Campos del Request Body | Campo | Tipo | Obligatorio | Validaciones | Valores Permitidos | |-------|------|-------------|--------------|-------------------| | | | ✅ Sí | | (fijo para este caso de uso) | | | | ✅ Sí | , formato YYYY-MM-"
+  },
+  {
+    "url": "/docs/general/casos-uso/general-report-transaction-b2c",
+    "title": "GeneralReportTransactionB2CTransferUseCase",
+    "content": "📋 Descripción Propósito: Generar reportes de transferencias negocio a cliente (B2C) como devoluciones o pagos empresariales. Tipo de Ejecución: Asíncrono (WebFlux) - Procesamiento en background con notificación por email Request Body: 📊 Campos del Request Body | Campo | Tipo | Obligatorio | Validaciones | Valores Permitidos | |-------|------|-------------|--------------|-------------------| | | | ✅ Sí | | (fijo para este caso de uso) | | | | ✅ Sí | , formato YYYY-MM-DD, no antes del año mínimo"
+  },
+  {
+    "url": "/docs/general/casos-uso/general-report-transaction-p2b",
+    "title": "GeneralReportTransactionP2BTransferUseCase",
+    "content": "📋 Descripción Propósito: Generar reportes de transferencias persona a negocio (P2B) como pagos de servicios, productos o facturas. Tipo de Ejecución: Asíncrono (WebFlux) - Procesamiento en background con notificación por email Request Body: 📊 Campos del Request Body | Campo | Tipo | Obligatorio | Validaciones | Valores Permitidos | |-------|------|-------------|--------------|-------------------| | | | ✅ Sí | | (fijo para este caso de uso) | | | | ✅ Sí | , formato YYYY-MM-DD, no antes del año "
+  },
+  {
+    "url": "/docs/general/casos-uso/general-report-transaction-p2p",
+    "title": "GeneralReportTransactionP2PTransferUseCase",
+    "content": "📋 Descripción Propósito: Generar reportes de transferencias persona a persona (P2P) con datos de remitente, receptor y montos. Tipo de Ejecución: Asíncrono (WebFlux) - Procesamiento en background con notificación por email Request Body: 📊 Campos del Request Body | Campo | Tipo | Obligatorio | Validaciones | Valores Permitidos | |-------|------|-------------|--------------|-------------------| | | | ✅ Sí | | (fijo para este caso de uso) | | | | ✅ Sí | , formato YYYY-MM-DD, no antes del año míni"
+  },
+  {
+    "url": "/docs/general/casos-uso/general-report-transaction-pos-payment",
+    "title": "GeneralReportTransactionPOSPaymentUseCase",
+    "content": "📋 Descripción Propósito: Generar reportes de transacciones de pagos POS (Point of Sale) con detalles de comercios, montos y estados. Tipo de Ejecución: Asíncrono (WebFlux) - Procesamiento en background con notificación por email Request Body: 📊 Campos del Request Body | Campo | Tipo | Obligatorio | Validaciones | Valores Permitidos | |-------|------|-------------|--------------|-------------------| | | | ✅ Sí | | (fijo para este caso de uso) | | | | ✅ Sí | , formato YYYY-MM-DD, no antes del añ"
+  },
+  {
+    "url": "/docs/general/casos-uso/general-report-transaction-pos-refund",
+    "title": "GeneralReportTransactionPOSRefundUseCase",
+    "content": "📋 Descripción Propósito: Generar reportes de reembolsos específicos de transacciones realizadas en puntos de venta (POS). Tipo de Ejecución: Asíncrono (WebFlux) - Procesamiento en background con notificación por email Request Body: 📊 Campos del Request Body | Campo | Tipo | Obligatorio | Validaciones | Valores Permitidos | |-------|------|-------------|--------------|-------------------| | | | ✅ Sí | | (fijo para este caso de uso) | | | | ✅ Sí | , formato YYYY-MM-DD, no antes del año mínimo co"
+  },
+  {
+    "url": "/docs/general/casos-uso/general-report-transaction-refund",
+    "title": "GeneralReportTransactionRefundUseCase",
+    "content": "📋 Descripción Propósito: Generar reportes de reembolsos y devoluciones de transacciones fallidas o disputadas. Tipo de Ejecución: Asíncrono (WebFlux) - Procesamiento en background con notificación por email Request Body: 📊 Campos del Request Body | Campo | Tipo | Obligatorio | Validaciones | Valores Permitidos | |-------|------|-------------|--------------|-------------------| | | | ✅ Sí | | (fijo para este caso de uso) | | | | ✅ Sí | , formato YYYY-MM-DD, no antes del año mínimo configurado |"
+  },
+  {
+    "url": "/docs/general/casos-uso/",
+    "title": "Casos de Uso - Reportes Generales",
+    "content": "📋 Índice de Casos de Uso Este directorio contiene la documentación detallada de todos los casos de uso del microservicio de reportes generales. Cada caso de uso incluye validaciones específicas, campos obligatorios y opcionales, y ejemplos de request/response. 🏢 Casos de Uso de Reportes de Clientes 1. Reporte de Clientes Personas - UseCase: - Request: - Tipo: Asíncrono - Propósito: Generar reportes de clientes personas naturales con datos personales y de KYC 2. Reporte de Clientes Empresas - U"
+  },
+  {
+    "url": "/docs/general/casos-uso",
+    "title": "Casos de Uso - Microservicio Reportes Generales",
+    "content": "📋 Descripción General Este documento describe todos los casos de uso implementados en el microservicio de reportes generales (), incluyendo su propósito, tipo de ejecución (síncrono/asíncrono) y validaciones del request body. 🏗️ Arquitectura de Casos de Uso El microservicio utiliza Spring WebFlux (programación reactiva) con Clean Architecture. Todos los casos de uso retornan para procesamiento asíncrono no bloqueante. 📊 Casos de Uso de Reportes de Clientes 1. GeneralReportCustomerPersonalUseC"
+  },
+  {
+    "url": "/docs/general/enums",
+    "title": "Enums - Reportes Generales",
+    "content": "📋 Descripción Este documento contiene todos los valores posibles de los enums utilizados en el microservicio de reportes generales. 🔄 GeneralReportTransTypeEnum Propósito: Define los tipos de transacciones para reportes generales. Uso: Campo en | Valor | Descripción | |-------|-------------| | | Cualquier tipo de transacción | | | Transferencias persona a persona | | | Consultas de balance | | | Transferencias persona a negocio | | | Reembolsos y devoluciones | | | Pagos en puntos de venta | |"
+  },
+  {
+    "url": "/docs/general/",
+    "title": "General - Configuración y Referencia",
+    "content": "Esta sección contiene información de configuración, constantes y casos de uso generales del sistema Reporting Center. 📑 Contenidos 🔧 Variables de Entorno Todas las variables de configuración necesarias por ambiente (desarrollo, staging, producción). Incluye: - Configuración de Base de Datos - Credenciales AWS - Variables de Aplicación - Endpoints y URLs 📝 Enums y Constantes Valores constantes, enumeraciones y tipos del sistema. Incluye: - Account Types - Report Status - Transaction Types - Er"
+  },
+  {
+    "url": "/docs/general/variables_entorno",
+    "title": "Variables de Entorno",
+    "content": "📋 Descripción General Este documento describe todas las variables de entorno utilizadas en los microservicios del Reporting Center, organizadas por categorías y ambientes. 🏗️ Variables del Microservicio de Reportes Generales Configuración del Servidor Rutas de la API Configuración de AWS Configuración de DynamoDB Configuración de SQS Configuración de Secrets Manager Configuración de CORS Mensajes de Error Personalizados Configuración Específica 🏢 Configuración por Ambientes Desarrollo (DEV) C"
+  },
+  {
+    "url": "/docs/lambdas/README",
+    "title": "Funciones Lambda - Reporting Center",
+    "content": "Este directorio contiene la documentación de las funciones Lambda de los repositorios del proyecto Reporting Center, utilizando Serverless Framework v3. 📁 Estructura de Repositorios 1. API Reports Repository - 📊 Contiene 5 funciones Lambda para gestión de usuarios, auditoría y datos maestros: - Admin Users Handler ✅ - Crear, actualizar y deshabilitar usuarios administrativos - List Cognito Users ✅ - Listar usuarios con paginación y filtros - Search Audit Logs ✅ - Buscar logs de auditoría con f"
+  },
+  {
+    "url": "/docs/lambdas/admin-users",
+    "title": "Admin Users Handler - Lambda Function",
+    "content": "📋 Descripción General Función Lambda del repositorio que maneja la gestión de usuarios administrativos en AWS Cognito. Permite crear, actualizar y deshabilitar usuarios del sistema. 🔧 Configuración Serverless 🔍 Parámetros de Entrada Request Body (JSON) 📊 Ejemplos de Uso Crear Usuario Actualizar Usuario Actualizar Usuario Sin Cambiar Contraseña Deshabilitar Usuario 📊 Estructura de Respuesta Respuesta de Creación Exitosa Respuesta de Actualización Exitosa Respuesta de Deshabilitación Exitosa "
+  },
+  {
+    "url": "/docs/lambdas/business-categories",
+    "title": "Business Categories - Lambda Function",
+    "content": "📋 Descripción General Función Lambda del repositorio que consulta categorías de negocio desde Redshift. Proporciona una lista de categorías disponibles con información de habilitación y soporte multiidioma. 🔧 Configuración Serverless 🔍 Parámetros de Entrada Query Parameters 📊 Ejemplos de Uso Obtener Todas las Categorías Obtener Solo Categorías Habilitadas Obtener Solo Categorías Deshabilitadas 📊 Estructura de Respuesta Respuesta Exitosa Respuesta Filtrada por Estado Respuesta Sin Resultados"
+  },
+  {
+    "url": "/docs/lambdas/create-audit-logs",
+    "title": "Create Audit Logs - Lambda",
+    "content": "📋 Descripción General Función Lambda del repositorio que procesa eventos de SQS para crear registros de auditoría en DynamoDB. Actúa como consumidor de mensajes para el sistema de auditoría distribuido. 🔧 Configuración Serverless 🔍 Estructura del Evento SQS SQS Event Message Payload del Mensaje (JSON en body) 📊 Ejemplos de Mensajes SQS Creación de Usuario Actualización de Usuario Deshabilitación de Usuario Procesamiento por Lotes 📚 Referencias - Search Audit Logs - Para consultar los logs c"
+  },
+  {
+    "url": "/docs/lambdas/financial-institutions",
+    "title": "Financial Institutions - Lambda",
+    "content": "📋 Descripción General Función Lambda del repositorio que consulta instituciones financieras desde Redshift. Permite obtener todas las instituciones o buscar una específica por ID. 🔧 Configuración Serverless 🔍 Parámetros de Entrada Query Parameters 📊 Ejemplos de Uso Obtener Todas las Instituciones Financieras Obtener Institución Específica por ID Buscar Institución por FIID 📊 Estructura de Respuesta Respuesta - Todas las Instituciones Respuesta - Institución Específica Respuesta Sin Resultad"
+  },
+  {
+    "url": "/docs/lambdas/",
+    "title": "AWS Lambda Functions",
+    "content": "Documentación de todas las funciones AWS Lambda utilizadas en el sistema Reporting Center. 📋 Funciones Disponibles Gestión de Usuarios Admin Users - Crear, actualizar y eliminar usuarios administrativos - Gestión de roles y permisos List Cognito Users - Listar usuarios de AWS Cognito - Filtros y búsqueda Datos de Referencia Business Categories - Gestión de categorías de negocio - Sincronización de datos Financial Institutions - Información de instituciones financieras - Actualización de catálog"
+  },
+  {
+    "url": "/docs/lambdas/list-cognito-users",
+    "title": "List Cognito Users - Lambda",
+    "content": "📋 Descripción General Función Lambda del repositorio que obtiene usuarios de AWS Cognito con paginación y filtros. Permite buscar usuarios por atributos específicos y retorna información completa incluyendo roles. 🔧 Configuración Serverless 🔍 Parámetros de Entrada Query Parameters Atributos de Búsqueda Válidos - email: Buscar por dirección de correo electrónico - name: Buscar por nombre del usuario - family_name: Buscar por apellido del usuario 📊 Ejemplos de Uso Listar Usuarios Sin Filtros L"
+  },
+  {
+    "url": "/docs/lambdas/search-audit-logs",
+    "title": "Search Audit Logs - Lambda",
+    "content": "📋 Descripción General Función Lambda del repositorio que busca y consulta logs de auditoría almacenados en DynamoDB. Permite filtrar por usuario, acción, rango de fechas y proporciona paginación de resultados. 🔧 Configuración Serverless 🔍 Parámetros de Entrada Query Parameters 📊 Ejemplos de Uso Búsqueda Básica por Rango de Fechas Búsqueda por Usuario Específico Búsqueda por Tipo de Acción Búsqueda Completa con Filtros Paginación - Página Siguiente 📊 Estructura de Respuesta Respuesta Exitosa"
+  },
+  {
+    "url": "/docs/lambdas/send-mail",
+    "title": "Send Mail - Lambda",
+    "content": "📋 Descripción General Función Lambda del repositorio que procesa eventos de SQS para enviar correos electrónicos utilizando SendGrid. Maneja el envío asíncrono de notificaciones del sistema. 🔧 Configuración Serverless 🔍 Estructura del Evento SQS SQS Event Message Payload del Mensaje (JSON en body) 📊 Ejemplos de Mensajes SQS Notificación de Nuevo Usuario Notificación de Usuario Actualizado Notificación de Usuario Deshabilitado Notificación de Reporte Generado Procesamiento por Lotes Mixto 📧 "
+  },
+  {
+    "url": "/docs/lambdas/status-list",
+    "title": "Status List - Lambda",
+    "content": "📋 Descripción General Función Lambda del repositorio que consulta listas de estados desde Redshift. Proporciona estados del sistema organizados por tipos, útiles para dropdowns y validaciones en la aplicación. 🔧 Configuración Serverless 🔍 Parámetros de Entrada Query Parameters 📊 Ejemplos de Uso Obtener Todos los Estados Obtener Estados por Tipo Específico Obtener Estados de Tipo Usuario Obtener Estados de Tipo Transacción 📊 Estructura de Respuesta Respuesta - Todos los Estados Respuesta Fil"
+  },
+  {
+    "url": "/docs/qsr/checklist-qsr",
+    "title": "Checklist QSR",
+    "content": "Lista de verificación completa para asegurar un pase a producción exitoso del sistema Reporting Center. 📋 Pre-Deploy Checklist Documentación y Aprobaciones - [ ] QSR Number: _____________ - [ ] QSR Status: Aprobado por todas las partes - [ ] Change Description: Documentada y revisada - [ ] Business Impact: Evaluado y comunicado - [ ] Technical Impact: Analizado por el equipo técnico - [ ] Rollback Plan: Documentado y validado - [ ] Stakeholder Approval: Obtenida de todas las áreas Validaciones "
+  },
+  {
+    "url": "/docs/qsr/index-qsr",
+    "title": "QSR - Pases a Producción",
+    "content": "Este directorio contiene toda la documentación relacionada con los Quality Service Requests (QSR) y los procesos de pase a producción del sistema Reporting Center. 📋 Contenido 📖 Orden recomendado de lectura: 1. 🏗️ Pipelines de Producción - Conocer todos los pipelines disponibles 2. 🚀 Proceso de Deploy - Entender el proceso paso a paso 3. ✅ Checklist QSR - Ejecutar con lista de verificación 4. 🚨 Troubleshooting - Resolver problemas comunes 5. 📄 QSR-2666059 Reference - Referencia específica "
+  },
+  {
+    "url": "/docs/qsr/",
+    "title": "QSR - Pases a Producción",
+    "content": "Esta sección contiene toda la documentación relacionada con los Quality Service Requests (QSR) y los procedimientos de pase a producción del sistema Reporting Center. 📋 Orden de Lectura Recomendado Sigue este orden para entender el proceso completo: 1. 🏗️ Pipelines de Producción - Conoce todos los pipelines disponibles 2. 🚀 Proceso de Deploy - Aprende el procedimiento paso a paso 3. ✅ Checklist QSR - Ejecuta con lista de verificación 4. 🚨 Troubleshooting - Resuelve problemas comunes 5. 📄 QS"
+  },
+  {
+    "url": "/docs/qsr/pipelines-produccion",
+    "title": "Pipelines de Producción",
+    "content": "Esta documentación detalla todos los pipelines disponibles para los pases a producción del sistema Reporting Center. 🏗️ Arquitectura de Pipelines El sistema cuenta con múltiples pipelines especializados para diferentes componentes del ecosistema Reporting Center. Cada pipeline está identificado con un código único y cumple funciones específicas. 🚀 Pipelines Principales DataFlow Pipeline Pipeline ID: - Función: Procesamiento y transformación de datos - Componentes: ETL processes, data validatio"
+  },
+  {
+    "url": "/docs/qsr/proceso-deploy",
+    "title": "Proceso de Deploy a Producción",
+    "content": "Esta guía describe el proceso paso a paso para realizar despliegues a producción del sistema Reporting Center usando los pipelines establecidos. 📋 Pre-requisitos Accesos Requeridos - VPN Corporativa - Conectividad a recursos internos - Jenkins Access - Permisos para ejecutar pipelines - AWS Console - Verificación de servicios - QSR Approved - Quality Service Request aprobado Validaciones Previas - [ ] Código en rama tested y aprobado - [ ] QSR documentado y aprobado por stakeholders - [ ] Backu"
+  },
+  {
+    "url": "/docs/qsr/qsr-2666059-reference",
+    "title": "QSR-2666059 - Referencia",
+    "content": "Este documento complementa la documentación de pases a producción con información específica del QSR-2666059 y los archivos asociados. 📄 Archivos de Referencia QSR-2666059 - CICD QSR Pipelines Instructions to Deploy Archivo: Contenido esperado: - Instrucciones detalladas para ejecutar pipelines - Secuencia específica de deployment - Validaciones requeridas entre pasos - Configuraciones específicas para producción QSR-2666059 - Test Script Pipeline Archivo: Contenido esperado: - Scripts de valid"
+  },
+  {
+    "url": "/docs/qsr/troubleshooting-produccion",
+    "title": "Troubleshooting - Pases a Producción",
+    "content": "Guía de resolución de problemas comunes durante los pases a producción del sistema Reporting Center. 🚨 Problemas Comunes por Pipeline Cognito Pipeline Issues Pipeline: Error: \"User Pool Configuration Failed\" Síntomas: - Pipeline falla en stage de configuración - Usuarios no pueden autenticarse - Error 500 en login endpoint Causas Posibles: - Configuración de SAML/LDAP incorrecta - Cambios en certificados SSL - Límites de rate en AWS Cognito Solución: Tiempo de resolución: 10-15 minutos DataFlow"
+  },
+  {
+    "url": "/docs/subpoenas/casos-uso/download-file",
+    "title": "DownloadFileUseCase",
+    "content": "📋 Descripción Propósito: Descargar archivo de reporte de subpoena previamente generado desde S3, con desencriptación automática del contenido. Tipo de Ejecución: Síncrono (WebFlux) - Respuesta inmediata con stream del archivo desencriptado Request Body: Sin request body (parámetros por query string) 📊 Parámetros del Request | Parámetro | Ubicación | Tipo | Obligatorio | Validaciones | Valores Permitidos | |-----------|-----------|------|-------------|--------------|-------------------| | | Que"
+  },
+  {
+    "url": "/docs/subpoenas/casos-uso/",
+    "title": "Casos de Uso - Subpoenas",
+    "content": "📋 Índice de Casos de Uso Este directorio contiene la documentación detallada de todos los casos de uso del microservicio de subpoenas. Cada caso de uso incluye validaciones específicas, campos obligatorios y opcionales, y ejemplos de request/response. 🏢 Casos de Uso de Reportes de Clientes 1. Reporte de Clientes Personales - UseCase: - Request: - Tipo: Asíncrono - Propósito: Generar reportes de subpoenas para clientes personas naturales 2. Reporte de Clientes Empresariales - UseCase: - Request"
+  },
+  {
+    "url": "/docs/subpoenas/casos-uso/subpoenas-customer-business-report",
+    "title": "SubpoenasCustomerBusinessReportUseCase",
+    "content": "📋 Descripción Propósito: Generar reportes de subpoenas para clientes de tipo empresarial con información corporativa, representantes legales y datos de negocio. Tipo de Ejecución: Asíncrono (WebFlux) - Procesamiento en background con notificación por email Request Body: 📊 Campos del Request Body | Campo | Tipo | Obligatorio | Validaciones | Valores Permitidos | |-------|------|-------------|--------------|-------------------| | | | ✅ Sí | , debe ser | (fijo para este caso de uso) | | | | ✅ Sí "
+  },
+  {
+    "url": "/docs/subpoenas/casos-uso/subpoenas-customer-dob-report",
+    "title": "SubpoenasCustomerDOBReportUseCase",
+    "content": "📋 Descripción Propósito: Generar reportes de subpoenas para búsqueda de clientes por fecha de nacimiento específica (Date of Birth). Tipo de Ejecución: Asíncrono (WebFlux) - Procesamiento en background con notificación por email Request Body: 📊 Campos del Request Body | Campo | Tipo | Obligatorio | Validaciones | Valores Permitidos | |-------|------|-------------|--------------|-------------------| | | | ✅ Sí | , debe ser | (fijo para este caso de uso) | | | | ✅ Sí | | Email del usuario autent"
+  },
+  {
+    "url": "/docs/subpoenas/casos-uso/subpoenas-customer-personal-report",
+    "title": "SubpoenasCustomerPersonalReportUseCase",
+    "content": "📋 Descripción Propósito: Generar reportes de subpoenas para clientes de tipo personal con información de KYC, datos personales y de contacto. Tipo de Ejecución: Asíncrono (WebFlux) - Procesamiento en background con notificación por email Request Body: 📊 Campos del Request Body | Campo | Tipo | Obligatorio | Validaciones | Valores Permitidos | |-------|------|-------------|--------------|-------------------| | | | ✅ Sí | , debe ser | (fijo para este caso de uso) | | | | ✅ Sí | | Email del usuar"
+  },
+  {
+    "url": "/docs/subpoenas/casos-uso/subpoenas-last-report",
+    "title": "SubpoenasLastReportUseCase",
+    "content": "📋 Descripción Propósito: Consultar información de los últimos reportes de subpoenas generados por el usuario autenticado, filtrados por tipo de reporte. Tipo de Ejecución: Síncrono (WebFlux) - Respuesta inmediata con información de reportes históricos Request Body: Sin request body (parámetros por query string) 📊 Parámetros del Request | Parámetro | Ubicación | Tipo | Obligatorio | Validaciones | Valores Permitidos | |-----------|-----------|------|-------------|--------------|----------------"
+  },
+  {
+    "url": "/docs/subpoenas/casos-uso/subpoenas-search",
+    "title": "SubpoenasSearchUseCase",
+    "content": "📋 Descripción Propósito: Buscar reportes de subpoenas existentes por diferentes criterios como ID específico, subtipo, fechas, estado y otros filtros. Tipo de Ejecución: Síncrono (WebFlux) - Respuesta inmediata con resultados de búsqueda Request Body: Sin request body (parámetros por query string) 📊 Parámetros del Request | Parámetro | Ubicación | Tipo | Obligatorio | Validaciones | Valores Permitidos | |-----------|-----------|------|-------------|--------------|-------------------| | | Query"
+  },
+  {
+    "url": "/docs/subpoenas/casos-uso/subpoenas-transaction-business-report",
+    "title": "SubpoenasTransactionBusinessReportUseCase",
+    "content": "📋 Descripción Propósito: Generar reportes de subpoenas para transacciones de clientes empresariales incluyendo transacciones corporativas e información empresarial. Tipo de Ejecución: Asíncrono (WebFlux) - Procesamiento en background con notificación por email Request Body: 📊 Campos del Request Body | Campo | Tipo | Obligatorio | Validaciones | Valores Permitidos | |-------|------|-------------|--------------|-------------------| | | | ✅ Sí | , debe ser | (fijo para este caso de uso) | | | | ✅"
+  },
+  {
+    "url": "/docs/subpoenas/casos-uso/subpoenas-transaction-personal-report",
+    "title": "SubpoenasTransactionPersonalReportUseCase",
+    "content": "📋 Descripción Propósito: Generar reportes de subpoenas para transacciones de clientes personales incluyendo P2P, POS, P2B y datos de usuario. Tipo de Ejecución: Asíncrono (WebFlux) - Procesamiento en background con notificación por email Request Body: 📊 Campos del Request Body | Campo | Tipo | Obligatorio | Validaciones | Valores Permitidos | |-------|------|-------------|--------------|-------------------| | | | ✅ Sí | , debe ser | (fijo para este caso de uso) | | | | ✅ Sí | | Email del usuar"
+  },
+  {
+    "url": "/docs/subpoenas/enums",
+    "title": "Enums - Subpoenas",
+    "content": "📋 Descripción Este documento contiene todos los valores posibles de los enums utilizados en el microservicio de subpoenas. 🏢 SubpoenasCustomerReportSubTypeEnum Propósito: Define los subtipos de reportes de clientes para subpoenas. Uso: Campo en y | Valor | Descripción | |-------|-------------| | | Reporte de cliente persona natural | | | Reporte de cliente empresarial | | | Reporte de cliente por fecha de nacimiento específica | Ejemplo de uso: 💳 SubpoenasTransactionReportSubTypeEnum Propósit"
+  },
+  {
+    "url": "/docs/subpoenas/",
+    "title": "Subpoenas - Documentación Específica",
+    "content": "Documentación completa del módulo de Subpoenas para el procesamiento y generación de citaciones judicales federales. 📖 Contenidos Configuración Variables de Entorno - Configuración específica del módulo Subpoenas - Endpoints y credenciales - Parámetros de procesamiento Enums y Constantes - Tipos de citaciones - Estados de procesamiento - Códigos de error Casos de Uso Casos de Uso de Subpoenas Búsqueda y Descarga - Búsqueda de Subpoenas - Descargar Archivos Reportes por Tipo de Cuenta - Reportes"
+  },
+  {
+    "url": "/docs/subpoenas/variables_entorno",
+    "title": "Variables de Entorno - Subpoenas",
+    "content": "📋 Descripción General Este documento describe todas las variables de entorno utilizadas en el microservicio de Subpoenas del Reporting Center, organizadas por categorías y ambientes. 🏛️ Variables del Microservicio de Subpoenas Configuración del Servidor Rutas de la API Configuración de AWS Configuración de DynamoDB Configuración de SQS Configuración de Secrets Manager Configuración de CORS Mensajes de Error Personalizados 🏢 Configuración por Ambientes Desarrollo (DEV) Certificación (CERT) Pro"
+  }
+]

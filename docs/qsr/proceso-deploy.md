@@ -3,8 +3,6 @@ layout: page
 title: Proceso de Deploy a Producción
 ---
 
-# Proceso de Deploy a Producción
-
 Esta guía describe el proceso paso a paso para realizar despliegues a producción del sistema Reporting Center usando los pipelines establecidos.
 
 ## 📋 Pre-requisitos

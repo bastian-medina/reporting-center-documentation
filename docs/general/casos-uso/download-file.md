@@ -3,8 +3,6 @@ layout: page
 title: DownloadFileUseCase
 ---
 
-# DownloadFileUseCase
-
 ## 📋 Descripción
 
 **Propósito**: Descargar archivo de reporte previamente generado usando el ID del reporte o URL de descarga.

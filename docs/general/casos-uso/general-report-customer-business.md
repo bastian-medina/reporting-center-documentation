@@ -3,8 +3,6 @@ layout: page
 title: GeneralReportCustomerBusinessUseCase
 ---
 
-# GeneralReportCustomerBusinessUseCase
-
 ## 📋 Descripción
 
 **Propósito**: Generar reportes de clientes empresariales con información de negocios, categorías, rentabilidad y datos específicos de empresas.

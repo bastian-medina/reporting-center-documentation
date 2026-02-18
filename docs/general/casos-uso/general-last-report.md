@@ -3,8 +3,6 @@ layout: page
 title: GeneralLastReportUseCase
 ---
 
-# GeneralLastReportUseCase
-
 ## 📋 Descripción
 
 **Propósito**: Consultar información del último reporte generado por el usuario autenticado para verificar estado y progreso.

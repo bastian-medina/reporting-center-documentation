@@ -3,8 +3,6 @@ layout: page
 title: SubpoenasTransactionPersonalReportUseCase
 ---
 
-# SubpoenasTransactionPersonalReportUseCase
-
 ## 📋 Descripción
 
 **Propósito**: Generar reportes de subpoenas para transacciones de clientes personales incluyendo P2P, POS, P2B y datos de usuario.

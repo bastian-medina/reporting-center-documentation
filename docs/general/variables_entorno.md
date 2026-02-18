@@ -3,8 +3,6 @@ layout: page
 title: Variables de Entorno
 ---
 
-# Variables de Entorno - Reporting Center
-
 ## 📋 Descripción General
 
 Este documento describe todas las variables de entorno utilizadas en los microservicios del Reporting Center, organizadas por categorías y ambientes.

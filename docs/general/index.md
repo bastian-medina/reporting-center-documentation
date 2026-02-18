@@ -1,14 +1,7 @@
 ---
 layout: page
-title: ⚙️ Configuración General
----
-
----
-layout: page
 title: General - Configuración y Referencia
 ---
-
-# ⚙️ Configuración General
 
 Esta sección contiene información de configuración, constantes y casos de uso generales del sistema Reporting Center.
 

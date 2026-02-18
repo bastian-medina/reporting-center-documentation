@@ -3,8 +3,6 @@ layout: page
 title: SubpoenasCustomerBusinessReportUseCase
 ---
 
-# SubpoenasCustomerBusinessReportUseCase
-
 ## 📋 Descripción
 
 **Propósito**: Generar reportes de subpoenas para clientes de tipo empresarial con información corporativa, representantes legales y datos de negocio.

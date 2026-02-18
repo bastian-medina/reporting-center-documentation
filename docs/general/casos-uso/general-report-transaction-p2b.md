@@ -3,8 +3,6 @@ layout: page
 title: GeneralReportTransactionP2BTransferUseCase
 ---
 
-# GeneralReportTransactionP2BTransferUseCase
-
 ## 📋 Descripción
 
 **Propósito**: Generar reportes de transferencias persona a negocio (P2B) como pagos de servicios, productos o facturas.

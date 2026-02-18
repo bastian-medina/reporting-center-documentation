@@ -3,8 +3,6 @@ layout: page
 title: Status List - Lambda
 ---
 
-# Status List - Lambda Function
-
 ## 📋 Descripción General
 
 Función Lambda del repositorio `api-reports` que consulta listas de estados desde Redshift. Proporciona estados del sistema organizados por tipos, útiles para dropdowns y validaciones en la aplicación.

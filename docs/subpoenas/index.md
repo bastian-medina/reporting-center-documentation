@@ -1,14 +1,7 @@
 ---
 layout: page
-title: 📋 Subpoenas - Citaciones Judiciales
----
-
----
-layout: page
 title: Subpoenas - Documentación Específica
 ---
-
-# 📋 Subpoenas - Citaciones Judiciales
 
 Documentación completa del módulo de Subpoenas para el procesamiento y generación de citaciones judicales federales.
 

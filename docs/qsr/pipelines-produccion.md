@@ -3,8 +3,6 @@ layout: page
 title: Pipelines de Producción
 ---
 
-# Pipelines de Producción - Reporting Center
-
 Esta documentación detalla todos los pipelines disponibles para los pases a producción del sistema Reporting Center.
 
 ## 🏗️ Arquitectura de Pipelines

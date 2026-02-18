@@ -1,14 +1,7 @@
 ---
 layout: page
-title: 🎯 QSR - Pases a Producción
----
-
----
-layout: page
 title: QSR - Pases a Producción
 ---
-
-# 🎯 QSR - Pases a Producción
 
 Esta sección contiene toda la documentación relacionada con los **Quality Service Requests (QSR)** y los procedimientos de pase a producción del sistema Reporting Center.
 

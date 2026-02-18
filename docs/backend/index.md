@@ -3,8 +3,6 @@ layout: page
 title: Backend - Reporting Center
 ---
 
-# Backend - Reporting Center
-
 ## Tecnologías
 
 ### Versiones y Dependencias

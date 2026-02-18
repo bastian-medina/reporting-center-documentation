@@ -3,8 +3,6 @@ layout: page
 title: SubpoenasTransactionBusinessReportUseCase
 ---
 
-# SubpoenasTransactionBusinessReportUseCase
-
 ## 📋 Descripción
 
 **Propósito**: Generar reportes de subpoenas para transacciones de clientes empresariales incluyendo transacciones corporativas e información empresarial.

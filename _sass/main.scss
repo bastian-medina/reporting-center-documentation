@@ -568,9 +568,16 @@ body {
   cursor: pointer;
   font-family: $font-family;
   font-size: 1rem;
+  position: relative;
+  z-index: 1;
 
   &.btn-primary {
     @include button-style($primary-color, $primary-dark);
+    box-shadow: 0 2px 8px rgba(99, 102, 241, 0.3);
+    
+    &:hover {
+      box-shadow: 0 4px 12px rgba(99, 102, 241, 0.5);
+    }
   }
 
   &.btn-secondary {

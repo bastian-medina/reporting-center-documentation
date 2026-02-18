@@ -3,8 +3,6 @@ layout: page
 title: GeneralReportTransactionP2PTransferUseCase
 ---
 
-# GeneralReportTransactionP2PTransferUseCase
-
 ## 📋 Descripción
 
 **Propósito**: Generar reportes de transferencias persona a persona (P2P) con datos de remitente, receptor y montos.
