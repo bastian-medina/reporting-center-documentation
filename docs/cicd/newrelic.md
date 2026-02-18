@@ -3,11 +3,6 @@ layout: page
 title: New Relic - Monitoreo y Observabilidad
 ---
 
----
-layout: page
-title: New Relic - Monitoreo y Observabilidad
----
-
 # New Relic - Monitoreo y Observabilidad
 
 ## Descripción General

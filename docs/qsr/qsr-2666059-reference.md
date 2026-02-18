@@ -1,11 +1,6 @@
 ---
 layout: page
-title: QSR-2666059 - Documentación de Referencia
----
-
----
-layout: page
-title: QSR-2666059 - Documentación de Referencia
+title: QSR-2666059 - Referencia
 ---
 
 # QSR-2666059 - Documentación de Referencia

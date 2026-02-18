@@ -3,11 +3,6 @@ layout: page
 title: Frontend - Reporting Center
 ---
 
----
-layout: page
-title: Frontend - WebPortal
----
-
 # Frontend - Reporting Center
 
 ## 📋 Descripción

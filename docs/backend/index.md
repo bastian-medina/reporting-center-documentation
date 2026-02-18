@@ -3,11 +3,6 @@ layout: page
 title: Backend - Reporting Center
 ---
 
----
-layout: page
-title: Backend - APIs y Servicios
----
-
 # Backend - Reporting Center
 
 ## Tecnologías

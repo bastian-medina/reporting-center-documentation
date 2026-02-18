@@ -3,11 +3,6 @@ layout: page
 title: CI/CD - Integración y Despliegue Continuo
 ---
 
----
-layout: page
-title: CI/CD - Pipeline y Despliegue
----
-
 # CI/CD - Integración y Despliegue Continuo
 
 Este documento contiene la información sobre los pipelines de CI/CD y procesos de integración continua del proyecto Reporting Center.
