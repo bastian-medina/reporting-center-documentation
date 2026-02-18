@@ -1,5 +1,10 @@
 ---
 layout: page
+title: ⚙️ Configuración General
+---
+
+---
+layout: page
 title: General - Configuración y Referencia
 ---
 

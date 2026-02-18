@@ -1,5 +1,10 @@
 ---
 layout: page
+title: CI/CD - Integración y Despliegue Continuo
+---
+
+---
+layout: page
 title: CI/CD - Pipeline y Despliegue
 ---
 

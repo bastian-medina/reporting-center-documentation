@@ -1,3 +1,8 @@
+---
+layout: page
+title: Admin Users Handler - Lambda Function
+---
+
 # Admin Users Handler - Lambda Function
 
 ## 📋 Descripción General

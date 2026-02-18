@@ -1,3 +1,8 @@
+---
+layout: page
+title: Casos de Uso - Microservicio Reportes Generales
+---
+
 # Casos de Uso - Microservicio Reportes Generales
 
 ## 📋 Descripción General

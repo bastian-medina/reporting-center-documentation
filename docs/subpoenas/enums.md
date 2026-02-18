@@ -1,3 +1,8 @@
+---
+layout: page
+title: Enums - Subpoenas
+---
+
 # Enums - Subpoenas
 
 ## 📋 Descripción

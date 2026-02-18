@@ -1,5 +1,10 @@
 ---
 layout: page
+title: Docker y AWS ECR - Despliegue Manual
+---
+
+---
+layout: page
 title: Docker y AWS ECR
 ---
 

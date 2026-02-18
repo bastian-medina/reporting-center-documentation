@@ -1,3 +1,8 @@
+---
+layout: page
+title: Variables de Entorno - Subpoenas
+---
+
 # Variables de Entorno - Microservicio Subpoenas
 
 ## 📋 Descripción General

@@ -1,5 +1,10 @@
 ---
 layout: page
+title: Arquitectura - Reporting Center
+---
+
+---
+layout: page
 title: Arquitectura del Sistema
 ---
 

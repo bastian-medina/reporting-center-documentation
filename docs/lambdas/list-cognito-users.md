@@ -1,3 +1,8 @@
+---
+layout: page
+title: List Cognito Users - Lambda
+---
+
 # List Cognito Users - Lambda Function
 
 ## 📋 Descripción General

@@ -1,3 +1,8 @@
+---
+layout: page
+title: Variables de Entorno
+---
+
 # Variables de Entorno - Reporting Center
 
 ## 📋 Descripción General

@@ -1,3 +1,8 @@
+---
+layout: page
+title: Enums - Reportes Generales
+---
+
 # Enums - Reportes Generales
 
 ## 📋 Descripción

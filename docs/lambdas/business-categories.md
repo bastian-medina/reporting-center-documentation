@@ -1,3 +1,8 @@
+---
+layout: page
+title: Business Categories - Lambda Function
+---
+
 # Business Categories - Lambda Function
 
 ## 📋 Descripción General

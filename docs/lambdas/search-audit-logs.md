@@ -1,3 +1,8 @@
+---
+layout: page
+title: Search Audit Logs - Lambda
+---
+
 # Search Audit Logs - Lambda Function
 
 ## 📋 Descripción General

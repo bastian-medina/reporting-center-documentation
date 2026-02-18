@@ -1,3 +1,8 @@
+---
+layout: page
+title: Create Audit Logs - Lambda
+---
+
 # Create Audit Logs - Lambda Function
 
 ## 📋 Descripción General

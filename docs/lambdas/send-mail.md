@@ -1,3 +1,8 @@
+---
+layout: page
+title: Send Mail - Lambda
+---
+
 # Send Mail - Lambda Function
 
 ## 📋 Descripción General

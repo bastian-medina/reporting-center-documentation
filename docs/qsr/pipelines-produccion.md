@@ -1,5 +1,10 @@
 ---
 layout: page
+title: Pipelines de Producción - Reporting Center
+---
+
+---
+layout: page
 title: Pipelines de Producción
 ---
 
