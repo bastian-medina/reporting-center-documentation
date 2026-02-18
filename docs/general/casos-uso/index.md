@@ -11,13 +11,13 @@ Este directorio contiene la documentación detallada de todos los casos de uso d
 
 ## 🏢 Casos de Uso de Reportes de Clientes
 
-### 1. [Reporte de Clientes Personas](./general-report-customer-personal.md)
+### 1. [Reporte de Clientes Personas]({{ '/docs/general/casos-uso/general-report-customer-personal/' | relative_url }})
 - **UseCase**: `GeneralReportCustomerPersonalUseCase`
 - **Request**: `GeneralCustomerReportRequest`
 - **Tipo**: Asíncrono
 - **Propósito**: Generar reportes de clientes personas naturales con datos personales y de KYC
 
-### 2. [Reporte de Clientes Empresas](./general-report-customer-business.md)
+### 2. [Reporte de Clientes Empresas]({{ '/docs/general/casos-uso/general-report-customer-business/' | relative_url }})
 - **UseCase**: `GeneralReportCustomerBusinessUseCase`
 - **Request**: `GeneralCustomerReportRequest`
 - **Tipo**: Asíncrono
@@ -25,37 +25,37 @@ Este directorio contiene la documentación detallada de todos los casos de uso d
 
 ## 💳 Casos de Uso de Reportes de Transacciones
 
-### 3. [Reporte de Pagos POS](./general-report-transaction-pos-payment.md)
+### 3. [Reporte de Pagos POS]({{ '/docs/general/casos-uso/general-report-transaction-pos-payment/' | relative_url }})
 - **UseCase**: `GeneralReportTransactionPOSPaymentUseCase`
 - **Request**: `GeneralTransactionReportRequest`
 - **Tipo**: Asíncrono
 - **Propósito**: Generar reportes de transacciones realizadas en puntos de venta (POS)
 
-### 4. [Reporte de Transferencias P2P](./general-report-transaction-p2p.md)
+### 4. [Reporte de Transferencias P2P]({{ '/docs/general/casos-uso/general-report-transaction-p2p/' | relative_url }})
 - **UseCase**: `GeneralReportTransactionP2PTransferUseCase`
 - **Request**: `GeneralTransactionReportRequest`
 - **Tipo**: Asíncrono
 - **Propósito**: Generar reportes de transferencias persona a persona
 
-### 5. [Reporte de Transferencias P2B](./general-report-transaction-p2b.md)
+### 5. [Reporte de Transferencias P2B]({{ '/docs/general/casos-uso/general-report-transaction-p2b/' | relative_url }})
 - **UseCase**: `GeneralReportTransactionP2BTransferUseCase`
 - **Request**: `GeneralTransactionReportRequest`
 - **Tipo**: Asíncrono
 - **Propósito**: Generar reportes de transferencias persona a negocio
 
-### 6. [Reporte de Transferencias B2C](./general-report-transaction-b2c.md)
+### 6. [Reporte de Transferencias B2C]({{ '/docs/general/casos-uso/general-report-transaction-b2c/' | relative_url }})
 - **UseCase**: `GeneralReportTransactionB2CTransferUseCase`
 - **Request**: `GeneralTransactionReportRequest`
 - **Tipo**: Asíncrono
 - **Propósito**: Generar reportes de transferencias negocio a cliente
 
-### 7. [Reporte de Reembolsos](./general-report-transaction-refund.md)
+### 7. [Reporte de Reembolsos]({{ '/docs/general/casos-uso/general-report-transaction-refund/' | relative_url }})
 - **UseCase**: `GeneralReportTransactionRefundUseCase`
 - **Request**: `GeneralTransactionReportRequest`
 - **Tipo**: Asíncrono
 - **Propósito**: Generar reportes de reembolsos y devoluciones
 
-### 8. [Reporte de Reembolsos POS](./general-report-transaction-pos-refund.md)
+### 8. [Reporte de Reembolsos POS]({{ '/docs/general/casos-uso/general-report-transaction-pos-refund/' | relative_url }})
 - **UseCase**: `GeneralReportTransactionPOSRefundUseCase`
 - **Request**: `GeneralTransactionReportRequest`
 - **Tipo**: Asíncrono
@@ -63,13 +63,13 @@ Este directorio contiene la documentación detallada de todos los casos de uso d
 
 ## 🔍 Casos de Uso de Consulta
 
-### 9. [Consulta de Último Reporte](./general-last-report.md)
+### 9. [Consulta de Último Reporte]({{ '/docs/general/casos-uso/general-last-report/' | relative_url }})
 - **UseCase**: `GeneralLastReportUseCase`
 - **Request**: Sin request body (por autenticación)
 - **Tipo**: Síncrono
 - **Propósito**: Consultar información del último reporte generado por el usuario
 
-### 10. [Descarga de Archivo](./download-file.md)
+### 10. [Descarga de Archivo]({{ '/docs/general/casos-uso/download-file/' | relative_url }})
 - **UseCase**: `DownloadFileUseCase`
 - **Request**: Path parameter (reportId)
 - **Tipo**: Síncrono

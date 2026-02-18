@@ -11,19 +11,19 @@ Este directorio contiene la documentación detallada de todos los casos de uso d
 
 ## 🏢 Casos de Uso de Reportes de Clientes
 
-### 1. [Reporte de Clientes Personales](./subpoenas-customer-personal-report.md)
+### 1. [Reporte de Clientes Personales]({{ '/docs/subpoenas/casos-uso/subpoenas-customer-personal-report/' | relative_url }})
 - **UseCase**: `SubpoenasCustomerPersonalReportUseCase`
 - **Request**: `SubpoenasCustomerRequest`
 - **Tipo**: Asíncrono
 - **Propósito**: Generar reportes de subpoenas para clientes personas naturales
 
-### 2. [Reporte de Clientes Empresariales](./subpoenas-customer-business-report.md)
+### 2. [Reporte de Clientes Empresariales]({{ '/docs/subpoenas/casos-uso/subpoenas-customer-business-report/' | relative_url }})
 - **UseCase**: `SubpoenasCustomerBusinessReportUseCase`
 - **Request**: `SubpoenasCustomerRequest`
 - **Tipo**: Asíncrono
 - **Propósito**: Generar reportes de subpoenas para clientes empresariales
 
-### 3. [Reporte de Clientes por Fecha de Nacimiento](./subpoenas-customer-dob-report.md)
+### 3. [Reporte de Clientes por Fecha de Nacimiento]({{ '/docs/subpoenas/casos-uso/subpoenas-customer-dob-report/' | relative_url }})
 - **UseCase**: `SubpoenasCustomerDOBReportUseCase`
 - **Request**: `SubpoenasDOBRequest`
 - **Tipo**: Asíncrono
@@ -31,13 +31,13 @@ Este directorio contiene la documentación detallada de todos los casos de uso d
 
 ## 💳 Casos de Uso de Reportes de Transacciones
 
-### 4. [Reporte de Transacciones Personales](./subpoenas-transaction-personal-report.md)
+### 4. [Reporte de Transacciones Personales]({{ '/docs/subpoenas/casos-uso/subpoenas-transaction-personal-report/' | relative_url }})
 - **UseCase**: `SubpoenasTransactionPersonalReportUseCase`
 - **Request**: `SubpoenasTransactionRequest`
 - **Tipo**: Asíncrono
 - **Propósito**: Generar reportes de transacciones para clientes personales (P2P, POS, P2B)
 
-### 5. [Reporte de Transacciones Empresariales](./subpoenas-transaction-business-report.md)
+### 5. [Reporte de Transacciones Empresariales]({{ '/docs/subpoenas/casos-uso/subpoenas-transaction-business-report/' | relative_url }})
 - **UseCase**: `SubpoenasTransactionBusinessReportUseCase`
 - **Request**: `SubpoenasTransactionRequest`
 - **Tipo**: Asíncrono
@@ -45,19 +45,19 @@ Este directorio contiene la documentación detallada de todos los casos de uso d
 
 ## 🔍 Casos de Uso de Consulta
 
-### 6. [Consulta de Últimos Reportes](./subpoenas-last-report.md)
+### 6. [Consulta de Últimos Reportes]({{ '/docs/subpoenas/casos-uso/subpoenas-last-report/' | relative_url }})
 - **UseCase**: `SubpoenasLastReportUseCase`
 - **Request**: Query parameters (reportType, username)
 - **Tipo**: Síncrono
 - **Propósito**: Consultar los últimos reportes generados por usuario y tipo
 
-### 7. [Búsqueda de Reportes](./subpoenas-search.md)
+### 7. [Búsqueda de Reportes]({{ '/docs/subpoenas/casos-uso/subpoenas-search/' | relative_url }})
 - **UseCase**: `SubpoenasSearchUseCase`
 - **Request**: Query parameters (múltiples filtros)
 - **Tipo**: Síncrono
 - **Propósito**: Buscar reportes existentes por diferentes criterios
 
-### 8. [Descarga de Archivo](./download-file.md)
+### 8. [Descarga de Archivo]({{ '/docs/subpoenas/casos-uso/download-file/' | relative_url }})
 - **UseCase**: `DownloadFileUseCase`
 - **Request**: Query parameters (fileName, username)
 - **Tipo**: Síncrono
